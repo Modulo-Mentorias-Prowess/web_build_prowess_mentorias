@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo1.webp'
+import {FaUserAlt} from 'react-icons/fa'
+import {RiLockPasswordFill, RiErrorWarningFill} from 'react-icons/ri'
+
 
 const Login = () => {
   const normalStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
@@ -25,23 +28,28 @@ const Login = () => {
   const handleLogin = (e)=>{
     e.preventDefault()
     setWrongCredentials(false)
-    if(userData.userName == ""){
-        errorUserData.userName = true
+    if(userData.userName === ""){
+        setErrorUserData({...errorUserData, userName:true})
+    }else{
+        setErrorUserData({...errorUserData, userName:false})
     }
-    errorUserData.userName = false
-    if(userData.password == ""){
-        errorUserData.password = true
+    if(userData.password === ""){
+        setErrorUserData({...errorUserData, password:true})
+        return
+    }else{
+        setErrorUserData({...errorUserData, password:false})
     }
-    errorUserData.password = false
 
     axios.post(`${url}/login`, userData )
          .then((response) => {
             localStorage.setItem("username", userData.userName)
+            localStorage.setItem("full_name", response.data.full_name)
+            localStorage.setItem("user_role", response.data.role_user)
             localStorage.setItem("accessToken", response.data.accessToken)
             localStorage.setItem("refreshToken", response.data.refreshToken)
             navigate("/dashboard")
         }).catch((err)=>{
-            if(err.response.status == 401){
+            if(err.response.status === 401){
                 setWrongCredentials(true)
             }
         })
@@ -50,16 +58,19 @@ const Login = () => {
   }
   return (
     <div className="w-full flex justify-center items-center min-h-screen bg-gray-200" >
-    <div class="w-full max-w-xs ">
-      <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4">
+    <div className="w-full max-w-xs ">
+      <form className="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4">
         <img src={logo} alt="logo" className="my-3"/>
         <h1 className="text-center font-black text-xl mb-3">INICIAR SESIÓN </h1>
-        <div class="mb-4">
+        <div className="mb-4">
           <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="username"
           >
-            Nombre de usuario
+            <div className="flex items-center ">
+
+            <FaUserAlt className="mr-3"/> Nombre de usuario
+            </div>
           </label>
           <input
             className={errorUserData.userName ? errorStyle : normalStyle}
@@ -75,12 +86,15 @@ const Login = () => {
             ) : (null)
           }
         </div>
-        <div class="mb-6">
+        <div className="mb-6">
           <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="password"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
           >
-            Contraseña
+            <div className="flex items-center">
+                <RiLockPasswordFill className="mr-3"/>
+             Contraseña  
+            </div>
           </label>
           <input
             className={errorUserData.password ? errorStyle : normalStyle}
@@ -100,22 +114,22 @@ const Login = () => {
 
         {
             wrongCredentials ? (
-                <p class="text-red-500 text-xs italic mb-4 text-center">Las credenciales proporcionadas son erradas.</p>
+                <p class="text-red-500 text-xs italic mb-4 text-center flex justify-center items-center"><RiErrorWarningFill className="mr-2" fontSize={15}/>Las credenciales proporcionadas son erradas.</p>
             ) : (null)
         }
-        <div class="flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={handleLogin}
           >
-            Sign In
+            Iniciar sesión
           </button>
           
         </div>
         
       </form>
-      <p class="text-center text-gray-500 text-xs">
+      <p className="text-center text-gray-500 text-xs">
         &copy;Todos los derechos reservados. Prowess Ecuador 2021.
       </p>
     </div>

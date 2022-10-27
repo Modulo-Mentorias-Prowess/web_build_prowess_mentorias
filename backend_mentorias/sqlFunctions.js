@@ -37,12 +37,14 @@ class MySQLConnection{
      */
     async register(req, res){
         // If there is no userName or no password return HTTP 400 BAD REQUEST
-        if(!req.body?.userName || !req.body?.password){
+        if(!req.body?.userName || !req.body?.password || !req.body?.full_name ||!req.body?.role_user){
             return res.sendStatus(400)       
         }
 
         const userName = req.body.userName
         const password = await bcrypt.hash(req.body.password, 10)
+        const full_name = req.body.full_name
+        const role = req.body.role_user
 
         this.db.getConnection(async (err, connection) => {
             if(err){
@@ -52,8 +54,8 @@ class MySQLConnection{
             // MySQL query to search if user already exists
             const userExistQuery = mysql.format("SELECT * FROM users WHERE userName = ?",
                                                 [userName])
-            const insertUserQuery = mysql.format("INSERT INTO users VALUES (?, ?, ?)",
-                                                [uuidv4(), userName, password])
+            const insertUserQuery = mysql.format("INSERT INTO users VALUES (?, ?, ?, ?, ?)",
+                                                [uuidv4(), userName, password, full_name, role])
             
             await connection.query(userExistQuery, async (err, results) => {
                 if(err){
@@ -117,7 +119,9 @@ class MySQLConnection{
                 // if the password is correct send the status 200 OK to allow login
                 if(await bcrypt.compare(password, userData[0].pass)){
                     return res.json({ accessToken: this.jwtManager.generateAccessToken({user:user}),
-                                      refreshToken: this.jwtManager.generateRefreshToken({user: user}) 
+                                      refreshToken: this.jwtManager.generateRefreshToken({user: user}),
+                                      full_name: userData[0].full_name,
+                                      role_user: userData[0].role_user
                                     })
                 }
 
