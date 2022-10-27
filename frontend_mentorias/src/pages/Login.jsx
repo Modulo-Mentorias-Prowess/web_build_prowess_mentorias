@@ -47,7 +47,7 @@ const Login = () => {
             localStorage.setItem("user_role", response.data.role_user)
             localStorage.setItem("accessToken", response.data.accessToken)
             localStorage.setItem("refreshToken", response.data.refreshToken)
-            navigate("/dashboard")
+            navigate("/")
         }).catch((err)=>{
             if(err.response.status === 401){
                 setWrongCredentials(true)

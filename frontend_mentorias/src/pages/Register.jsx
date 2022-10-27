@@ -43,10 +43,10 @@ const Register = () => {
 
   useEffect(() => {
     if(!userName){
-        navigate("/")
+        navigate("/login")
     }
     if(role_user != "admin"){
-        navigate("/dashboard")
+        navigate("/")
     }
   }, [])
   
@@ -81,7 +81,7 @@ const Register = () => {
     <div className="relative overflow-y-hidden w-full flex justify-center items-center min-h-screen bg-gray-200" >
     <div className='absolute top-1 left-1 p-3 hover:scale-125'>
         <Link
-            to="/dashboard"
+            to="/"
         >
         <GrPrevious 
             fontSize={25}
