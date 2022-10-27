@@ -89,7 +89,7 @@ const Register = () => {
         </Link>
     </div>
     <div className="w-full max-w-lg mt-3">
-      <form className="bg-white shadow-xl rounded-lg px-8 pt-6 pb-4 mb-4 ">
+      <form className="bg-white shadow-xl rounded-lg px-8 pt-6 pb-4 mb-4 " autoComplete='off'>
         <img src={logo} alt="logo" className="my-3"/>
         <h1 className="text-center font-black text-xl mb-3">REGISTRAR</h1>
         <div className='flex justify-between items-center'>
