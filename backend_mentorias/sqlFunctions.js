@@ -128,28 +128,6 @@ class MySQLConnection{
         })
     }
 
-    getContents(res){
-        this.db.query("SELECT * FROM content", (err, data)=>{
-            if(err){
-                throw(err)
-            }
-
-            return res.send(data)
-        })
-    }
-
-    getContent(res, id){
-        const q = mysql.format("SELECT * FROM content WHERE content.id = ?", [id])
-
-        this.db.query(q, (err, data)=>{
-            if(err){
-                throw(err)
-            }
-
-            return res.send(data)
-        })
-    }
-
     executeQuery(query){
         this.db.query(query, (err, data)=>{
             if(err){
@@ -161,32 +139,124 @@ class MySQLConnection{
 
     }
 
-    createContent(res, content){
-        if(this.executeQuery(mysql.format("INSERT INTO content VALUES (?, ?, ?)", [content.id, content.name, content.description]))){
-            return res.sendStatus(201)
+    getAll(res, table){
+        this.db.query(`SELECT * FROM ${table}`, (err, data)=>{
+            if(err){
+                throw(err)
+            }
+
+            return res.send(data)
+        })
+    }
+
+    getOne(res, table, id){
+        this.db.query(mysql.format(`SELECT * FROM ${table} WHERE id=?`, [id]), (err, data)=>{
+            if(err){
+                throw(err)
+            }
+
+            return res.send(data)
+        })
+    }
+
+    delete(res, table, id){
+        if(this.executeQuery(mysql.format(`DELETE FROM ${table} WHERE id=?`, [id]))){
+            return res.sendStatus(200)
         }
 
         return res.sendStatus(500)
+    }
+
+    create(res, table, object){
+        const q = mysql.format(`INSERT INTO ${table}(${Object.keys(object).join(",")}) VALUES (${Object.keys(object).fill("?").join(",")})`, Object.values(object))
+
+        this.db.query(q, (err, result)=>{
+            if(err){
+                res.sendStatus(500)
+                throw(err)
+            }
+
+            return res.sendStatus(201)
+        })
+    }
+
+    patch(res, table, object){
+        const q = mysql.format(`UPDATE ${table} SET ${Object.keys(object).join("=?,")}=? WHERE id=?`, [...Object.values(object), object.id ])
+        this.db.query(q, (err, result)=>{
+            if(err){
+                res.sendStatus(500)
+            }
+
+            return res.sendStatus(200)
+        })
+    }
+
+    // Content CRUD operations
+    createContent(res, content){
+        return this.create(res, "content", content)
+    }
+
+    getContents(res){
+        return this.getAll(res, "content")
+    }
+ 
+    getContent(res, id){
+         this.getOne(res, "content", id)
     }
 
     patchContent(res, content){
-        if(this.executeQuery(mysql.format("UPDATE content SET name=?, description = ? WHERE id=?", 
-                                        [content.name, content.description, content.id]))){
-            return res.sendStatus(200)
-        }
-
-        return res.sendStatus(500)
+        return this.patch(res, "content", content)
     }
 
     deleteContent(res, id){
-        if(this.executeQuery(mysql.format("DELETE FROM content WHERE id=?", [id]))){
-            return res.sendStatus(200)
-        }
+        return this.delete(res, "content", id)
+    }
+    
+    //Entrepreneur CRUD operations
 
-        return res.sendStatus(500)
+    createEntrepreneur(res, entrepreneur){
+        return this.create(res, "entrepreneur", entrepreneur)
     }
 
+    getEntrepreneurs(res){
+        return this.getAll(res, "entrepreneur")
+    }
 
+    getEntrepreneur(res, id){
+        return this.getOne(res, "entrepreneur", id)
+    }
+
+    patchEntrepreneur(res, entrepreneur){
+        return this.patch(res, "entrepreneur", entrepreneur)
+    }
+
+    deleteEntrepreneurs(res, id){
+        return this.delete(res, "entrepreneur", id)
+    }
+
+    // Manager CRUD operations
+    
+    createManager(res, manager){
+        return this.create(res, "manager", manager)
+    }
+
+    getManagers(res){
+        return this.getAll(res, "manager")
+    }
+
+    getManager(res, id){
+        return this.getOne(res, "manager", id)
+    }
+    
+    patchManager(res, manager){
+        return this.patch(res, "manager", manager)
+    }
+
+    deleteManager(res, id){
+        return this.delete(res, "manager", id)
+    }
+
+    
 }
 
 

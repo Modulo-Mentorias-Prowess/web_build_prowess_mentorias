@@ -51,7 +51,7 @@ app.post("/createContent", (req, res)=>{
 })
 
 app.patch("/editContent/:id", (req, res)=>{
-    if( !req.body?.content?.name || !req.body?.content?.description){
+    if( Object.keys(req.body?.content).length != 3){
         return res.sendStatus(400)
     }
 
