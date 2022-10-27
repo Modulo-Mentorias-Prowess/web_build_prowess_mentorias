@@ -95,7 +95,6 @@ class MySQLConnection{
 
         const user = req.body.userName
         const password = req.body.password
-
         this.db.getConnection(async (err, connection) => {
             if(err){
                 throw(err)

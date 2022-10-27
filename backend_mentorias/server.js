@@ -5,10 +5,12 @@ const bcrypt = require("bcrypt" );
 const { v4: uuidv4 } = require('uuid') 
 const JWTManager     = require("./JWTManager")
 const MySQLConnection = require("./sqlFunctions")
+const cors = require("cors")
 const jwtManager = new JWTManager()
 const connection = new MySQLConnection(jwtManager);
 require("dotenv").config()
 app.use(express.json())
+app.use(cors())
 
 app.listen(process.env.PORT, ()=>{
     console.log(`Server started in port ${process.env.PORT}`);
@@ -19,7 +21,7 @@ app.post("/register", async (req, res) => {
     return connection.register(req, res);
 })
 
-app.get("/login", async (req, res) => {
+app.post("/login", async (req, res) => {
     return connection.login(req, res);
 })
 
