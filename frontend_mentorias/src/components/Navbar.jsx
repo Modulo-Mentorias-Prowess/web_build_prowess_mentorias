@@ -5,7 +5,7 @@ import { FiMenu } from "react-icons/fi";
 
 const Navbar = () => {
   const activeStyle =
-    "py-4 lg:px-2 text-main-prowess  border-b-4 border-main-prowess font-semibold";
+    "py-4 lg:px-2 test text-main-prowess  border-b-4 border-main-prowess font-semibold";
   const normalStyle =
     "py-4 lg:px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300";
 
