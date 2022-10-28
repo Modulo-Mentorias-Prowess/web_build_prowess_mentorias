@@ -6,11 +6,13 @@ const { v4: uuidv4 } = require('uuid')
 require("dotenv").config()
 
 /**
- * Creates a database connection, also allows to make CRUD operations in the database 
+ * Creates a database connection, also allows to make CRUD 
+ * operations in the database and authentication using bcrypt and jwt
  */
 class MySQLConnection{
     constructor(JWTManager){
         this.jwtManager = JWTManager
+        // Create database connection
         this.db = mysql.createPool({
             connectionLimit: 100,
             host: process.env.DB_HOST,       
@@ -20,6 +22,13 @@ class MySQLConnection{
             port: process.env.DB_PORT             
         }) 
 
+        
+    }
+
+    /**
+     * Test if the connection to the database is successful, console loggin the result
+     */
+    testConnection(){
         this.db.getConnection( (err, connection)=> {
             if (err){
                 throw (err)
@@ -131,6 +140,12 @@ class MySQLConnection{
         })
     }
 
+
+    /**
+     * Executes a SQL query.
+     * @param {*} query: a SQL query 
+     * @returns ```true```: if no error existed executing it, ```false```: if an error exited
+     */
     executeQuery(query){
         this.db.query(query, (err, data)=>{
             if(err){
@@ -142,6 +157,12 @@ class MySQLConnection{
 
     }
 
+    /**
+     * Get all the rows of a given table. Returns the data.
+     * @param {*} res: a HTTP response
+     * @param {*} table: the table to query
+     * 
+     */
     getAll(res, table){
         this.db.query(`SELECT * FROM ${table}`, (err, data)=>{
             if(err){
@@ -152,6 +173,12 @@ class MySQLConnection{
         })
     }
 
+    /**
+     * Gets one row from the table given the id
+     * @param {*} res: a HTTP response
+     * @param {*} table: the name of the table to query
+     * @param {*} id: the id of the row to get
+     */
     getOne(res, table, id){
         this.db.query(mysql.format(`SELECT * FROM ${table} WHERE id=?`, [id]), (err, data)=>{
             if(err){
@@ -162,6 +189,13 @@ class MySQLConnection{
         })
     }
 
+    /**
+     * Deletes a row from the database. 
+     * @param {*} res: a HTTP response
+     * @param {*} table: the name of the table where to delete
+     * @param {*} id: the id of the value to delete
+     * @returns Code ```200 OK``` if deleted, Code ```500 SERVER ERROR``` if theres an error
+     */
     delete(res, table, id){
         if(this.executeQuery(mysql.format(`DELETE FROM ${table} WHERE id=?`, [id]))){
             return res.sendStatus(200)
@@ -170,6 +204,14 @@ class MySQLConnection{
         return res.sendStatus(500)
     }
 
+    /**
+     * Create a new row in the database.
+     * @param {*} res: a HTTP response
+     * @param {*} table: the name of the table where to append the new row.
+     * @param {*} object: the data object with key names as in the database.
+     * @returns  Code ```201 CREATED``` if created correctly or 
+     * Code ```500 SERVER ERROR``` if there is an error
+     */
     create(res, table, object){
         const q = mysql.format(`INSERT INTO ${table}(${Object.keys(object).join(",")}) VALUES (${Object.keys(object).fill("?").join(",")})`, Object.values(object))
 
@@ -183,6 +225,15 @@ class MySQLConnection{
         })
     }
 
+
+    /**
+     * Patch (updates) a row in the database.
+     * @param {*} res: a HTTP response.
+     * @param {*} table: the name of the table where the patch is going to take place.
+     * @param {*} object: the data object with key names as in the database.
+     * @returns Code ```200 OK``` if patched correctly or 
+     * Code ```500 SERVER ERROR``` if there is an error
+     */
     patch(res, table, object){
         const q = mysql.format(`UPDATE ${table} SET ${Object.keys(object).join("=?,")}=? WHERE id=?`, [...Object.values(object), object.id ])
         this.db.query(q, (err, result)=>{
@@ -216,7 +267,6 @@ class MySQLConnection{
     }
     
     //Entrepreneur CRUD operations
-
     createEntrepreneur(res, entrepreneur){
         return this.create(res, "entrepreneur", entrepreneur)
     }

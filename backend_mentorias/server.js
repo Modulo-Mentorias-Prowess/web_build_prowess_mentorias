@@ -2,18 +2,20 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const bcrypt = require("bcrypt" );
+const cors = require("cors")
 const { v4: uuidv4 } = require('uuid') 
 const JWTManager     = require("./JWTManager")
 const MySQLConnection = require("./sqlFunctions")
-const cors = require("cors")
+require("dotenv").config()
+
 const jwtManager = new JWTManager()
 const connection = new MySQLConnection(jwtManager);
-require("dotenv").config()
 app.use(express.json())
 app.use(cors())
 
 app.listen(process.env.PORT, ()=>{
     console.log(`Server started in port ${process.env.PORT}`);
+    connection.testConnection()
     console.log(jwtManager.refreshTokens);
 })
 
