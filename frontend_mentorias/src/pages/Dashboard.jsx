@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
+import Navbar from '../components/Navbar';
 
 const Dashboard = () => {
     const navigate = useNavigate()
@@ -11,7 +12,10 @@ const Dashboard = () => {
         
       }, [])
   return (
-    <div>TODO: Dashboard</div>
+    <div className='bg-main-prowess min-h-screen'>
+      <Navbar/>
+      TODO: Dashboard
+    </div>
   )
 }
 
