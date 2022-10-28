@@ -65,3 +65,19 @@ app.patch("/editContent/:id", (req, res)=>{
 app.delete("/deleteContent/:id", (req, res)=>{
     return connection.deleteContent(res, req.params.id)
 })
+
+
+/**
+ * Managers CRUD operations
+ */
+
+app.get("/managers", (_req,res) => {
+    return connection.getManagers(res)
+})
+/**
+ * Entrepreneurs CRUD operations
+ */
+
+app.get("/entrepreneurs", (_req,res) => {
+    return connection.getEntrepreneurs(res)
+})
