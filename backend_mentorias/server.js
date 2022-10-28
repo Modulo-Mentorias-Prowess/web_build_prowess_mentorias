@@ -65,3 +65,6 @@ app.patch("/editContent/:id", (req, res)=>{
 app.delete("/deleteContent/:id", (req, res)=>{
     return connection.deleteContent(res, req.params.id)
 })
+app.get("/managers", (_req,res) => {
+    return connection.getManagers(res)
+})
