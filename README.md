@@ -13,6 +13,6 @@
 - REFRESH_TOKEN_SECRET = 56a6d157ad7d2ee09e480960ae857e528ae546d156f47433b1afad162311c45aa520697b65d13a5c72891f6145ab1f2675886fc124027dc95f86073dd8fe1462
 2. Run ```npm i``` to install dependencies
 3. Start the server with ```npm start```
-### Fronend
+### Frontend
 1. Run ```npm i``` to install dependencies
 2. Start the server with ```npm start```
