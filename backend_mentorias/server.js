@@ -76,7 +76,7 @@ app.get("/managers", (_req,res) => {
 })
 /**
  * Entrepreneurs CRUD operations
- */
+*/
 
 app.get("/entrepreneurs", (_req,res) => {
     return connection.getEntrepreneurs(res)
