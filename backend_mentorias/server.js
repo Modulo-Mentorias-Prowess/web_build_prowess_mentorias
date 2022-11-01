@@ -81,3 +81,29 @@ app.get("/managers", (_req,res) => {
 app.get("/entrepreneurs", (_req,res) => {
     return connection.getEntrepreneurs(res)
 })
+
+
+app.post("/createEntrepreneur", (req, res)=>{
+    console.log(req.body)
+    if(!req.body?.entrepreneur?.id || 
+        !req.body?.entrepreneur?.names || 
+        !req.body?.entrepreneur?.last_names || 
+        !req.body?.entrepreneur?.email || 
+        !req.body?.entrepreneur?.address || 
+        !req.body?.entrepreneur?.phone || 
+        !req.body?.entrepreneur?.nameStore || 
+        !req.body?.entrepreneur?.descriptionStore || 
+        !req.body?.entrepreneur?.googleMapsURL || 
+        !req.body?.entrepreneur?.sector || 
+        !req.body?.entrepreneur?.city || 
+        !req.body?.entrepreneur?.province || 
+        !req.body?.entrepreneur?.twitter || 
+        !req.body?.entrepreneur?.facebook || 
+        !req.body?.entrepreneur?.instagram || 
+        !req.body?.entrepreneur?.tiktok 
+        ){
+        return res.sendStatus(400)
+    }
+
+    return connection.createEntrepreneur(res, req.body.entrepreneur)
+})

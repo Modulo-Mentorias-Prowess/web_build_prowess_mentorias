@@ -7,6 +7,7 @@ import Contents from './pages/Contents';
 import Entrepreneurs from './pages/Entrepreneurs';
 import Mentorships from './pages/Mentorships';
 import Managers from './pages/Managers';
+import AddEntrepreneur from './pages/AddEntrepreneur';
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route exact path='/mentorships' element={<Mentorships/>}/>
           <Route exact path='/contents' element={<Contents/>}/>
           <Route exact path='/entrepreneurs' element={<Entrepreneurs/>}/>
+          <Route exact path='/entrepreneurs/add' element={<AddEntrepreneur/>}/>
         </Routes>
   );
 }

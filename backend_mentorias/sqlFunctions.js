@@ -214,7 +214,6 @@ class MySQLConnection{
      */
     create(res, table, object){
         const q = mysql.format(`INSERT INTO ${table}(${Object.keys(object).join(",")}) VALUES (${Object.keys(object).fill("?").join(",")})`, Object.values(object))
-
         this.db.query(q, (err, result)=>{
             if(err){
                 res.sendStatus(500)
