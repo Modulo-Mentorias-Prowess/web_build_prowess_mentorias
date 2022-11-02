@@ -4,10 +4,10 @@ import Login from "./pages/Login";
 import Register from './pages/Register';
 import Products from './pages/Products';
 import Contents from './pages/Contents';
-import Entrepreneurs from './pages/Entrepreneurs';
 import Mentorships from './pages/Mentorships';
 import Managers from './pages/Managers';
-import AddEntrepreneur from './pages/AddEntrepreneur';
+import AddEntrepreneur from './pages/Entrepreneurs/AddEntrepreneur';
+import Entrepreneurs from './pages/Entrepreneurs/Entrepreneurs';
 
 
 
