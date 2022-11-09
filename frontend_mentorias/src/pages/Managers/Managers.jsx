@@ -4,7 +4,9 @@ import axios from 'axios'
 import { useState } from 'react'
 import {AiFillEye, AiFillDelete, AiFillEdit, AiOutlineClose} from 'react-icons/ai'
 import Navbar from '../../components/Navbar'
-
+import {IoIosAdd} from 'react-icons/io'
+import { Link } from 'react-router-dom';
+  
 const Managers = () => {
   const [managers, setManagers] = useState([])
   const [selectedManager, setSelectedManager] = useState({})
@@ -41,7 +43,18 @@ const Managers = () => {
     <div className='min-h-screen'>
         <Navbar/>
         <div className='p-10'>
-          <h1 className='font-bold text-4xl mb-6'>Encargados</h1>
+        <div className='flex justify-between items-center mb-6'>
+            <h1 className='font-bold text-4xl '>Encargados</h1>
+            <div>
+              <Link
+                to="add"
+                className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+              >
+                <IoIosAdd/>
+                Agregar encargado 
+              </Link>
+            </div>
+          </div>
           <div className='overflow-x-auto'>  
           <table className='w-full'>
             <thead className='bg-gray-50 border-b-2 border-gray-200'>

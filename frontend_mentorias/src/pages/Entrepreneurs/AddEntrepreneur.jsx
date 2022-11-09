@@ -181,7 +181,21 @@ function AddEntrepreneur() {
                     placeholder="Av. Ejemplar OE4-76 y Calle Ejemplo OS6-35"
                     />
                 </div>
-            
+                <div className="w-full p-2">
+                <label
+                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="grid-last-name"
+                    >
+                    URL Google Maps
+                    </label>
+                    <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    name="googleMapsURL"
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="https://google.maps.com/example "
+                    />
+                </div>
                 <div className="md:w-1/3 w-full p-2">
                 <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -228,21 +242,7 @@ function AddEntrepreneur() {
                     />
                 </div>
 
-                <div className="w-full p-2">
-                <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-last-name"
-                    >
-                    URL Google Maps
-                    </label>
-                    <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="googleMapsURL"
-                    onChange={handleChange}
-                    type="text"
-                    placeholder="https://google.maps.com/example "
-                    />
-                </div>
+                
             </div>
             <h3 className="mt-3 font-medium text-xl">Datos de las redes sociales</h3>
             <div className="w-full flex justify-between flex-wrap">
