@@ -63,7 +63,7 @@ const Managers = () => {
   }, [])
   
   return (
-    <div className='min-h-screen'>
+    <div className=' min-h-screen  '>
         <Navbar/>
         <div className='p-10'>
         <div className='flex justify-between items-center mb-6'>
@@ -78,8 +78,8 @@ const Managers = () => {
               </Link>
             </div>
           </div>
-          <div className='overflow-x-auto'>  
-          <table className='w-full'>
+          <div className='overflow-x-auto shadow-md'>  
+          <table className='w-full '>
             <thead className='bg-gray-50 border-b-2 border-gray-200'>
               <tr>
                 <th className='w-10 p-3 text-sm font-semibold tracking-wide text-left'>#</th>

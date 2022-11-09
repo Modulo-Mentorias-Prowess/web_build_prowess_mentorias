@@ -5,7 +5,8 @@ module.exports = {
   ],
   theme: {
     extend: {colors: {
-      'main-prowess': '#57837B'
+      'main-prowess': '#57837B',
+      'prowess-light': '#CEDCD9'
     }},
     
   },

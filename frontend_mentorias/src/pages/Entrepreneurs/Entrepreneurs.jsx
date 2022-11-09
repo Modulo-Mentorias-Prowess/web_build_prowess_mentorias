@@ -105,9 +105,9 @@ const Entrepreneurs = () => {
   }
 
   return (
-    <div id='main-app overflow-y-auto '>
+    <div id='main-app overflow-y-auto ' >
         <Navbar/>
-        <div className='p-10'>
+        <div className='p-10  '>
           <div className='flex justify-between items-center mb-6'>
             <h1 className='font-bold text-4xl '>Emprendedores</h1>
             <div>
