@@ -5,6 +5,7 @@ import {AiFillEye, AiFillDelete, AiFillEdit, AiOutlineClose} from 'react-icons/a
 import Modal from 'react-modal';
 import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
+import Entrepreneur from '../../components/Entrepreneur';
 
 const customStyles = {
   content: {
@@ -93,10 +94,10 @@ const Entrepreneurs = () => {
   }
 
   const handleDelete = () =>{
-    setEntrepreneurs(entrepreneurs?.filter(item => item.id != selectedEntrepreneur.id))
     axios.delete(`http://localhost:3001/deleteEntrepreneur/${selectedEntrepreneur.id}`)
-        .then((response)=>{
-          setConfirmDelete(false)
+    .then((response)=>{
+        setConfirmDelete(false)
+        setEntrepreneurs(entrepreneurs?.filter(item => item.id != selectedEntrepreneur.id))
         })
         .catch((err)=>{
           alert("Hubo un error eliminando al emprendedor.")
@@ -115,12 +116,14 @@ const Entrepreneurs = () => {
                 className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
               >
                 <IoIosAdd/>
-                Agregar emprendedor 
+                <p className='hidden md:block'>
+                  Agregar emprendedor 
+                </p>
               </Link>
             </div>
           </div>
           <div className='overflow-x-auto'>  
-          <table className='w-full'>
+          <table className='w-full hidden md:block'>
             <thead className='bg-gray-50 border-b-2 border-gray-200'>
               <tr>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>#</th>
@@ -162,6 +165,15 @@ const Entrepreneurs = () => {
               }
             </tbody>
           </table>
+          
+          <div className='block md:hidden'>
+              {
+                 entrepreneurs?.map((e, index) => (
+                  <Entrepreneur key={index} entrepreneur={e} index={index}/>
+                 ))
+              }
+          </div>
+
           </div>
         </div>
 

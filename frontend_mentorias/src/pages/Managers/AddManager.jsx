@@ -30,13 +30,14 @@ const AddManager = () => {
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        setManagerData({...managerData, id: uuidv4()})
+        let data = managerData
+        data.id = uuidv4()
         if(!validateEmail(managerData.email) || !managerData.email || !managerData.last_names || !managerData.names){
             alert("Porfavor rellene todos los campos.")
             return
         }
 
-        axios.post("http://localhost:3001/createManager", {manager: managerData})
+        axios.post("http://localhost:3001/createManager", {manager: data})
             .then((response) => {
                 navigate("/managers")
             })

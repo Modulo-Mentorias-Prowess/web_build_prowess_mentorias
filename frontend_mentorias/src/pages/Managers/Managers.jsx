@@ -6,11 +6,13 @@ import {AiFillEye, AiFillDelete, AiFillEdit, AiOutlineClose} from 'react-icons/a
 import Navbar from '../../components/Navbar'
 import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
-  
+
 const Managers = () => {
   const [managers, setManagers] = useState([])
   const [selectedManager, setSelectedManager] = useState({})
   const [modalOpen, setModalOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
+
   const handleSelect = (m) => {
     setSelectedManager(m)
   }
@@ -24,6 +26,27 @@ const Managers = () => {
     setModalOpen(true);
   }
 
+  const openDeleteModal = (m)=>{
+    handleSelect(m)
+    setDeleteOpen(true)
+  }
+
+  const closeDeleteModal = () => {
+    setDeleteOpen(false)
+  }
+
+  const handleDelete = () => {
+    axios.delete(`http://localhost:3001/deleteManager/${selectedManager.id}`)
+    .then((response) => {
+      setDeleteOpen(false)
+      setManagers(managers?.filter((m) => m.id != selectedManager.id))
+    })
+    .catch((err)=>{
+      // TODO: HANDLE EXCEPTION TYPES 400 & 500
+      alert("Hubo un error al borrar el contenido.")
+
+    })
+  }
 
   const fetchContents = () =>{
     axios.get("http://localhost:3001/managers")
@@ -81,7 +104,9 @@ const Managers = () => {
                       onClick={()=>openModal(m)}
                       ><AiFillEye fontSize={20}/></button>
                       <button className='mr-3 hover:text-main-prowess hover:scale-125'><AiFillEdit fontSize={20}/></button>
-                      <button className='hover:text-red-500 hover:scale-125'><AiFillDelete fontSize={20}/></button>
+                      <button className='hover:text-red-500 hover:scale-125'
+                      onClick={()=>openDeleteModal(m)} 
+                      ><AiFillDelete fontSize={20}/></button>
                     </td>
                   </tr>
                 ))
@@ -130,6 +155,22 @@ const Managers = () => {
           </div>
 
         </Modal>
+
+        <Modal
+      isOpen={deleteOpen}
+      onRequestClose={closeDeleteModal}
+      contentLabel="Encargado"
+      className="w-80 h-fit p-4 bg-white overflow-y-auto shadow-xl absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <p className='text-center mb-3'>
+          ¿Seguro que desea eliminar al encargado {selectedManager.names + " "  + selectedManager.last_names}?
+        </p>
+        
+        <div className='flex items-center justify-between'>
+            <button onClick={closeDeleteModal} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Cancelar</button>
+            <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+        </div>
+      </Modal>
         </div>
     </div>
   )

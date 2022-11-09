@@ -99,11 +99,20 @@ app.post("/createManager", (req, res) => {
   req.body.manager.address.trim()
   return connection.createManager(res, req.body.manager);
 });
+
+app.delete("/deleteManager/:id", (req, res) => {
+    if(!req.params?.id){
+        return res.sendStatus(400)
+    }
+
+    return connection.deleteManager(res, req.params?.id)
+})
 /**
  * Entrepreneurs CRUD operations
  */
 
 app.get("/entrepreneurs", (_req, res) => {
+
   return connection.getEntrepreneurs(res);
 });
 
