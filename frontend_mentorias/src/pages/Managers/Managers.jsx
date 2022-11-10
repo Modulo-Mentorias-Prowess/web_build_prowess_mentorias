@@ -12,7 +12,7 @@ const Managers = () => {
   const [selectedManager, setSelectedManager] = useState({})
   const [modalOpen, setModalOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
-
+  const [updateModal, setUpdateModal] = useState(false)
   const handleSelect = (m) => {
     setSelectedManager(m)
   }
@@ -34,6 +34,14 @@ const Managers = () => {
   const closeDeleteModal = () => {
     setDeleteOpen(false)
   }
+  const openUpdate = (m)=>{
+    handleSelect(m)
+    setUpdateModal(true)
+  }
+
+  const closeUpdate = () => {
+    setUpdateModal(false)
+  }
 
   const handleDelete = () => {
     axios.delete(`http://localhost:3001/deleteManager/${selectedManager.id}`)
@@ -45,6 +53,22 @@ const Managers = () => {
       // TODO: HANDLE EXCEPTION TYPES 400 & 500
       alert("Hubo un error al borrar el contenido.")
 
+    })
+  }
+
+  const handleChange = (e) => {
+    setSelectedManager({...selectedManager  , [e.target.name]: e.target.value})
+}
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
+    axios.patch(`http://localhost:3001/editManager/${selectedManager.id}`, {manager: selectedManager})
+    .then((response)=>{
+      setManagers([...managers?.filter((item) => item.id !== selectedManager.id), selectedManager ])
+      closeUpdate()
+    })
+    .catch((err)=>{
+      alert("Hubo un error.")
     })
   }
 
@@ -103,7 +127,9 @@ const Managers = () => {
                       className='mr-3 hover:text-main-prowess hover:scale-125'
                       onClick={()=>openModal(m)}
                       ><AiFillEye fontSize={20}/></button>
-                      <button className='mr-3 hover:text-main-prowess hover:scale-125'><AiFillEdit fontSize={20}/></button>
+                      <button className='mr-3 hover:text-main-prowess hover:scale-125'
+                      onClick={()=>openUpdate(m)}
+                      ><AiFillEdit fontSize={20}/></button>
                       <button className='hover:text-red-500 hover:scale-125'
                       onClick={()=>openDeleteModal(m)} 
                       ><AiFillDelete fontSize={20}/></button>
@@ -155,6 +181,108 @@ const Managers = () => {
           </div>
 
         </Modal>
+
+        <Modal
+      isOpen={updateModal}
+      onRequestClose={closeUpdate}
+      contentLabel="Emprendedor"
+      className="w-4/5 md:w-1/2 h-fit  bg-white overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <div 
+              className='absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out'
+              onClick={closeUpdate}
+              >
+                  <AiOutlineClose fontSize={20}/>
+        </div>
+        <div className="p-10 flex justify-center items-center">
+        <form autoComplete="off" className="w-full flex flex-col">
+            <div className="flex items-center mb-5">
+                
+            <h1 className=" font-bold text-4xl">Editar encargado</h1>
+            </div>
+            <div className="flex w-full  flex-wrap">
+            <div className="md:w-1/3 w-full p-2 ">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Nombres
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                type="text"
+                name="names"
+                value={selectedManager.names}
+                onChange={handleChange}
+                placeholder="Nombres..."
+                />
+            </div>
+            <div className="md:w-1/3 w-full p-2">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Apellidos
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="last_names"
+                value={selectedManager.last_names}
+                onChange={handleChange}
+                type="text"
+                placeholder="Apellidos..."
+                />
+            </div>
+            
+            <div className="md:w-1/3 p-2 w-full">
+
+                <label
+                className=" uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Email
+                </label>
+                <input
+                className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="email"
+                onChange={handleChange}
+                value={selectedManager.email}
+                type="email"
+                placeholder="ejemplo@ejemplo.com"
+                />
+            </div>
+            <div className="p-2 w-full">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Dirección
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="address"
+                onChange={handleChange}
+                value={selectedManager.address}
+                type="text"
+                placeholder="Av. Ejemplo y Ejemplo Oe4-76"
+                />
+            </div>
+            </div>
+
+            <div className="w-full flex justify-end mt-3 p-2">
+          <button 
+            onClick={handleUpdate}
+            className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            Actualizar Encargado 
+          </button>
+          </div>
+        </form>
+      </div>
+      </Modal>
+
 
         <Modal
       isOpen={deleteOpen}

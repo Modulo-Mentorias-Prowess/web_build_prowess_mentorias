@@ -33,7 +33,6 @@ const Entrepreneurs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(selectedEntrepreneur);
     axios.patch(`http://localhost:3001/editEntrepreneur/${selectedEntrepreneur.id}`,{entrepreneur: selectedEntrepreneur})
           .then((response) => {
             setEntrepreneurs([...entrepreneurs?.filter((item) => item.id !== selectedEntrepreneur.id), selectedEntrepreneur ])

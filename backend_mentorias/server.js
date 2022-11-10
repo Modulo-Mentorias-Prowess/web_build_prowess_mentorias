@@ -107,6 +107,24 @@ app.delete("/deleteManager/:id", (req, res) => {
 
     return connection.deleteManager(res, req.params?.id)
 })
+
+app.patch("/editManager/:id", (req, res) => {
+  if (
+    !req.body?.manager?.id ||
+    !req.body?.manager?.names ||
+    !req.body?.manager?.last_names ||
+    !req.body?.manager?.email ||
+    !req.body?.manager?.address
+  ) {
+    return res.sendStatus(400);
+  }
+
+  return connection.patchManager(res, {
+    ...req.body.manager,
+    id: req.params.id,
+  });
+});
+
 /**
  * Entrepreneurs CRUD operations
  */
