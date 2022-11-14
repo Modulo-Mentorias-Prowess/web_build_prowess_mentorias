@@ -227,7 +227,7 @@ const Entrepreneurs = () => {
                 </div>
                 <div className='w-full p-2'>
                   <h3 className='font-medium'>URL Google Maps del Emprendimiento </h3>
-                  <p>{selectedEntrepreneur.googleMapsURL}</p>
+                  <a target="_blank"  className='underline hover:text-blue-500 hover:no-underline' href={selectedEntrepreneur.googleMapsURL}>Maps url<sup>↗</sup></a>
                 </div>
                 <div className='lg:w-1/3 w-full p-2'>
                   <h3 className='font-medium'>Sector</h3>
@@ -244,21 +244,45 @@ const Entrepreneurs = () => {
               </div>
               <h3 className="mt-3 font-medium text-xl">Datos de las redes sociales</h3>
               <div className='flex flex-wrap justify-between '>
-                <div className='lg:w-1/4 w-full p-2'>
+                <div className='lg:w-1/2 w-full p-2'>
                   <h3 className='font-medium'>Twitter</h3>
-                  <p>{selectedEntrepreneur?.twitter}</p>
+                  <a  
+                  target="_blank"  
+                  className='underline hover:text-blue-500 hover:no-underline' 
+                  href={`https://www.twitter.com/${selectedEntrepreneur.twitter}`}
+                  >
+                    Twitter({selectedEntrepreneur.twitter})<sup>↗</sup>
+                  </a>
                 </div>
-                <div className='lg:w-1/4 w-full p-2'>
+                <div className='lg:w-1/2 w-full p-2'>
                   <h3 className='font-medium'>Facebook</h3>
-                  <p>{selectedEntrepreneur.facebook}</p>
+                  <a  
+                  target="_blank"  
+                  className='underline hover:text-blue-500 hover:no-underline' 
+                  href={`https://www.facebook.com/${selectedEntrepreneur.facebook}`}
+                  >
+                    Facebook({selectedEntrepreneur.facebook})<sup>↗</sup>
+                  </a>
                 </div>
-                <div className='lg:w-1/4 w-full p-2'>
+                <div className='lg:w-1/2 w-full p-2'>
                   <h3 className='font-medium'>Instagram</h3>
-                  <p>{selectedEntrepreneur.instagram}</p>
+                  <a  
+                  target="_blank"  
+                  className='underline hover:text-blue-500 hover:no-underline' 
+                  href={`https://www.instagram.com/${selectedEntrepreneur.instagram}`}
+                  >
+                    Instagram({selectedEntrepreneur.instagram})<sup>↗</sup>
+                  </a>
                 </div>
-                <div className='lg:w-1/4 w-full p-2'>
+                <div className='lg:w-1/2   w-full p-2'>
                   <h3 className='font-medium'>Tiktok</h3>
-                  <p>{selectedEntrepreneur.tiktok}</p>
+                  <a  
+                  target="_blank"  
+                  className='underline hover:text-blue-500 hover:no-underline' 
+                  href={`https://www.tiktok.com/@${selectedEntrepreneur.tiktok}`}
+                  >
+                    Tiktok({selectedEntrepreneur.tiktok})<sup>↗</sup>
+                  </a>
                 </div>
               </div>
             </div>
