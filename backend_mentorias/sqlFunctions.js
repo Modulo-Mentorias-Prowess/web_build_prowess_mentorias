@@ -308,6 +308,9 @@ class MySQLConnection{
         return this.delete(res, "manager", id)
     }
 
+    getProducts(res){
+        return this.getAll(res, "product_display")
+    }
     
 }
 

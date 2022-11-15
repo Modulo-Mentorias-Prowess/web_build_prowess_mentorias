@@ -159,7 +159,7 @@ const Managers = () => {
         
             <h1 className='font-bold text-3xl'> Visualizar encargado</h1>
             <div className='pl-3 pb-4'>
-              <div className='flex w-fit flex-row lg:flex-col'>
+              <div className='flex w-fit flex-col'>
                 <div className='w-full p-2'>
                   <h3 className='font-medium'>Nombre</h3>
                   <p>{selectedManager.names + " " + selectedManager.last_names}</p>

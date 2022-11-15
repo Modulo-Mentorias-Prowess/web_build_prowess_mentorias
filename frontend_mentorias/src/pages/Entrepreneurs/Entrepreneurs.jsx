@@ -251,7 +251,7 @@ const Entrepreneurs = () => {
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.twitter.com/${selectedEntrepreneur.twitter}`}
                   >
-                    Twitter({selectedEntrepreneur.twitter})<sup>↗</sup>
+                    {selectedEntrepreneur.twitter}<sup>↗</sup>
                   </a>
                 </div>
                 <div className='lg:w-1/2 w-full p-2'>
@@ -261,7 +261,7 @@ const Entrepreneurs = () => {
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.facebook.com/${selectedEntrepreneur.facebook}`}
                   >
-                    Facebook({selectedEntrepreneur.facebook})<sup>↗</sup>
+                    {selectedEntrepreneur.facebook}<sup>↗</sup>
                   </a>
                 </div>
                 <div className='lg:w-1/2 w-full p-2'>
@@ -271,7 +271,7 @@ const Entrepreneurs = () => {
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.instagram.com/${selectedEntrepreneur.instagram}`}
                   >
-                    Instagram({selectedEntrepreneur.instagram})<sup>↗</sup>
+                    {selectedEntrepreneur.instagram}<sup>↗</sup>
                   </a>
                 </div>
                 <div className='lg:w-1/2   w-full p-2'>
@@ -281,7 +281,7 @@ const Entrepreneurs = () => {
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.tiktok.com/@${selectedEntrepreneur.tiktok}`}
                   >
-                    Tiktok({selectedEntrepreneur.tiktok})<sup>↗</sup>
+                    {selectedEntrepreneur.tiktok}<sup>↗</sup>
                   </a>
                 </div>
               </div>

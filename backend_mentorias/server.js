@@ -190,3 +190,12 @@ app.patch("/editEntrepreneur/:id", (req, res) => {
 app.delete("/deleteEntrepreneur/:id", (req, res) => {
   return connection.deleteEntrepreneurs(res, req.params.id);
 });
+
+/**
+ * Products CRUD
+ */
+
+app.get("/products", (_req, res) => {
+
+  return connection.getProducts(res);
+});
