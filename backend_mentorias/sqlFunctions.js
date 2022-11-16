@@ -286,6 +286,22 @@ class MySQLConnection{
         return this.delete(res, "entrepreneur", id)
     }
 
+    searchEntrepreneur(res, query){
+        if(query.length < 3){
+            return res.send([])
+        }
+
+
+        query = `%${query}%`
+        this.db.query(mysql.format(`SELECT * FROM entrepreneur WHERE (LOWER(names) LIKE ? OR LOWER(last_names) LIKE ? OR LOWER(nameStore) LIKE ?)`, [query, query, query]),(err, data)=>{
+            if(err){
+                throw err
+            }
+
+            return res.send(data)
+        })
+    }
+
     // Manager CRUD operations
     
     createManager(res, manager){
@@ -312,6 +328,9 @@ class MySQLConnection{
         return this.getAll(res, "product_display")
     }
     
+    createProduct(res, product){
+        return this.create(res, "product", product)
+    }
 }
 
 

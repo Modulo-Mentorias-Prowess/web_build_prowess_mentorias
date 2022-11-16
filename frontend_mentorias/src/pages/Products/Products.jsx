@@ -7,6 +7,8 @@ import {
   AiFillEdit,
   AiOutlineClose,
 } from "react-icons/ai";
+import {IoIosAdd} from 'react-icons/io'
+import { Link } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
 import Modal from "react-modal";
 
@@ -45,7 +47,20 @@ const Products = () => {
     <div className="min-h-screen">
       <Navbar />
       <div className="p-10">
-        <h1 className="font-bold text-4xl mb-6">Productos</h1>
+      <div className='flex justify-between items-center mb-6'>
+            <h1 className='font-bold text-4xl '>Productos</h1>
+            <div>
+              <Link
+                to="add"
+                className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+              >
+                <IoIosAdd/>
+                <p className='hidden md:block'>
+                  Agregar producto 
+                </p>
+              </Link>
+            </div>
+          </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b-2 border-gray-200">
@@ -56,8 +71,11 @@ const Products = () => {
                 <th className="p-3 text-sm font-semibold tracking-wide text-left">
                   Nombre
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                <th className="w-80 p-3 text-sm font-semibold tracking-wide text-left">
                   Descripción
+                </th>
+                <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                  Precio ($)
                 </th>
                 <th className="p-3 text-sm font-semibold tracking-wide text-left">
                   Emprendedor
@@ -65,6 +83,7 @@ const Products = () => {
                 <th className="p-3 text-sm font-semibold tracking-wide text-left">
                   Emprendimiento
                 </th>
+                
                 <th className="w-28 p-3 text-sm font-semibold tracking-wide text-left">
                   Acciones
                 </th>
@@ -82,10 +101,13 @@ const Products = () => {
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     {p.name}
                   </td>
-                  <td className="whitespace-nowrap p-3 text-sm text-gray-700">
+                  <td className="p-3 text-sm text-gray-700">
                     {p.description}
                   </td>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
+                    {p.price}
+                  </td>
+                  <td className="p-3 text-sm text-gray-700">
                     {p.full_name}
                   </td>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
@@ -139,6 +161,10 @@ const Products = () => {
               <div className="w-full p-2">
                 <h3 className="font-medium">Descripcion</h3>
                 <p>{selectedProduct.description}</p>
+              </div>
+              <div className="w-full p-2">
+                <h3 className="font-medium">Precio ($)</h3>
+                <p>{selectedProduct.price}</p>
               </div>
 
               <div className="w-full lg:1/2  p-2">

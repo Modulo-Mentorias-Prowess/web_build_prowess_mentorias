@@ -187,6 +187,10 @@ app.patch("/editEntrepreneur/:id", (req, res) => {
   });
 });
 
+app.get("/searchEntrepreneur/:q", (req, res)=>{
+  return connection.searchEntrepreneur(res, req.params.q.toLowerCase())
+})
+
 app.delete("/deleteEntrepreneur/:id", (req, res) => {
   return connection.deleteEntrepreneurs(res, req.params.id);
 });
@@ -199,3 +203,18 @@ app.get("/products", (_req, res) => {
 
   return connection.getProducts(res);
 });
+
+app.post("/createProduct", (req, res)=>{
+  if(!req.body?.product?.id || !req.body?.product?.name || !req.body?.product?.price || !req.body?.product?.description || !req.body?.product?.entrepreneur?.id){
+    return res.sendStatus(400)
+  }
+
+
+  return connection.createProduct(res, {
+    id: req.body.product.id,
+    id_entrepreneur: req.body.product.entrepreneur.id,
+    name: req.body.product.name,
+    description: req.body.product.description,
+    price: req.body.product.price,
+  })
+})
