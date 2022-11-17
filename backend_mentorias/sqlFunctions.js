@@ -237,7 +237,7 @@ class MySQLConnection{
         const q = mysql.format(`UPDATE ${table} SET ${Object.keys(object).join("=?,")}=? WHERE id=?`, [...Object.values(object), object.id ])
         this.db.query(q, (err, result)=>{
             if(err){
-                res.sendStatus(500)
+                return res.sendStatus(500)
             }
 
             return res.sendStatus(200)
@@ -330,6 +330,14 @@ class MySQLConnection{
     
     createProduct(res, product){
         return this.create(res, "product", product)
+    }
+
+    patchProduct(res, product){
+        return this.patch(res, "product", product)
+    }
+
+    deleteProduct(res, id){
+        return this.delete(res, "product", id)
     }
 }
 

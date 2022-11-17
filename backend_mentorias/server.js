@@ -218,3 +218,18 @@ app.post("/createProduct", (req, res)=>{
     price: req.body.product.price,
   })
 })
+
+app.patch("/updateProduct", (req, res)=>{
+  if(!req.body?.product?.id || !req.body?.product?.name || !req.body?.product?.price || !req.body?.product?.description ){
+    return res.sendStatus(400)
+  }
+  return connection.patchProduct(res, req.body.product)
+})
+
+app.delete("/deleteProduct/:id", (req, res)=>{
+  if(!req.params?.id){
+    return res.sendStatus(400)
+  }
+
+  return connection.deleteProduct(res, req.params.id)
+})

@@ -15,7 +15,10 @@ import Modal from "react-modal";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState({});
+
   const openViewModal = () => {
     setViewModalOpen(true);
   };
@@ -24,10 +27,71 @@ const Products = () => {
     setViewModalOpen(false);
   };
 
+  const openUpdateModal = (p) => {
+    setSelectedProduct(p)
+    setUpdateModalOpen(true);
+  };
+
+  const closeUpdateModal = () => {
+    setUpdateModalOpen(false);
+  };
+
+  const openDeleteModal = (p) => {
+    setSelectedProduct(p)
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
+  };
+
   const handleViewSelection = (p) => {
     setSelectedProduct(p);
     openViewModal();
   };
+
+  const handleChange = (e) => {
+    setSelectedProduct({...selectedProduct, [e.target.name]: e.target.value})
+  }
+
+  const handleDelete = () => {
+    axios.delete(`http://localhost:3001/deleteProduct/${selectedProduct.id}`)
+         .then((response)=>{
+          setDeleteModalOpen(false)
+          setProducts(products?.filter((p) => p.id != selectedProduct.id))
+         })
+          .catch((err)=>{
+            // TODO: HANDLE EXCEPTION TYPES 400 & 500
+            alert("Hubo un error al borrar el contenido.")
+      
+          })
+  }
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
+    let data = {
+      id: selectedProduct.id,
+      name: selectedProduct.name,
+      description: selectedProduct.description,
+      price: parseFloat(selectedProduct.price)
+    }
+
+    // TODO: inform the user of missing inputs.
+    if(!selectedProduct.name || !selectedProduct.price || !selectedProduct.description){
+      return
+    }
+
+    axios.patch("http://localhost:3001/updateProduct", {product: data})
+         .then((response)=>{
+          setProducts([selectedProduct,  ...products?.filter((item) => item.id !== selectedProduct.id) ])
+          closeUpdateModal()
+        })
+        .catch((err)=>{
+          alert(err)
+        })
+
+  }
+
   const fetchProducts = () => {
     axios
       .get("http://localhost:3001/products")
@@ -120,10 +184,14 @@ const Products = () => {
                     >
                       <AiFillEye fontSize={20} />
                     </button>
-                    <button className="mr-3 hover:text-main-prowess hover:scale-125">
+                    <button 
+                    onClick={()=>openUpdateModal(p)}
+                    className="mr-3 hover:text-main-prowess hover:scale-125">
                       <AiFillEdit fontSize={20} />
                     </button>
-                    <button className="hover:text-red-500 hover:scale-125">
+                    <button 
+                    onClick={()=>openDeleteModal(p)}
+                    className="hover:text-red-500 hover:scale-125">
                       <AiFillDelete fontSize={20} />
                     </button>
                   </td>
@@ -179,6 +247,134 @@ const Products = () => {
           </div>
         </div>
       </Modal>
+
+      {/**
+       * Edit Modal
+       */}
+
+      <Modal
+        isOpen={updateModalOpen}
+        onRequestClose={closeUpdateModal}
+        contentLabel="Producto"
+        className="w-fit h-fit bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+<div 
+              className='absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out'
+              onClick={closeUpdateModal}
+              >
+                  <AiOutlineClose fontSize={20}/>
+        </div>
+        <div className="p-10 flex justify-center items-center">
+        <form autoComplete="off" className="w-full flex flex-col">
+            <div className="flex items-center mb-5">
+                
+            <h1 className=" font-bold text-4xl">Editar producto</h1>
+            </div>
+            <div className="flex w-full  flex-wrap">
+            <div className="md:w-1/3 w-full p-2 ">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Nombre
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                type="text"
+                name="name"
+                value={selectedProduct.name}
+                onChange={handleChange}
+                placeholder="Nombre..."
+                />
+            </div>
+            <div className="md:w-1/3 w-full p-2">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Descripción
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="description"
+                value={selectedProduct.description}
+                onChange={handleChange}
+                type="text"
+                placeholder="Apellidos..."
+                />
+            </div>
+            
+            <div className="md:w-1/3 p-2 w-full">
+
+                <label
+                className=" uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Precio ($)
+                </label>
+                <input
+                className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="price"
+                onChange={handleChange}
+                value={selectedProduct.price}
+                type="number"
+                placeholder="10.1"
+                />
+            </div>
+            <div className="p-2 w-full select-none">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Emprendedor
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-400 border select-none border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="address"
+                onChange={handleChange}
+                value={`${selectedProduct.full_name} - ${selectedProduct.nameStore}`}
+                type="text"
+                disabled
+                placeholder="Emprendedor - Nombre emprendimiento"
+                />
+            </div>
+            </div>
+
+            <div className="w-full flex justify-end mt-3 p-2">
+          <button 
+            onClick={handleUpdate}
+            className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            Actualizar Producto 
+          </button>
+          </div>
+        </form>
+      </div>
+      </Modal>
+
+
+      {/**
+       * Delete Modal
+       */}
+
+<Modal
+      isOpen={deleteModalOpen}
+      onRequestClose={closeDeleteModal}
+      contentLabel="Producto"
+      className="w-80 h-fit p-4 bg-white overflow-y-auto shadow-xl absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <p className='text-center mb-3'>
+          ¿Seguro que desea eliminar el producto {`${selectedProduct.name} de ${selectedProduct.full_name} - ${selectedProduct.nameStore}`}?
+        </p>
+        
+        <div className='flex items-center justify-between'>
+            <button onClick={closeDeleteModal} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Cancelar</button>
+            <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+        </div>
+      </Modal>
+
     </div>
   );
 };
