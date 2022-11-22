@@ -196,6 +196,13 @@ app.delete("/deleteEntrepreneur/:id", (req, res) => {
 });
 
 /**
+ * Mentorships CRUD
+ */
+
+app.get("/mentorships", (_req, res)=>{
+  return connection.getMentorships(res)
+})
+/**
  * Products CRUD
  */
 

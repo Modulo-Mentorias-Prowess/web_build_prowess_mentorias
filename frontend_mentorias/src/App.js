@@ -3,13 +3,13 @@ import Dashboard from './pages/Dashboard';
 import Login from "./pages/Login";
 import Register from './pages/Register';
 import Contents from './pages/Contents';
-import Mentorships from './pages/Mentorships';
 import AddEntrepreneur from './pages/Entrepreneurs/AddEntrepreneur';
 import Entrepreneurs from './pages/Entrepreneurs/Entrepreneurs';
 import Managers from './pages/Managers/Managers';
 import AddManager from './pages/Managers/AddManager';
 import Products from './pages/Products/Products';
 import AddProduct from './pages/Products/AddProduct';
+import Mentorships from './pages/Mentorships/Mentorships';
 
 
 
