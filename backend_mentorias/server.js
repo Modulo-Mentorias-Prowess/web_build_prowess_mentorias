@@ -38,7 +38,6 @@ app.delete("/logout", (req, res) => {
 /**
  * Content CRUD operations
  */
-
 app.get("/contents", (_req, res) => {
   return connection.getContents(res);
 });

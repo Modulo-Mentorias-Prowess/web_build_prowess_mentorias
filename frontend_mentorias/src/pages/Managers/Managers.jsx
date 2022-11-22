@@ -87,7 +87,7 @@ const Managers = () => {
   }, [])
   
   return (
-    <div className=' min-h-screen  '>
+    <div className='min-h-screen'>
         <Navbar/>
         <div className='p-10'>
         <div className='flex justify-between items-center mb-6'>
