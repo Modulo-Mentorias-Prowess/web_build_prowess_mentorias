@@ -10,6 +10,7 @@ import AddManager from './pages/Managers/AddManager';
 import Products from './pages/Products/Products';
 import AddProduct from './pages/Products/AddProduct';
 import Mentorships from './pages/Mentorships/Mentorships';
+import AddMentorship from './pages/Mentorships/AddMentorship';
 
 
 
@@ -27,6 +28,7 @@ function App() {
           <Route exact path='/managers' element={<Managers/>}/>
           <Route exact path='/managers/add' element={<AddManager/>}/>
           <Route exact path='/mentorships' element={<Mentorships/>}/>
+          <Route exact path='/mentorships/add' element={<AddMentorship/>}/>
           <Route exact path='/contents' element={<Contents/>}/>
           <Route exact path='/entrepreneurs' element={<Entrepreneurs/>}/>
           <Route exact path='/entrepreneurs/add' element={<AddEntrepreneur/>}/>

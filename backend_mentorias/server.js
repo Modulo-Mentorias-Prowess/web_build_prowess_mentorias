@@ -124,6 +124,12 @@ app.patch("/editManager/:id", (req, res) => {
   });
 });
 
+app.get("/searchManager/:q", (req, res)=>{
+  if(!req.params?.q){
+    return res.sendStatus(400)
+  }
+  return connection.searchManager(res, req.params.q.toLowerCase())
+})
 /**
  * Entrepreneurs CRUD operations
  */
@@ -238,4 +244,42 @@ app.delete("/deleteProduct/:id", (req, res)=>{
   }
 
   return connection.deleteProduct(res, req.params.id)
+})
+
+/**
+ * Mentorship CRUD operations
+ */
+
+app.post("/createMentorship", (req, res)=>{
+  if(!req?.body?.mentorship?.id ||
+    !req?.body?.mentorship?.title ||
+    !req?.body?.mentorship?.description ||
+    !req?.body?.mentorship?.date_mentorship ||
+    !req?.body?.mentorship?.manager ||
+    !req?.body?.mentorship?.entrepreneur ||
+    req?.body?.mentorship?.contents?.length == 0
+    ){
+      return res.sendStatus(400)
+    }
+
+    // This code is pretty bad, must be refactored xd
+
+    let contents = []
+    for (let index = 0; index < req.body.mentorship.contents.length; index++) {
+      const element = req.body.mentorship.contents[index];
+      contents.push({id_mentorship: req.body.mentorship.id, id_content: element.id})
+    }
+
+
+  return connection.createMentorship(res, 
+    {
+      id: req.body.mentorship.id,
+      title: req.body.mentorship.title,
+      description: req.body.mentorship.description,
+      date_mentorship: req.body.mentorship.date_mentorship,
+      id_entrepreneur: req.body.mentorship.entrepreneur.id,
+      id_manager: req.body.mentorship.manager.id
+    },
+    contents
+    )
 })

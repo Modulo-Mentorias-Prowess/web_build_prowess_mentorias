@@ -223,6 +223,14 @@ class MySQLConnection{
             return res.sendStatus(201)
         })
     }
+    createNoSend(table, object){
+        const q = mysql.format(`INSERT INTO ${table}(${Object.keys(object).join(",")}) VALUES (${Object.keys(object).fill("?").join(",")})`, Object.values(object))
+        this.db.query(q, (err, result)=>{
+            if(err){
+                throw(err)
+            }
+        })
+    }
 
 
     /**
@@ -342,6 +350,30 @@ class MySQLConnection{
 
     getMentorships(res){
         return this.getAll(res, "mentorship_display")
+    }
+
+    createMentorship(res, mentorship, mentorship_content){
+        this.createNoSend("mentorship", mentorship)
+        mentorship_content.forEach(element => { 
+            this.createNoSend("content_mentorship", element)
+        });
+        return res.sendStatus(200)
+    }
+
+    searchManager(res, query){
+        if(query.length < 3){
+            return res.send([])
+        }
+
+
+        query = `%${query}%`
+        this.db.query(mysql.format(`SELECT * FROM manager WHERE (LOWER(names) LIKE ? OR LOWER(last_names) LIKE ? OR LOWER(email) LIKE ?)`, [query, query, query]),(err, data)=>{
+            if(err){
+                throw err
+            }
+
+            return res.send(data)
+        })
     }
 }
 
