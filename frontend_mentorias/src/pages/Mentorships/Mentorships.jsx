@@ -8,7 +8,7 @@ import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 
 const Mentorships = () => {
-  // This component is a mess, must refactor and simplify. Pls help.
+  // This component is a mess, must refactor and simplify. Pain.
   const [mentorships, setMentorships] = useState([])
   const [date, setDate] = useState('')
   const [viewModalOpen, setViewModalOpen] = useState(false);
