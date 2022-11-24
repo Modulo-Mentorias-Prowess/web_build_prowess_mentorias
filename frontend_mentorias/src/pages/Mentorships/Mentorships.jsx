@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 const Mentorships = () => {
   // This component is a mess, must refactor and simplify. Pain.
   const [mentorships, setMentorships] = useState([])
-  const [date, setDate] = useState('')
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false)
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
