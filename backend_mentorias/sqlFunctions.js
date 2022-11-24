@@ -179,8 +179,8 @@ class MySQLConnection{
      * @param {*} table: the name of the table to query
      * @param {*} id: the id of the row to get
      */
-    getOne(res, table, id){
-        this.db.query(mysql.format(`SELECT * FROM ${table} WHERE id=?`, [id]), (err, data)=>{
+    getOne(res, table, search_by, id){
+        this.db.query(mysql.format(`SELECT * FROM ${table} WHERE ${search_by}=?`, [id]), (err, data)=>{
             if(err){
                 throw(err)
             }
@@ -374,6 +374,18 @@ class MySQLConnection{
 
             return res.send(data)
         })
+    }
+
+    getContentsMentorship(res, id){
+        return this.getOne(res, "content_mentorship_display", "id_mentorship",id)
+    }
+
+    deleteMentorship(res, id){
+        return this.delete(res, "mentorship", id)
+    }
+
+    patchMentorship(res, object){
+        return this.patch(res, "mentorship", object)
     }
 }
 

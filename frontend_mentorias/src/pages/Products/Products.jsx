@@ -302,7 +302,7 @@ const Products = () => {
                 value={selectedProduct.description}
                 onChange={handleChange}
                 type="text"
-                placeholder="Apellidos..."
+                placeholder="Descripción..."
                 />
             </div>
             

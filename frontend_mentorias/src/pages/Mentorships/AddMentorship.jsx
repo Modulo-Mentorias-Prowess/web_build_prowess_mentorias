@@ -215,7 +215,6 @@ const AddMentorship = () => {
                 name="date_mentorship"
                 onChange={handleChange}
                 type="datetime-local"
-                placeholder="$10..."
               />
             </div>
 

@@ -250,6 +250,22 @@ app.delete("/deleteProduct/:id", (req, res)=>{
  * Mentorship CRUD operations
  */
 
+app.get("/getContentsMentorship/:id", (req, res)=>{
+  
+  if(!req.params?.id){
+    return res.sendStatus(400)
+  }
+
+  return connection.getContentsMentorship(res, req.params.id)
+})
+
+app.delete("/deleteMentorship/:id", (req, res)=>{
+  if(!req.params?.id){
+    return res.sendStatus(400)
+  }
+  return connection.deleteMentorship(res, req.params.id)
+})
+
 app.post("/createMentorship", (req, res)=>{
   if(!req?.body?.mentorship?.id ||
     !req?.body?.mentorship?.title ||
@@ -283,3 +299,13 @@ app.post("/createMentorship", (req, res)=>{
     contents
     )
 })
+
+app.patch("/updateMentorship", (req, res)=>{
+  if(!req.body?.mentorship?.id || !req.body?.mentorship?.id_entrepreneur || !req.body?.mentorship?.id_manager || !req.body?.mentorship?.title || !req.body?.mentorship?.description || !req.body?.mentorship?.date_mentorship){
+    return res.sendStatus(400)
+  }
+
+  return connection.patchMentorship(res, req.body.mentorship)
+}
+  
+)

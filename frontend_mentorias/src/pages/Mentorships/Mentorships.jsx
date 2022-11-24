@@ -8,10 +8,14 @@ import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 
 const Mentorships = () => {
+  // This component is a mess, must refactor and simplify. Pls help.
   const [mentorships, setMentorships] = useState([])
+  const [date, setDate] = useState('')
   const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [updateModalOpen, setUpdateModalOpen] = useState(false)
   const [selectedMentorship, setSelectedMentorship] = useState({})
-
+  const [selectedContents, setSelectedContents] = useState([])
 
   const openViewModal = () => {
     setViewModalOpen(true);
@@ -20,12 +24,81 @@ const Mentorships = () => {
   const closeViewModal = () => {
     setViewModalOpen(false);
   };
+  const openUpdateModal = () => {
+    setUpdateModalOpen(true);
+  };
+
+  const closeUpdateModal = () => {
+    setUpdateModalOpen(false);
+  };
+
+  const openDeleteModal = () => {
+    setDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+  };
 
   const handleViewSelection = (m) => {
     setSelectedMentorship(m);
+    fetchContents(m.id);
     openViewModal();
   };
+  const handleDeleteSelection = (m) => {
+    setSelectedMentorship(m);
+    openDeleteModal();
+  };
+  const handleUpdateSelection = (m) => {
+    setSelectedMentorship(m);
+    fetchContents(m.id)
+    openUpdateModal();
+  };
 
+  const handleUpdate = (e)=>{
+    e.preventDefault()
+    axios.patch(`http://localhost:3001/updateMentorship`, {mentorship: {
+      id: selectedMentorship.id,
+      id_entrepreneur: selectedMentorship.id_entrepreneur,
+      id_manager: selectedMentorship.id_manager,
+      title: selectedMentorship.title,
+      description: selectedMentorship.description,
+      date_mentorship: selectedMentorship.date_mentorship
+    }})
+    .then((response)=>{
+      setMentorships([selectedMentorship,  ...mentorships?.filter((item) => item.id !== selectedMentorship.id) ])
+      closeUpdateModal()
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  }
+
+  const handleDelete = () => {
+    axios.delete(`http://localhost:3001/deleteMentorship/${selectedMentorship.id}`)
+          .then((_response)=>{
+            closeDeleteModal()
+            setMentorships(mentorships?.filter((m) => m.id != selectedMentorship.id))
+          })
+          .catch((err)=>{
+            // TODO: HANDLE EXCEPTION TYPES 400 & 500
+            alert("Hubo un error al borrar el contenido.")
+          })
+  }
+  
+  const handleChange = (e) => {
+    setSelectedMentorship({ ...selectedMentorship, [e.target.name]: e.target.value });
+  };
+
+  const fetchContents = (id) =>{
+    axios.get(`http://localhost:3001/getContentsMentorship/${id}`)
+         .then((response)=>{
+          setSelectedContents(response.data)
+         })
+         .catch((err)=>{
+          alert("Hubo un error obteniendo los datos.")
+         })
+  }
 
   const fetchMentorships = () =>{
     axios.get("http://localhost:3001/mentorships")
@@ -41,7 +114,19 @@ const Mentorships = () => {
     fetchMentorships()
   }, [])
   
+  Number.prototype.AddZero= function(b,c){
+    var  l= (String(b|| 10).length - String(this).length)+1;
+    return l> 0? new Array(l).join(c|| '0')+this : this;
+ }
 
+  const formatDate = (d) => {
+    let localDateTime= [d.getFullYear(), (d.getMonth()+1).AddZero(),
+      d.getDate().AddZero(),
+      ].join('-') +'T' +
+     [d.getHours().AddZero(),
+      d.getMinutes().AddZero()].join(':');
+      return localDateTime
+    }
   
   return (
     <div className='min-h-screen'>
@@ -84,14 +169,24 @@ const Mentorships = () => {
                     <td className='  lg:whitespace-normal p-3 text-sm text-gray-700'>{c.nameStore}</td>
                     <td className='  lg:whitespace-normal p-3 text-sm text-gray-700'>{c.title}</td>
                     <td className='  lg:whitespace-normal p-3 text-sm text-gray-700'>{c.description}</td>
-                    <td className=' whitespace-nowrap p-3 text-sm text-gray-700'>{(    new Date(Date.parse(c.date_mentorship.replace(/-/g, '/').replace('T', ' '))).toLocaleString())}</td>
+                    <td className=' whitespace-nowrap p-3 text-sm text-gray-700'>{(new Date(Date.parse(c.date_mentorship.replace(/-/g, '/').replace('T', ' '))).toLocaleString())}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>
                       <button 
                       onClick={()=>handleViewSelection(c)}
                       className='mr-3 hover:text-main-prowess hover:scale-125'
                       ><AiFillEye fontSize={20}/></button>
-                      <button className='mr-3 hover:text-main-prowess hover:scale-125'><AiFillEdit fontSize={20}/></button>
-                      <button className='hover:text-red-500 hover:scale-125'><AiFillDelete fontSize={20}/></button>
+                      <button 
+                      onClick={()=>handleUpdateSelection(c)}
+                      className='mr-3 hover:text-main-prowess hover:scale-125'
+                      >
+                        <AiFillEdit fontSize={20}/>
+                      </button>
+                      <button 
+                      onClick={()=>handleDeleteSelection(c)}
+                      className='hover:text-red-500 hover:scale-125'
+                      >
+                        <AiFillDelete fontSize={20}/>
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -154,11 +249,21 @@ const Mentorships = () => {
                   </div>
                   <div className='w-1/2 px-2'>
                     <h3 className='font-medium'>Fecha</h3>
-                    <p>{(    new Date(Date.parse(selectedMentorship.date_mentorship?.replace(/-/g, '/').replace('T', ' '))).toLocaleString())}</p>
+                    <p>{(new Date(Date.parse(selectedMentorship.date_mentorship?.replace(/-/g, '/').replace('T', ' ')))).toLocaleString()}</p>
                   </div>
                   <div className='w-full px-2'>
                     <h3 className='font-medium'>Descripción</h3>
                     <p>{selectedMentorship.description}</p>
+                  </div>
+                  <div className='w-full px-2'>
+                    <h3 className='font-medium'>Contenidos</h3>
+                    {
+                      selectedContents.map((c)=>(
+                        <p>{c.content_name}</p>
+                      ))
+                    }
+
+                    
                   </div>
                 </div>
                 
@@ -172,6 +277,169 @@ const Mentorships = () => {
           </div>
 
         </Modal>
+
+
+         {/**
+       * Edit Modal
+       * 
+       * TODO: allow edit of entrepreneur, manager and contents 
+       * in a similar fashion to the AddMentorship component.
+       */}
+
+      <Modal
+        isOpen={updateModalOpen}
+        onRequestClose={closeUpdateModal}
+        contentLabel="Producto"
+        className="w-fit h-4/5 bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+<div 
+              className='absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out'
+              onClick={closeUpdateModal}
+              >
+                  <AiOutlineClose fontSize={20}/>
+        </div>
+        <div className="p-10 flex justify-center items-center">
+        <form autoComplete="off" className="w-full flex flex-col">
+            <div className="flex items-center mb-5">
+                
+            <h1 className=" font-bold text-4xl">Editar producto</h1>
+            </div>
+            <div className="flex w-full  flex-wrap">
+            <div className="md:w-1/2 w-full p-2 ">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Titulo
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                type="text"
+                name="title"
+                value={selectedMentorship.title}
+                onChange={handleChange}
+                placeholder="Titulo..."
+                />
+            </div>
+            <div className="md:w-1/2 w-full p-2">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Descripción
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="description"
+                value={selectedMentorship.description}
+                onChange={handleChange}
+                type="text"
+                placeholder="Descripcion..."
+                />
+            </div>
+            
+            <div className="p-2 w-full">
+
+                <label
+                className=" uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Fecha y hora
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="date_mentorship"
+                value={formatDate(new Date(Date.parse(selectedMentorship.date_mentorship?.replace(/-/g, '/')?.replace('T', ' '))))}
+                onChange={handleChange}
+                type="datetime-local"
+                placeholder=''
+              />
+            </div>
+            <div className="p-2 w-full select-none">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Emprendedor
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-400 border select-none border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="address"
+                onChange={handleChange}
+                value={`${selectedMentorship.entrepreneur_names} ${selectedMentorship.entrepreneur_last_names} - ${selectedMentorship.nameStore}`}
+                type="text"
+                disabled
+                />
+            </div>
+            <div className="p-2 w-full select-none">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Encargado
+                </label>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-400 border select-none border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                name="address"
+                onChange={handleChange}
+                value={`${selectedMentorship.manager_names} ${selectedMentorship.manager_last_names} - ${selectedMentorship.manager_email}`}
+                type="text"
+                disabled
+                />
+            </div>
+            <div className="p-2 w-full select-none">
+
+                <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-last-name"
+                >
+                Contenidos
+                </label>
+                {
+                  selectedContents.map((con)=>(
+                    <p>{con.content_name}</p>
+                  ))
+                }
+            </div>
+
+
+
+            </div>
+
+            <div className="w-full flex justify-end mt-3 p-2">
+          <button 
+            onClick={handleUpdate}
+            className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            Actualizar Mentoria 
+          </button>
+          </div>
+        </form>
+      </div>
+      </Modal>
+
+            {/**
+       * Delete Modal
+       */}
+
+<Modal
+      isOpen={deleteModal}
+      onRequestClose={closeDeleteModal}
+      contentLabel="Producto"
+      className="w-80 h-fit p-4 bg-white overflow-y-auto shadow-xl absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <p className='text-center mb-3'>
+          ¿Seguro que desea eliminar la mentoria de {`${selectedMentorship.manager_names} ${selectedMentorship.manager_last_names} para el emprendimiento ${selectedMentorship.nameStore}`}?
+        </p>
+        
+        <div className='flex items-center justify-between'>
+            <button onClick={closeDeleteModal} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Cancelar</button>
+            <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+        </div>
+      </Modal>
     </div>
   )
 }
