@@ -95,7 +95,7 @@ const Mentorships = () => {
         closeModal(setDeleteModal);
         //Filter the mentorship to delete it without fetching from the API.
         setMentorships(
-          mentorships?.filter((m) => m.id != selectedMentorship.id)
+          mentorships?.filter((m) => m.id !== selectedMentorship.id)
         );
       })
       .catch((err) => {
@@ -231,7 +231,7 @@ const Mentorships = () => {
               {mentorships?.map((c, index) => (
                 <tr
                   className={`${
-                    index % 2 == 0 ? "bg-white" : "bg-gray-100"
+                    index % 2 === 0 ? "bg-white" : "bg-gray-100"
                   } lg:max-h-full max-h-10`}
                 >
                   <th className="whitespace-nowrap ">{index + 1}</th>
