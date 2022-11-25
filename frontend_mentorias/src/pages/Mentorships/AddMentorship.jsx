@@ -8,71 +8,109 @@ import { v4 as uuidv4 } from "uuid";
 import { AiOutlineClose } from "react-icons/ai";
 
 const AddMentorship = () => {
+  // Use state hell, must simplify, maybe with objects????
   const navigate = useNavigate();
   const [mentorship, setMentorship] = useState({
-    contents: []
+    contents: [],
   });
   const [entrepreneurs, setEntrepreneurs] = useState([]);
   const [managers, setManagers] = useState([]);
-  const [contents, setContents] = useState([])
-  const [selectedContents, setSelectedContents] = useState([])
-  const [selectContent, setselectContent] = useState("")
+  const [contents, setContents] = useState([]);
+  const [selectedContents, setSelectedContents] = useState([]);
+  const [selectContent, setselectContent] = useState("");
   const [selectedEntreprenuer, setSelectedEntreprenuer] = useState(null);
-  const [selectedManager, setSelectedManager] = useState(null)
+  const [selectedManager, setSelectedManager] = useState(null);
   const [queryEntrepreneur, setQueryEntrepreneur] = useState("");
-  const [queryManager, setQueryManager] = useState("")
+  const [queryManager, setQueryManager] = useState("");
 
+  /**
+   * Selects a given entrepreneur.
+   * @param {Entrepreneur} e: entrepreneur data.
+   */
   const handleEntrepreneurSelect = (e) => {
     setMentorship({ ...mentorship, entrepreneur: e });
-    setQueryEntrepreneur("")
+    setQueryEntrepreneur("");
     setSelectedEntreprenuer(`${e.names} ${e.last_names} - ${e.nameStore}`);
-  }
+  };
+
+  /**
+   * Selects a given manager.
+   * @param {Manager} m: manager data.
+   */
   const handleManagerSelect = (m) => {
     setMentorship({ ...mentorship, manager: m });
-    setQueryManager("")
+    setQueryManager("");
     setSelectedManager(`${m.names} ${m.last_names} - ${m.email}`);
-  }
+  };
 
+  /**
+   * Removes selected entrepreneur.
+   * @param {Event} e: click event.
+   */
   const removeSelected = (e) => {
-    e.preventDefault()
-    setMentorship({...mentorship, entrepreneur: null})
-    setSelectedEntreprenuer(null)
-  }
+    e.preventDefault();
+    setMentorship({ ...mentorship, entrepreneur: null });
+    setSelectedEntreprenuer(null);
+  };
+  /**
+   * Removes selected manager.
+   * @param {Event} e: click event.
+   */
   const removeSelectedManager = (e) => {
-    e.preventDefault()
-    setMentorship({...mentorship, manager: null})
-    setSelectedManager(null)
-  }
+    e.preventDefault();
+    setMentorship({ ...mentorship, manager: null });
+    setSelectedManager(null);
+  };
 
+  /**
+   * Changes the search parameter of the entrepreneurs.
+   * @param {event} e: typing event.
+   */
   const handleSearch = (e) => {
     setQueryEntrepreneur(e.target.value);
   };
+
+  /**
+   * Changes the search parameter of the managers.
+   * @param {Event} e: typing event.
+   */
   const handleSearchManager = (e) => {
     setQueryManager(e.target.value);
   };
 
+  // Search the entrepreneurs every time their query changes
   useEffect(() => {
     fetchSearch();
   }, [queryEntrepreneur]);
 
+  // Search the managers every time their query changes.
   useEffect(() => {
     fetchSearchManager();
   }, [queryManager]);
+
+  //Component did mount fetch contents
   useEffect(() => {
     fetchContents();
   }, []);
 
+  /**
+   * Fetches contents from the database.
+   */
+  const fetchContents = () => {
+    axios
+      .get("http://localhost:3001/contents")
+      .then((response) => {
+        setContents(response.data);
+      })
+      .catch((err) => {
+        //TODO: Handle code 500
+        alert("Hubo un error obteniendo los datos.");
+      });
+  };
 
-  const fetchContents = () =>{
-    axios.get("http://localhost:3001/contents")
-         .then((response)=>{
-            setContents(response.data)
-         })
-         .catch((err)=>{
-          alert("Hubo un error obteniendo los datos.")
-         })
-  }
-
+  /**
+   * Fetches the entrepreneurs data from the database based on the query parameter.
+   */
   const fetchSearch = () => {
     if (queryEntrepreneur.length >= 3) {
       axios
@@ -87,12 +125,16 @@ const AddMentorship = () => {
       setEntrepreneurs([]);
     }
   };
+
+  /**
+   * Fetches the managers data from the database based on the query parameter.
+   */
   const fetchSearchManager = () => {
     if (queryManager.length >= 3) {
       axios
         .get(`http://localhost:3001/searchManager/${queryManager}`)
         .then((data) => {
-              setManagers(data.data);
+          setManagers(data.data);
         })
         .catch((err) => {
           alert("Hubo un error obteniendo los datos.");
@@ -102,17 +144,24 @@ const AddMentorship = () => {
     }
   };
 
-  const handleSelect=(e)=>{
+  /**
+   * Adds the content selected to the selected contents
+   * @param {Event} e: selection event.
+   */
+  const handleSelect = (e) => {
+    let s = contents.filter((c) => c.id == e.target.value)[0];
+    setContents(contents.filter((c) => c.id != s.id));
 
-    let s = contents.filter((c)=>c.id == e.target.value)[0]
-    setContents(contents.filter((c)=> c.id != s.id))
+    setMentorship({ ...mentorship, contents: [...mentorship.contents, s] });
+    setSelectedContents([...selectedContents, s]);
+    setselectContent("");
+  };
 
-
-    setMentorship({...mentorship, contents: [...mentorship.contents, s]})
-    setSelectedContents([...selectedContents, s])
-    setselectContent("")
-  }
-
+  /**
+   * Registers the mentorship into the database.
+   * @param {Event} e: submit event
+   * @returns if the data is invalid
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     let data = mentorship;
@@ -120,6 +169,7 @@ const AddMentorship = () => {
     console.log(data);
 
     // TODO: DATA VALIDATION AND UX
+    // If user data incomplete, exit the function
     if (
       !data.id ||
       !data.title ||
@@ -127,30 +177,39 @@ const AddMentorship = () => {
       !data.description ||
       !data.entrepreneur ||
       !data.manager ||
-      data.contents.length == 0 
+      data.contents.length == 0
     ) {
       return;
     }
     axios
       .post("http://localhost:3001/createMentorship", { mentorship: data })
       .then((response) => {
+        // If mentorship created, go to the list of mentorships
         navigate("/mentorships");
       })
       .catch((err) => {
-        // TODO: Handle exceptions
+        // TODO: Handle exceptions 500 and 400.
         alert("Hubo un error al enviar los datos.");
       });
-      
   };
 
-  const deleteContent = (e,c) =>{
-    e.preventDefault()
-    const newContent = selectedContents.filter((i)=>i.id != c.id)
-    setSelectedContents(newContent)
-    setMentorship({...mentorship, contents: newContent})
-    setContents([...contents, c])
-  }
+  /**
+   * Removes content from the selected contents and adds it to the select menu.
+   * @param {Event} e: click event.
+   * @param {Content} c: content data.
+   */
+  const deleteContent = (e, c) => {
+    e.preventDefault();
+    const newContent = selectedContents.filter((i) => i.id != c.id);
+    setSelectedContents(newContent);
+    setMentorship({ ...mentorship, contents: newContent });
+    setContents([...contents, c]);
+  };
 
+  /**
+   * Changes new mentorship data.
+   * @param {Event} e: change event.
+   */
   const handleChange = (e) => {
     setMentorship({ ...mentorship, [e.target.name]: e.target.value });
   };
@@ -227,16 +286,16 @@ const AddMentorship = () => {
               </label>
               {selectedManager && (
                 <div className="flex items-center mb-2">
-                    <p className="mr-3">Seleccionado:</p>
-                    <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
+                  <p className="mr-3">Seleccionado:</p>
+                  <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
                     {selectedManager}
                     <button>
-
-                    <AiOutlineClose 
-                    onClick={removeSelectedManager}
-                    className="ml-2"/>
+                      <AiOutlineClose
+                        onClick={removeSelectedManager}
+                        className="ml-2"
+                      />
                     </button>
-                    </p>
+                  </p>
                 </div>
               )}
               <input
@@ -270,16 +329,16 @@ const AddMentorship = () => {
               </label>
               {selectedEntreprenuer && (
                 <div className="flex items-center mb-2">
-                    <p className="mr-3">Seleccionado:</p>
-                    <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
+                  <p className="mr-3">Seleccionado:</p>
+                  <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
                     {selectedEntreprenuer}
                     <button>
-
-                    <AiOutlineClose 
-                    onClick={removeSelected}
-                    className="ml-2"/>
+                      <AiOutlineClose
+                        onClick={removeSelected}
+                        className="ml-2"
+                      />
                     </button>
-                    </p>
+                  </p>
                 </div>
               )}
               <input
@@ -303,44 +362,42 @@ const AddMentorship = () => {
                   >{`${entre.names} ${entre.last_names} - ${entre.nameStore}`}</div>
                 ))}
               </div>
-            <div className="p-2 w-full">
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
-              >
-                Contenidos
-              </label>
-              {selectedContents.length > 0 && (
-                <div className="flex items-center mb-2">
+              <div className="p-2 w-full">
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
+                >
+                  Contenidos
+                </label>
+                {selectedContents.length > 0 && (
+                  <div className="flex items-center mb-2">
                     <p className="mr-3">Seleccionado:</p>
-                    {
-                        selectedContents.map((c)=>(
-
-                            <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
-                            {c.name}
-                            <button>
-
-                            <AiOutlineClose 
-                            onClick={(e)=>deleteContent(e,c)}
-                            className="ml-2"/>
-                            </button>
-                            </p>
-                        ))
-                    }
-                </div>
-              )}
-              <select className="w-full p-2" 
-              onChange={handleSelect}
-              value={selectContent}>
-                <option value="" disabled>Seleccione una o mas...</option>
-                {
-                    contents?.map((c)=>(
-                        <option value={c.id}>{c.name}</option>
-                    ))
-                }
-              </select>
-
-            </div>
+                    {selectedContents.map((c) => (
+                      <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
+                        {c.name}
+                        <button>
+                          <AiOutlineClose
+                            onClick={(e) => deleteContent(e, c)}
+                            className="ml-2"
+                          />
+                        </button>
+                      </p>
+                    ))}
+                  </div>
+                )}
+                <select
+                  className="w-full p-2"
+                  onChange={handleSelect}
+                  value={selectContent}
+                >
+                  <option value="" disabled>
+                    Seleccione una o mas...
+                  </option>
+                  {contents?.map((c) => (
+                    <option value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
