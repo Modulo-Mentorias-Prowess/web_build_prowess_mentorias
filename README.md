@@ -16,3 +16,12 @@
 ### Frontend
 1. Run ```npm i``` to install dependencies
 2. Start the server with ```npm start```
+### Database
+1. Go to admin panel of MySQL database in xaamp or tool to make queries to database
+2. Run the .sql script found in the ./database directory.
+
+### Credentials
+Default login credentials in database: 
+- Username: admin
+- Password: admin
+
