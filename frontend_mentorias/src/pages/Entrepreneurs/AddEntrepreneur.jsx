@@ -32,6 +32,10 @@ function AddEntrepreneur() {
     setEntrepreneurData({...entrepreneurData, [e.target.name]: e.target.value})
   }
 
+  /**
+   * Creates a new entrepreneur in the database.
+   * @param {Event} e: form submit event 
+   */
   const handleSubmit = (e) => {
     e.preventDefault()
     let data = {entrepreneur: entrepreneurData}
@@ -42,7 +46,7 @@ function AddEntrepreneur() {
             navigate("/entrepreneurs")
         })
         .catch((err)=>{
-            console.log(err)
+            //TODO: Handle errors 
             alert("Hubo un error registrando al emprendedor.")
         })
 

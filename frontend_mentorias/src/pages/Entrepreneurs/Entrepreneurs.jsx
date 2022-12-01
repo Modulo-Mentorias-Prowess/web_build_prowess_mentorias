@@ -7,18 +7,6 @@ import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 import Entrepreneur from '../../components/Entrepreneur';
 
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    maxWidth: '50%',
-    maxHeight: '80%', 
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
 Modal.setAppElement('#root');
 const Entrepreneurs = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([])
@@ -31,6 +19,10 @@ const Entrepreneurs = () => {
     setSelectedEntrepreneur({...selectedEntrepreneur, [e.target.name]: e.target.value})
   }
 
+  /**
+   * Updates selected entrepreneur in the database and on the client side.
+   * @param {Event} e: form submit event 
+   */
   const handleSubmit = (e) => {
     e.preventDefault()
     axios.patch(`http://localhost:3001/editEntrepreneur/${selectedEntrepreneur.id}`,{entrepreneur: selectedEntrepreneur})
@@ -39,11 +31,16 @@ const Entrepreneurs = () => {
             closeUpdate()
           })
           .catch((err)=>{
+            // TODO: HANDLE ERRORS
             alert("Hubo un problema al actualizar.")
             console.log(err)
           })
   }
 
+  /**
+   * Gets all the entrepreneurs from the database
+   * TODO: Get with pagination to not overload client nor server.
+   */
   const fetchEntrepreneurs = () =>{
     axios.get("http://localhost:3001/entrepreneurs")
          .then((response)=>{
@@ -51,15 +48,22 @@ const Entrepreneurs = () => {
             console.log(response.data)
          })
          .catch((err)=>{
+          // TODO: Properly show error
           alert("Hubo un error obteniendo los datos.")
          })
   }
 
+
+  /**
+   * Get entrepreneur on component did mount
+   */
   useEffect(() => {
     fetchEntrepreneurs()
   
   }, [])
   
+
+  // TODO: must refactor to look like mentorship openModal and closeModal methods.
   const closeDelete = () => {
     setConfirmDelete(false)
   }
@@ -87,11 +91,17 @@ const Entrepreneurs = () => {
     setIsOpen(false);
   }
 
+  // REFACTOR TILL HERE
+
   const handleEntrepreneurSelection = (e) => {
     setSelectedEntrepreneur(e)
     openModal()
   }
 
+
+  /**
+   * Deletes entrepreneur from the database, and from the client side table.
+   */
   const handleDelete = () =>{
     axios.delete(`http://localhost:3001/deleteEntrepreneur/${selectedEntrepreneur.id}`)
     .then((response)=>{
@@ -99,6 +109,7 @@ const Entrepreneurs = () => {
         setEntrepreneurs(entrepreneurs?.filter(item => item.id != selectedEntrepreneur.id))
         })
         .catch((err)=>{
+          //TODO: Handle errors
           alert("Hubo un error eliminando al emprendedor.")
         })
   }

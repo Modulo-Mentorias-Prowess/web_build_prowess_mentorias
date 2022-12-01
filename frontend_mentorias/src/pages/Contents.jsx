@@ -8,6 +8,11 @@ import {AiFillEye, AiFillDelete, AiFillEdit} from 'react-icons/ai'
 const Contents = () => {
 
   const [contents, setContents] = useState([])
+
+
+  /**
+   * Gets all contents from the database.
+   */
   const fetchContents = () =>{
     axios.get("http://localhost:3001/contents")
          .then((response)=>{

@@ -17,6 +17,7 @@ const Managers = () => {
     setSelectedManager(m)
   }
 
+  // TODO: must refactor to look like mentorship openModal and closeModal methods.
   const closeModal = () => {
     setModalOpen(false)
   }
@@ -43,6 +44,11 @@ const Managers = () => {
     setUpdateModal(false)
   }
 
+
+  /**
+   * Deletes the data of the selected manager from the database and updates the table 
+   * from the client side
+   */
   const handleDelete = () => {
     axios.delete(`http://localhost:3001/deleteManager/${selectedManager.id}`)
     .then((response) => {
@@ -60,6 +66,10 @@ const Managers = () => {
     setSelectedManager({...selectedManager  , [e.target.name]: e.target.value})
 }
 
+  /**
+   * Updates the manager in the database and updates it client side.
+   * @param {Event} e: form submit event 
+   */
   const handleUpdate = (e) => {
     e.preventDefault()
     axios.patch(`http://localhost:3001/editManager/${selectedManager.id}`, {manager: selectedManager})
@@ -72,6 +82,10 @@ const Managers = () => {
     })
   }
 
+  /**
+   * Gets all the managers from database.
+   * TODO: fetch data with pagination to not overload client.
+   */
   const fetchContents = () =>{
     axios.get("http://localhost:3001/managers")
          .then((response)=>{
@@ -82,6 +96,9 @@ const Managers = () => {
          })
   }
 
+  /**
+   * Loads managers on component did mount.
+   */
   useEffect(() => {
     fetchContents()
   }, [])

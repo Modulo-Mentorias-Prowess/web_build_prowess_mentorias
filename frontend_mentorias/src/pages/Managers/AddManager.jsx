@@ -22,12 +22,16 @@ const AddManager = () => {
     }
 
     //TODO: VALIDATE DATA OUT OF FOCUS 
-    
     function validateEmail(email) {
         var re = /\S+@\S+\.\S+/;
         return re.test(email);
     }
 
+    /**
+     * Creates manager in the database.
+     * @param {Event} e: form submit event 
+     * @returns 
+     */
     const handleSubmit = (e) =>{
         e.preventDefault()
         let data = managerData
@@ -42,7 +46,7 @@ const AddManager = () => {
                 navigate("/managers")
             })
             .catch((err)=>{
-                // TODO: PROPER EXCEPTION HANDLEING
+                // TODO: PROPER EXCEPTION HANDLING
                 alert("Hubo un error al enviar los datos")
             })
 

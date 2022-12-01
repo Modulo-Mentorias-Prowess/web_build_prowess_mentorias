@@ -19,6 +19,9 @@ const Products = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState({});
 
+
+  // TODO: must refactor to look like mentorship openModal and closeModal methods.
+
   const openViewModal = () => {
     setViewModalOpen(true);
   };
@@ -45,6 +48,8 @@ const Products = () => {
     setDeleteModalOpen(false);
   };
 
+  // REFACTOR TILL HERE
+
   const handleViewSelection = (p) => {
     setSelectedProduct(p);
     openViewModal();
@@ -54,6 +59,10 @@ const Products = () => {
     setSelectedProduct({...selectedProduct, [e.target.name]: e.target.value})
   }
 
+
+  /**
+   * Handles the deletion of the product on the database.
+   */
   const handleDelete = () => {
     axios.delete(`http://localhost:3001/deleteProduct/${selectedProduct.id}`)
          .then((response)=>{
@@ -67,6 +76,10 @@ const Products = () => {
           })
   }
 
+
+  /**
+   * Updates the product from the database with the new values given by the user
+   */
   const handleUpdate = (e) => {
     e.preventDefault()
     let data = {
@@ -92,6 +105,9 @@ const Products = () => {
 
   }
 
+  /**
+   * Gets all the products from the database.
+   */
   const fetchProducts = () => {
     axios
       .get("http://localhost:3001/products")
@@ -103,6 +119,9 @@ const Products = () => {
       });
   };
 
+  /**
+   * Get all the products when component did mount.
+   */
   useEffect(() => {
     fetchProducts();
   }, []);
