@@ -267,6 +267,7 @@ app.delete("/deleteMentorship/:id", (req, res)=>{
 })
 
 app.post("/createMentorship", (req, res)=>{
+  console.log(req.body);
   if(!req?.body?.mentorship?.id ||
     !req?.body?.mentorship?.title ||
     !req?.body?.mentorship?.description ||
@@ -301,9 +302,17 @@ app.post("/createMentorship", (req, res)=>{
 })
 
 app.patch("/updateMentorship", (req, res)=>{
+  console.log(req.body);
   if(!req.body?.mentorship?.id || !req.body?.mentorship?.id_entrepreneur || !req.body?.mentorship?.id_manager || !req.body?.mentorship?.title || !req.body?.mentorship?.description || !req.body?.mentorship?.date_mentorship){
     return res.sendStatus(400)
   }
+
+  if(req.body.mentorship.date_mentorship.charAt(req.body.mentorship.date_mentorship.length - 1) === 'Z'){
+    req.body.mentorship.date_mentorship = req.body.mentorship.date_mentorship.substring(0, req.body.mentorship.date_mentorship.length - 8)
+  }
+
+  console.log(req.body);
+
 
   return connection.patchMentorship(res, req.body.mentorship)
 }

@@ -245,6 +245,7 @@ class MySQLConnection{
         const q = mysql.format(`UPDATE ${table} SET ${Object.keys(object).join("=?,")}=? WHERE id=?`, [...Object.values(object), object.id ])
         this.db.query(q, (err, result)=>{
             if(err){
+                console.log(err);
                 return res.sendStatus(500)
             }
 

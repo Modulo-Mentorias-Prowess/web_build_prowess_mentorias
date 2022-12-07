@@ -11,6 +11,7 @@ import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
 import Modal from "react-modal";
+import Product from "../../components/Product";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -145,7 +146,7 @@ const Products = () => {
             </div>
           </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full hidden md:block">
             <thead className="bg-gray-50 border-b-2 border-gray-200">
               <tr>
                 <th className="w-10 p-3 text-sm font-semibold tracking-wide text-left">
@@ -218,6 +219,19 @@ const Products = () => {
               ))}
             </tbody>
           </table>
+          <div className='block md:hidden'>
+              {
+                 products?.map((p, index) => (
+                  <Product 
+                    key={index} 
+                    p={p}
+                    deleteFunction={openDeleteModal}
+                    editFunction={openUpdateModal}
+                    viewFunction={handleViewSelection}
+                    />
+                 ))
+              }
+          </div>
         </div>
       </div>
 
@@ -228,7 +242,7 @@ const Products = () => {
         isOpen={viewModalOpen}
         onRequestClose={closeViewModal}
         contentLabel="Producto"
-        className="w-fit h-fit bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="w-4/5 md:w-fit h-4/5 bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         <div className="relative w-full h-full p-10">
           <div
@@ -275,7 +289,7 @@ const Products = () => {
         isOpen={updateModalOpen}
         onRequestClose={closeUpdateModal}
         contentLabel="Producto"
-        className="w-fit h-fit bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="w-4/5 md:w-fit h-4/5 bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
 <div 
               className='absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out'
