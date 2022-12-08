@@ -6,6 +6,7 @@ import {AiFillEye, AiFillDelete, AiFillEdit, AiOutlineClose} from 'react-icons/a
 import Navbar from '../../components/Navbar'
 import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
+import Manager from '../../components/Manager';
 
 const Managers = () => {
   const [managers, setManagers] = useState([])
@@ -121,14 +122,14 @@ const Managers = () => {
               </Link>
             </div>
           </div>
-          <div className='overflow-x-auto shadow-md'>  
-          <table className='w-full '>
-            <thead className='bg-gray-50 border-b-2 border-gray-200'>
-              <tr>
+          <div className='overflow-x-auto w-full'>  
+          <table className='w-full hidden md:block'>
+            <thead className='bg-gray-50 w-full border-b-2 border-gray-200'>
+              <tr className='w-full'>
                 <th className='w-10 p-3 text-sm font-semibold tracking-wide text-left'>#</th>
-                <th className='p-3 text-sm font-semibold tracking-wide text-left'>Nombre</th>
-                <th className='p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
-                <th className='p-3 text-sm font-semibold tracking-wide text-left'>Dirección</th>
+                <th className='w-80 p-3 text-sm font-semibold tracking-wide text-left'>Nombre</th>
+                <th className='w-80 p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
+                <th className='w-96 p-3 text-sm font-semibold tracking-wide text-left'>Dirección</th>
                 <th className='w-28 p-3 text-sm font-semibold tracking-wide text-left'>Acciones</th>
               </tr>
             </thead>
@@ -158,13 +159,28 @@ const Managers = () => {
               }
             </tbody>
           </table>
+
+          <div className='block md:hidden'>
+              {
+                 managers?.map((m, index) => (
+                  <Manager 
+                    key={index} 
+                    m={m}
+                    deleteFunction={openDeleteModal}
+                    editFunction={openUpdate}
+                    viewFunction={openModal}
+                    />
+                 ))
+              }
+          </div>
+
           </div>
 
           <Modal
           isOpen={modalOpen}
           onRequestClose={closeModal}
           contentLabel="Encargado"
-          className="w-fit h-fit bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="w-4/5 md:w-fit h-4/5 bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         >
           
           <div className='relative w-fit h-full p-10'>
@@ -205,7 +221,7 @@ const Managers = () => {
       isOpen={updateModal}
       onRequestClose={closeUpdate}
       contentLabel="Emprendedor"
-      className="w-4/5 md:w-1/2 h-fit  bg-white overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      className="w-4/5 md:w-fit h-4/5 bg-white overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         <div 
               className='absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out'
