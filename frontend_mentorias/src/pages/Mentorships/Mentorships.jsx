@@ -10,7 +10,6 @@ import MentorshipDeleteModal from "../../components/MentorshipDeleteModal";
 import { operation } from "../../utils/operations";
 
 const Mentorships = () => {
-  // This component is a mess, must refactor and simplify. Pain.
   const [mentorships, setMentorships] = useState([]);
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
