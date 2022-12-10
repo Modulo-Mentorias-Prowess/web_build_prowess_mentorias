@@ -101,6 +101,7 @@ const Products = () => {
           closeUpdateModal()
         })
         .catch((err)=>{
+          // TODO: handle error in http
           alert(err)
         })
 

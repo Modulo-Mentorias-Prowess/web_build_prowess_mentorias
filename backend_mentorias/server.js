@@ -16,7 +16,7 @@ app.use(cors());
 app.listen(process.env.PORT, () => {
   console.log(`Server started in port ${process.env.PORT}`);
   connection.testConnection();
-  console.log(jwtManager.refreshTokens);
+  console.log(jwtManager.refreshTokens); // implement refresh tokens
 });
 
 app.post("/register", async (req, res) => {

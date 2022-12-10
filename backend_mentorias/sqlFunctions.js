@@ -253,6 +253,27 @@ class MySQLConnection{
         })
     }
 
+    search(res, query, table, filters){
+        if(query.length < 3){
+            return res.send([])
+        }
+
+        let filterString = ''
+        filters.forEach((f)=>{
+            filterString = filterString + ` LOWER(${f}) LIKE ? OR`
+        })
+        filterString = filterString.substring(0, filterString.length - 3)
+        query = `%${query}%`
+        this.db.query(mysql.format(`SELECT * FROM ${table} WHERE${filterString}`, new Array(filters.length).fill(query)),(err, data)=>{
+            if(err){
+                throw err
+            }
+
+            return res.send(data)
+        })
+    }
+
+
     // Content CRUD operations
     createContent(res, content){
         return this.create(res, "content", content)
@@ -295,20 +316,8 @@ class MySQLConnection{
         return this.delete(res, "entrepreneur", id)
     }
 
-    searchEntrepreneur(res, query){
-        if(query.length < 3){
-            return res.send([])
-        }
-
-
-        query = `%${query}%`
-        this.db.query(mysql.format(`SELECT * FROM entrepreneur WHERE (LOWER(names) LIKE ? OR LOWER(last_names) LIKE ? OR LOWER(nameStore) LIKE ?)`, [query, query, query]),(err, data)=>{
-            if(err){
-                throw err
-            }
-
-            return res.send(data)
-        })
+    searchEntrepreneur(res, query){      
+        this.search(res, query, "entrepreneur", ["names", "last_names", "email"])
     }
 
     // Manager CRUD operations
@@ -362,19 +371,7 @@ class MySQLConnection{
     }
 
     searchManager(res, query){
-        if(query.length < 3){
-            return res.send([])
-        }
-
-
-        query = `%${query}%`
-        this.db.query(mysql.format(`SELECT * FROM manager WHERE (LOWER(names) LIKE ? OR LOWER(last_names) LIKE ? OR LOWER(email) LIKE ?)`, [query, query, query]),(err, data)=>{
-            if(err){
-                throw err
-            }
-
-            return res.send(data)
-        })
+        return this.search(res, query, "manager", ["names", "last_names", "email"])
     }
 
     getContentsMentorship(res, id){
