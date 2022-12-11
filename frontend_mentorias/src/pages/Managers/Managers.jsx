@@ -127,7 +127,7 @@ const Managers = () => {
             <thead className='bg-gray-50 w-full border-b-2 border-gray-200'>
               <tr className='w-full'>
                 <th className='w-10 p-3 text-sm font-semibold tracking-wide text-left'>#</th>
-                <th className='w-80 p-3 text-sm font-semibold tracking-wide text-left'>Nombre</th>
+                <th className=' p-3 text-sm font-semibold tracking-wide text-left'>Nombre</th>
                 <th className='w-80 p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
                 <th className='w-96 p-3 text-sm font-semibold tracking-wide text-left'>Dirección</th>
                 <th className='w-28 p-3 text-sm font-semibold tracking-wide text-left'>Acciones</th>
@@ -139,9 +139,9 @@ const Managers = () => {
                 managers?.map((m, index) => (
                   <tr className={`${index % 2 == 0 ? 'bg-white' : 'bg-gray-100'} lg:max-h-full max-h-10`}>
                     <th className='whitespace-nowrap '>{index + 1}</th>
-                    <td className='whitespace-nowrap p-3 text-sm text-gray-700'>{`${m.names} ${m.last_names}`}</td>
-                    <td className='lg:whitespace-normal p-3 text-sm text-gray-700'>{m.email}</td>
-                    <td className='lg:whitespace-normal p-3 text-sm text-gray-700'>{m.address}</td>
+                    <td className='w-full whitespace-nowrap p-3 text-sm text-gray-700'>{`${m.names} ${m.last_names}`}</td>
+                    <td className='w-80 whitespace-nowrap p-3 text-sm text-gray-700'>{m.email}</td>
+                    <td className='w-80 p-3 whitespace-nowrap text-sm text-gray-700'>{m.address}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>
                       <button 
                       className='mr-3 hover:text-main-prowess hover:scale-125'

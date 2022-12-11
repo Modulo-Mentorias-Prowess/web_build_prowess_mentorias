@@ -153,19 +153,19 @@ const Products = () => {
                 <th className="w-10 p-3 text-sm font-semibold tracking-wide text-left">
                   #
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                <th className="w-80 p-3 text-sm font-semibold tracking-wide text-left">
                   Nombre
                 </th>
                 <th className="w-80 p-3 text-sm font-semibold tracking-wide text-left">
                   Descripción
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                <th className=" p-3 text-sm font-semibold tracking-wide text-left">
                   Precio ($)
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                <th className="w-80 p-3 text-sm font-semibold tracking-wide text-left">
                   Emprendedor
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                <th className="w-80 p-3 text-sm font-semibold tracking-wide text-left">
                   Emprendimiento
                 </th>
                 
@@ -186,7 +186,7 @@ const Products = () => {
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     {p.name}
                   </td>
-                  <td className="p-3 text-sm text-gray-700">
+                  <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     {p.description}
                   </td>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
