@@ -8,9 +8,24 @@ import {v4 as uuidv4} from 'uuid'
 
 const AddProduct = () => {
     const navigate = useNavigate()
-    const [product, setProduct] = useState({})
+    const [product, setProduct] = useState({
+      price: null,
+      name: null,
+      description: null,
+      entrepreneurs: null
+    })
     const [entrepreneurs, setEntrepreneurs] = useState([])
     const [query, setQuery] = useState("")
+    // error handling
+    const [errors, setErrors] = useState({
+      name: false,
+      description: false,
+      price: false,
+      entrepreneur: false
+    })
+
+    const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
+    const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
 
     const handleEntrepreneurSelect = (e) => {
         setProduct({...product, entrepreneur: e})
@@ -42,17 +57,53 @@ const AddProduct = () => {
         }
     }
 
+    const validateData = (data) => {
+
+      setErrors({
+        name: !data.name,
+        description: !data.description,
+        price: !data.price,
+        entrepreneur: !data.entrepreneur
+      })
+      
+      if (!Object.values(errors).every((value) => value === false)) {
+        return true
+      }
+
+      return false
+    }
+
+    const handleLostFocus = () => {
+      let data = product
+      data.price = parseFloat(data.price)
+      if(validateData(data)){
+        return
+      }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         let data = product
         data.id = uuidv4()
         data.price = parseFloat(data.price)
-        
+
         // TODO: DATA VALIDATION AND UX
-        if(!data.id || !data.name || !data.price || !data.description || !data.entrepreneur){
+        
+        if(validateData(data)){
+          return
+        }
+      
+        /**
+          
+         
+        if(!data.id 
+          || !data.name 
+          || !data.price 
+          || !data.description 
+          || !data.entrepreneur){
             return
         }
-
+        */
         axios.post("http://localhost:3001/createProduct", {product: data})
             .then((response)=>{
                 navigate("/products")
@@ -95,12 +146,19 @@ const AddProduct = () => {
                 Nombre
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.name ? errorStyle : normalStyle}
                 type="text"
                 name="name"
+                onBlur={handleLostFocus}
                 onChange={handleChange}
                 placeholder="Nombre..."
                 />
+                {
+                  errors.name && (
+                    <p className='text-red-600 italic'>Ingrese un nombre válido.</p>
+                  )
+                }
+
             </div>
             <div className="md:w-1/3 w-full p-2">
 
@@ -111,12 +169,19 @@ const AddProduct = () => {
                 Descripción
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 name="description"
+                onBlur={handleLostFocus}
+                className={errors.description ? errorStyle : normalStyle}
                 onChange={handleChange}
                 type="text"
                 placeholder="Descipción..."
                 />
+
+{
+                  errors.description && (
+                    <p className='text-red-600 italic'>Ingrese una descripción.</p>
+                  )
+                }
             </div>
             <div className="md:w-1/3 w-full p-2">
 
@@ -127,12 +192,18 @@ const AddProduct = () => {
                 Precio ($)
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.price ? errorStyle : normalStyle}
                 name="price"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="number"
                 placeholder="$10..."
                 />
+                {
+                  errors.price && (
+                    <p className='text-red-600 italic'>Ingrese un precio.</p>
+                  )
+                }
             </div>
             
             <div className="p-2 w-full">
@@ -143,10 +214,11 @@ const AddProduct = () => {
                 Emprendedor
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.entrepreneur ? errorStyle : normalStyle}
                 name="search"
                 value={query}
                 onChange={handleSearch}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="Buscar..."
                 />
@@ -162,6 +234,12 @@ const AddProduct = () => {
                     
                 }
             </div>
+
+            {
+                  errors.entrepreneur && (
+                    <p className='text-red-600 italic'>Ingrese un emprendedor válido.</p>
+                  )
+                }
             </div>
 
             </div>

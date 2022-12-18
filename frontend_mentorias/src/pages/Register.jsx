@@ -11,6 +11,7 @@ const Register = () => {
   const userName = localStorage.getItem("username");
   const role_user = localStorage.getItem("user_role");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const normalStyle =
@@ -51,17 +52,27 @@ const Register = () => {
     }
   }, []);
 
+  const validatePassword = (password) => {
+    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    console.log(password, strongRegex.test(password))
+    return !strongRegex.test(password)
+  }
+
   const handleRegister = () => {
-    setErrorUserData({
+    let errors = {
       userName: userData.userName == "",
-      password: userData.password == "",
+      password: validatePassword(userData.password),
       full_name: userData.full_name == "",
       role_user: userData.role_user == "none",
-    });
+    }
+
+    setErrorUserData(errors);
+
     if (!Object.values(errorUserData).every((value) => value === false)) {
       return;
     }
 
+    setLoading(true)
     axios
       .post(`${url}/register`, userData)
       .then((response) => {
@@ -75,7 +86,11 @@ const Register = () => {
         setTimeout(() => {
           setError(false);
         }, 3000);
-      });
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
+
   };
 
   return (
@@ -93,8 +108,7 @@ const Register = () => {
           >
             <img src={logo} alt="logo" className="my-3" />
             <h1 className="text-center font-black text-xl mb-3">REGISTRAR</h1>
-            <div className="flex justify-between items-center">
-              <div className="mb-4 mr-3 flex flex-col">
+              <div className="mb-4  flex flex-col">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
                   htmlFor="username"
@@ -134,12 +148,19 @@ const Register = () => {
                   placeholder="******************"
                 />
                 {errorUserData.password ? (
-                  <p class="text-red-500 text-xs italic">
-                    Porfavor proporcione una contraseña.
+                <div>
+                  <p className="text-red-500 text-xs italic">
+                    Porfavor proporcione una contraseña que cumpla con lo siguiente:
                   </p>
+                  <ul>
+                    <li className="text-red-500 text-xs italic">1 cáracter en minúscula y mayúscula</li>
+                    <li className="text-red-500 text-xs italic">1 número</li>
+                    <li className="text-red-500 text-xs italic">1 cáracter especial (!@#$%^&*)</li>
+                    <li className="text-red-500 text-xs italic">Contener 8 caracteres o mas</li>
+                  </ul>
+                </div>
                 ) : null}
               </div>
-            </div>
             <div className="mb-6">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -227,6 +248,7 @@ const Register = () => {
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
                 onClick={handleRegister}
+                disabled={loading}
               >
                 Registrar
               </button>
