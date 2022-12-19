@@ -31,7 +31,10 @@ function AddEntrepreneur() {
   const handleChange = (e) => {
     setEntrepreneurData({...entrepreneurData, [e.target.name]: e.target.value})
   }
-
+  function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
   /**
    * Creates a new entrepreneur in the database.
    * @param {Event} e: form submit event 
@@ -40,6 +43,11 @@ function AddEntrepreneur() {
     e.preventDefault()
     let data = {entrepreneur: entrepreneurData}
     data.entrepreneur.id = uuidv4()
+
+    if(!validateEmail(data.entrepreneur.email)){
+        alert("No es un email valido.")
+        return 
+    }
 
     axios.post("http://localhost:3001/createEntrepreneur", data)
         .then((response) => {

@@ -23,7 +23,7 @@ const AddManager = () => {
 
     //TODO: VALIDATE DATA OUT OF FOCUS 
     function validateEmail(email) {
-        var re = /\S+@\S+\.\S+/;
+        var re = /\S+@espe\.edu\.ec/;
         return re.test(email);
     }
 
