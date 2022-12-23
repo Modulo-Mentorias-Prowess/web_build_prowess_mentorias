@@ -59,6 +59,7 @@ const Register = () => {
   }
 
   const handleRegister = () => {
+    setLoading(true)
     let errors = {
       userName: userData.userName == "",
       password: validatePassword(userData.password),
@@ -68,11 +69,10 @@ const Register = () => {
 
     setErrorUserData(errors);
 
-    if (Object.values(errorUserData).every((value) => value === false) === false) {
+    if (Object.values(errors).every((value) => value === false) === false) {
       return;
     }
    
-    setLoading(true)
     axios
       .post(`${url}/register`, userData)
       .then((response) => {
