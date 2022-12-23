@@ -72,6 +72,7 @@ const Register = () => {
     setErrorUserData(errors);
 
     if (Object.values(errors).every((value) => value === false) === false) {
+      setLoading(false)
       return;
     }
    
