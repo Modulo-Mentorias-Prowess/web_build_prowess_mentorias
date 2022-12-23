@@ -68,10 +68,10 @@ const Register = () => {
 
     setErrorUserData(errors);
 
-    if (!Object.values(errorUserData).every((value) => value === false)) {
+    if (Object.values(errorUserData).every((value) => value === false) === false) {
       return;
     }
-
+   
     setLoading(true)
     axios
       .post(`${url}/register`, userData)
@@ -90,6 +90,7 @@ const Register = () => {
       .finally(()=>{
         setLoading(false)
       })
+     
 
   };
 
