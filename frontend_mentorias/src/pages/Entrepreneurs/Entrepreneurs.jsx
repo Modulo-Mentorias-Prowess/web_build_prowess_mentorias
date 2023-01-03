@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import Entrepreneur from '../../components/Entrepreneur';
 
 Modal.setAppElement('#root');
+
 const Entrepreneurs = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([])
   const [selectedEntrepreneur, setSelectedEntrepreneur] = useState({})
@@ -78,7 +79,6 @@ const Entrepreneurs = () => {
     setUpdateModal(true)
   }
 
-
   const closeUpdate = () => {
     setUpdateModal(false)
   }
@@ -123,11 +123,10 @@ const Entrepreneurs = () => {
             <div>
               <Link
                 to="add"
-                className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-              >
+                className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'>
                 <IoIosAdd/>
                 <p className='hidden md:block'>
-                  Agregar emprendedor 
+                  Agregar Emprendedor 
                 </p>
               </Link>
             </div>
@@ -135,9 +134,9 @@ const Entrepreneurs = () => {
           <div className='overflow-x-auto'>  
           <table className='w-full hidden md:block'>
             <thead className='bg-gray-50 border-b-2 border-gray-200'>
-              <tr>
+              <tr className='w-full'>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>#</th>
-                <th className='p-3 text-sm font-semibold tracking-wide text-left'>Nombre</th>
+                <th className='p-3 text-sm text-gray-700'>Nombre</th>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>Teléfono</th>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
                 <th className='w-48 p-3 text-sm font-semibold tracking-wide text-left'>Nombre de la Tienda</th>
