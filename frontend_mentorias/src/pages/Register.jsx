@@ -53,17 +53,25 @@ const Register = () => {
       navigate("/");
     }
   }, []);
-
+ //Funcion para validar la contraseña
   const validatePassword = (password) => {
     var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     console.log(password, strongRegex.test(password))
     return !strongRegex.test(password)
   }
 
+//Funcion para validar el username
+const validateuserNnpmame = (userName) =>{
+  var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$");
+  console.log(userName,nameRegex.test(userName))
+  return !nameRegex.test(userName)
+ 
+}
+
   const handleRegister = () => {
     setLoading(true)
     let errors = {
-      userName: userData.userName == "",
+      userName: validateuserName(userData.userName),
       password: validatePassword(userData.password),
       full_name: userData.full_name == "",
       role_user: userData.role_user == "none",
@@ -127,13 +135,21 @@ const Register = () => {
                   name="userName"
                   onChange={handleChange}
                   placeholder="Nombre de usuario"
-                />
+                /> 
                 {errorUserData.userName ? (
+                  <div>
                   <p className="text-red-500 text-xs italic">
-                    Porfavor proporcione un usuario.
+                    Porfavor proporcione un usuario que cumpla lo siguiente:
                   </p>
+                  <ul>
+                    <li className="text-red-500 text-xs italic">Un nombre de 5 a 8 caracteres </li>
+                  </ul>
+
+                  </div>
                 ) : null}
               </div>
+
+              
               <div className="mb-4 flex justify-center flex-col">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
