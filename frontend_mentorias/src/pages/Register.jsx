@@ -53,15 +53,14 @@ const Register = () => {
       navigate("/");
     }
   }, []);
- //Funcion para validar la contraseña
+
   const validatePassword = (password) => {
     var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     console.log(password, strongRegex.test(password))
     return !strongRegex.test(password)
   }
 
-//Funcion para validar el username
-const validateuserNnpmame = (userName) =>{
+const validateuserName = (userName) =>{
   var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$");
   console.log(userName,nameRegex.test(userName))
   return !nameRegex.test(userName)
