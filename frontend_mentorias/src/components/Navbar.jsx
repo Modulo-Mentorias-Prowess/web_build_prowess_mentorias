@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useRouteLoaderData } from "react-router-dom";
 import logo from "../assets/logo1.webp";
 import { FiMenu } from "react-icons/fi";
+import Login from "../pages/Login";
 
 const Navbar = () => {
   const activeStyle =
@@ -10,22 +11,23 @@ const Navbar = () => {
     "py-4 lg:px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300";
 
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const {handleLogout} = Login();
 
   return (
     <nav className="bg-white shadow-lg">
       <div className="lg:max-w-6xl lg:mx-auto px-4 py-3 max-w-full">
         <div className="flex justify-between w-full">
-          <div className= "flex  lg:flex-row flex-col">
+          <div className="flex  lg:flex-row flex-col">
             <div className="flex items-center py-4 ">
-              <NavLink to="/" >
+              <NavLink to="/">
                 <img src={logo} className="w-1/5" />
               </NavLink>
-                <div
+              <div
                 className="flex items-center justify-center"
                 onClick={() => setIsNavOpen(!isNavOpen)}
-                >
+              >
                 <FiMenu className="lg:hidden block w-6 h-6  cursor-pointer " />
-                </div>
+              </div>
             </div>
 
             <div
@@ -82,7 +84,21 @@ const Navbar = () => {
               >
                 Contenidos
               </NavLink>
-              
+              &nbsp;
+              <NavLink>
+                <Link
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? activeStyle : normalStyle
+                  }
+                ></Link>{" "}
+                <button 
+                to='/login'
+                onClick={handleLogout}
+                className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  Logout
+                </button>
+              </NavLink>
             </div>
           </div>
         </div>

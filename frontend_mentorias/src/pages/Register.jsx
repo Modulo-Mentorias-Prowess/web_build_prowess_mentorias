@@ -60,12 +60,11 @@ const Register = () => {
     return !strongRegex.test(password)
   }
 
-const validateuserName = (userName) =>{
-  var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$");
-  console.log(userName,nameRegex.test(userName))
-  return !nameRegex.test(userName)
- 
-}
+  const validateuserName = (userName) =>{
+    var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$");
+    console.log(userName,nameRegex.test(userName))
+    return !nameRegex.test(userName)
+  }
 
   const handleRegister = () => {
     setLoading(true)
@@ -108,7 +107,7 @@ const validateuserName = (userName) =>{
     <div className="w-full flex justify-center items-center min-h-screen">
       <div className="relative overflow-y-hidden w-full flex justify-center items-center min-h-screen bg-gray-200">
         <div className="absolute top-0 left-0 p-3 hover:scale-125">
-          <Link to="/">
+          <Link to="/login">
             <GrPrevious fontSize={25} />
           </Link>
         </div>
@@ -271,6 +270,7 @@ const validateuserName = (userName) =>{
               >
                 Registrar
               </button>
+              
             </div>
           </form>
         </div>
