@@ -92,15 +92,13 @@ const Navbar = () => {
                 Contenidos
               </NavLink>
               <NavLink
-                to={'/login'}
+                className="bg-main-prowess  hover:bg-prowess-light text-white  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                to={"/login"}
                 onClick={() => {
-                    localStorage.clear("accessToken");
-                  }}
-                className={({ isActive }) =>
-                  isActive ? activeStyle : logoutStyle
-                }
+                  localStorage.clear("accessToken");
+                }}
               >
-                  Salir
+                Logout
               </NavLink>
             </div>
           </div>
