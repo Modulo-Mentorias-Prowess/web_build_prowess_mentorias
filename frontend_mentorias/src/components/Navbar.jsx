@@ -8,8 +8,6 @@ const Navbar = () => {
     "py-4 lg:px-2 test2 text-main-prowess  border-b-4 border-main-prowess font-semibold";
   const normalStyle =
     "py-4 lg:px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300";
-  const logoutStyle =
-    "py-4 lg:px-2 text-red-500 font-semibold hover:text-red-500 transition duration-300";
 
   const [isNavOpen, setIsNavOpen] = useState(false);
    const navigate = useNavigate(); 
