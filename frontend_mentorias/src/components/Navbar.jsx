@@ -1,17 +1,24 @@
-import React, { useState } from "react";
-import { Link, NavLink, useRouteLoaderData } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo1.webp";
 import { FiMenu } from "react-icons/fi";
-import Login from "../pages/Login";
 
 const Navbar = () => {
   const activeStyle =
     "py-4 lg:px-2 test2 text-main-prowess  border-b-4 border-main-prowess font-semibold";
   const normalStyle =
     "py-4 lg:px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300";
+  const logoutStyle =
+    "py-4 lg:px-2 text-red-500 font-semibold hover:text-red-500 transition duration-300";
 
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const {handleLogout} = Login();
+   const navigate = useNavigate(); 
+
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/login");
+    }
+  }, []); 
 
   return (
     <nav className="bg-white shadow-lg">
@@ -84,20 +91,16 @@ const Navbar = () => {
               >
                 Contenidos
               </NavLink>
-              &nbsp;
-              <NavLink>
-                <Link
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive ? activeStyle : normalStyle
-                  }
-                ></Link>{" "}
-                <button 
-                to='/login'
-                onClick={handleLogout}
-                className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                  Logout
-                </button>
+              <NavLink
+                to={'/login'}
+                onClick={() => {
+                    localStorage.clear("accessToken");
+                  }}
+                className={({ isActive }) =>
+                  isActive ? activeStyle : logoutStyle
+                }
+              >
+                  Salir
               </NavLink>
             </div>
           </div>
