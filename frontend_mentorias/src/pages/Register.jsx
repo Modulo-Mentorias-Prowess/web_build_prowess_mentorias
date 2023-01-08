@@ -11,15 +11,17 @@ const Register = () => {
   const userName = localStorage.getItem("username");
   const role_user = localStorage.getItem("user_role");
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const normalStyle =
     "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
   const errorStyle =
     "shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline";
-  const buttonOn = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-  const buttonDisabled = "bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed"
+  const buttonOn =
+    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline";
+  const buttonDisabled =
+    "bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed";
 
   const roles = [
     { name: "none", desc: "Seleccione un rol..." },
@@ -46,42 +48,45 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (!userName) {
+    /* OJO */
+    /* if (!userName) {
       navigate("/login");
     }
     if (role_user != "admin") {
       navigate("/");
-    }
+    } */
   }, []);
 
   const validatePassword = (password) => {
-    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    console.log(password, strongRegex.test(password))
-    return !strongRegex.test(password)
-  }
+    var strongRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    );
+    console.log(password, strongRegex.test(password));
+    return !strongRegex.test(password);
+  };
 
-  const validateuserName = (userName) =>{
+  const validateuserName = (userName) => {
     var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$");
-    console.log(userName,nameRegex.test(userName))
-    return !nameRegex.test(userName)
-  }
+    console.log(userName, nameRegex.test(userName));
+    return !nameRegex.test(userName);
+  };
 
   const handleRegister = () => {
-    setLoading(true)
+    setLoading(true);
     let errors = {
       userName: validateuserName(userData.userName),
       password: validatePassword(userData.password),
       full_name: userData.full_name == "",
       role_user: userData.role_user == "none",
-    }
+    };
 
     setErrorUserData(errors);
 
     if (Object.values(errors).every((value) => value === false) === false) {
-      setLoading(false)
+      setLoading(false);
       return;
     }
-   
+
     axios
       .post(`${url}/register`, userData)
       .then((response) => {
@@ -96,11 +101,9 @@ const Register = () => {
           setError(false);
         }, 3000);
       })
-      .finally(()=>{
-        setLoading(false)
-      })
-     
-
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -118,67 +121,74 @@ const Register = () => {
           >
             <img src={logo} alt="logo" className="my-3" />
             <h1 className="text-center font-black text-xl mb-3">REGISTRAR</h1>
-              <div className="mb-4  flex flex-col">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  <div className="flex items-center ">
-                    <FaUserAlt className="mr-3" /> Nombre de usuario
-                  </div>
-                </label>
-                <input
-                  className={errorUserData.userName ? errorStyle : normalStyle}
-                  type="text"
-                  name="userName"
-                  onChange={handleChange}
-                  placeholder="Nombre de usuario"
-                /> 
-                {errorUserData.userName ? (
-                  <div>
+            <div className="mb-4  flex flex-col">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
+                <div className="flex items-center ">
+                  <FaUserAlt className="mr-3" /> Nombre de usuario
+                </div>
+              </label>
+              <input
+                className={errorUserData.userName ? errorStyle : normalStyle}
+                type="text"
+                name="userName"
+                onChange={handleChange}
+                placeholder="Nombre de usuario"
+              />
+              {errorUserData.userName ? (
+                <div>
                   <p className="text-red-500 text-xs italic">
                     Porfavor proporcione un usuario que cumpla lo siguiente:
                   </p>
                   <ul>
-                    <li className="text-red-500 text-xs italic">Un nombre de 5 a 8 caracteres </li>
-                  </ul>
-
-                  </div>
-                ) : null}
-              </div>
-
-              
-              <div className="mb-4 flex justify-center flex-col">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="password"
-                >
-                  <div className="flex items-center">
-                    <RiLockPasswordFill className="mr-3" />
-                    Contraseña
-                  </div>
-                </label>
-                <input
-                  className={errorUserData.password ? errorStyle : normalStyle}
-                  name="password"
-                  onChange={handleChange}
-                  type="password"
-                  placeholder="******************"
-                />
-                {errorUserData.password ? (
-                <div>
-                  <p className="text-red-500 text-xs italic">
-                    Porfavor proporcione una contraseña que cumpla con lo siguiente:
-                  </p>
-                  <ul>
-                    <li className="text-red-500 text-xs italic">1 cáracter en minúscula y mayúscula</li>
-                    <li className="text-red-500 text-xs italic">1 número</li>
-                    <li className="text-red-500 text-xs italic">1 cáracter especial (!@#$%^&*)</li>
-                    <li className="text-red-500 text-xs italic">Contener 8 caracteres o mas</li>
+                    <li className="text-red-500 text-xs italic">
+                      Un nombre de 5 a 8 caracteres{" "}
+                    </li>
                   </ul>
                 </div>
-                ) : null}
-              </div>
+              ) : null}
+            </div>
+
+            <div className="mb-4 flex justify-center flex-col">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                <div className="flex items-center">
+                  <RiLockPasswordFill className="mr-3" />
+                  Contraseña
+                </div>
+              </label>
+              <input
+                className={errorUserData.password ? errorStyle : normalStyle}
+                name="password"
+                onChange={handleChange}
+                type="password"
+                placeholder="******************"
+              />
+              {errorUserData.password ? (
+                <div>
+                  <p className="text-red-500 text-xs italic">
+                    Porfavor proporcione una contraseña que cumpla con lo
+                    siguiente:
+                  </p>
+                  <ul>
+                    <li className="text-red-500 text-xs italic">
+                      1 cáracter en minúscula y mayúscula
+                    </li>
+                    <li className="text-red-500 text-xs italic">1 número</li>
+                    <li className="text-red-500 text-xs italic">
+                      1 cáracter especial (!@#$%^&*)
+                    </li>
+                    <li className="text-red-500 text-xs italic">
+                      Contener 8 caracteres o mas
+                    </li>
+                  </ul>
+                </div>
+              ) : null}
+            </div>
             <div className="mb-6">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -270,7 +280,6 @@ const Register = () => {
               >
                 Registrar
               </button>
-              
             </div>
           </form>
         </div>
