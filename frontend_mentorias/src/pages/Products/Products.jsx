@@ -1,16 +1,10 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
-import {
-  AiFillEye,
-  AiFillDelete,
-  AiFillEdit,
-  AiOutlineClose,
-} from "react-icons/ai";
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import Navbar from '../../components/Navbar'
+import {AiFillEye, AiFillDelete, AiFillEdit, AiOutlineClose} from 'react-icons/ai'
+import Modal from 'react-modal';
 import {IoIosAdd} from 'react-icons/io'
 import { Link } from 'react-router-dom';
-import Navbar from "../../components/Navbar";
-import Modal from "react-modal";
 import Product from "../../components/Product";
 
 const Products = () => {
@@ -19,7 +13,8 @@ const Products = () => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState({});
-
+   const [currentPage, setCurrentPage] = useState(0);
+   const [search, setSearch] = useState("");
 
   // TODO: must refactor to look like mentorship openModal and closeModal methods.
 
@@ -72,7 +67,7 @@ const Products = () => {
          })
           .catch((err)=>{
             // TODO: HANDLE EXCEPTION TYPES 400 & 500
-            alert("Hubo un error al borrar el contenido.")
+            alert("Hubo un error al borrar el producto")
       
           })
   }
@@ -81,8 +76,8 @@ const Products = () => {
   /**
    * Updates the product from the database with the new values given by the user
    */
-  const handleUpdate = (e) => {
-    e.preventDefault()
+  const handleUpdate = (p) => {
+    p.preventDefault()
     let data = {
       id: selectedProduct.id,
       name: selectedProduct.name,
@@ -107,6 +102,45 @@ const Products = () => {
 
   }
 
+  const filterdProduct = () => {
+    console.log(display.slice(currentPage, currentPage + 2));
+    let current = display.slice(currentPage, currentPage + 2);
+    return current;
+  };
+  const returPage = () => {
+    setCurrentPage(currentPage - 2);
+  };
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 2);
+  };
+
+  const handleSearch = (p) => {
+    let val = p.target.value;
+    setSearch(val);
+    fetchSearchProduct();
+  };
+
+  const fetchSearchProduct = () => {
+    if (search.length >= 3) {
+      axios
+        .get(`http://localhost:3001/searchProduct/${search}`)
+        .then((data) => {
+          setProducts(data.data);
+        })
+        .catch((err) => {
+          alert("Hubo un error obteniendo los datos.");
+        });
+    } else {
+      fetchProducts();
+    }
+  };
+
+  const [display, setDisplay] = useState([]);
+  useEffect(() => {
+    setDisplay(products);
+  }, [products]);
+
   /**
    * Gets all the products from the database.
    */
@@ -129,23 +163,33 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div id="main-app overflow-y-auto ">
       <Navbar />
       <div className="p-10">
-      <div className='flex justify-between items-center mb-6'>
-            <h1 className='font-bold text-4xl '>Productos</h1>
-            <div>
-              <Link
-                to="add"
-                className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-              >
-                <IoIosAdd/>
-                <p className='hidden md:block'>
-                  Agregar producto 
-                </p>
-              </Link>
-            </div>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="font-bold text-4xl ">Productos</h1>
+          <div>
+            <Link
+              to="add"
+              className="flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            >
+              <IoIosAdd />
+              <p className="hidden md:block">Agregar producto</p>
+            </Link>
           </div>
+        </div>
+
+        <div className="mb-2">
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="text"
+            name="names"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Buscar"
+          />
+        </div>
+
         <div className="overflow-x-auto">
           <table className="w-full hidden md:block">
             <thead className="bg-gray-50 border-b-2 border-gray-200">
@@ -168,7 +212,7 @@ const Products = () => {
                 <th className="w-80 p-3 text-sm font-semibold tracking-wide text-left">
                   Emprendimiento
                 </th>
-                
+
                 <th className="w-28 p-3 text-sm font-semibold tracking-wide text-left">
                   Acciones
                 </th>
@@ -176,7 +220,7 @@ const Products = () => {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-              {products?.map((p, index) => (
+              {filterdProduct()?.map((p, index) => (
                 <tr
                   className={`${
                     index % 2 == 0 ? "bg-white" : "bg-gray-100"
@@ -192,9 +236,7 @@ const Products = () => {
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     {p.price}
                   </td>
-                  <td className="p-3 text-sm text-gray-700">
-                    {p.full_name}
-                  </td>
+                  <td className="p-3 text-sm text-gray-700">{p.full_name}</td>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     {p.nameStore}
                   </td>
@@ -205,14 +247,16 @@ const Products = () => {
                     >
                       <AiFillEye fontSize={20} />
                     </button>
-                    <button 
-                    onClick={()=>openUpdateModal(p)}
-                    className="mr-3 hover:text-main-prowess hover:scale-125">
+                    <button
+                      onClick={() => openUpdateModal(p)}
+                      className="mr-3 hover:text-main-prowess hover:scale-125"
+                    >
                       <AiFillEdit fontSize={20} />
                     </button>
-                    <button 
-                    onClick={()=>openDeleteModal(p)}
-                    className="hover:text-red-500 hover:scale-125">
+                    <button
+                      onClick={() => openDeleteModal(p)}
+                      className="hover:text-red-500 hover:scale-125"
+                    >
                       <AiFillDelete fontSize={20} />
                     </button>
                   </td>
@@ -220,20 +264,40 @@ const Products = () => {
               ))}
             </tbody>
           </table>
-          <div className='block md:hidden'>
-              {
-                 products?.map((p, index) => (
-                  <Product 
-                    key={index} 
-                    p={p}
-                    deleteFunction={openDeleteModal}
-                    editFunction={openUpdateModal}
-                    viewFunction={handleViewSelection}
-                    />
-                 ))
-              }
+
+          <div className="block md:hidden">
+            {products?.map((p, index) => (
+              <Product
+                key={index}
+                p={p}
+                deleteFunction={openDeleteModal}
+                editFunction={openUpdateModal}
+                viewFunction={handleViewSelection}
+              />
+            ))}
           </div>
         </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="w-full hidden md:flex justify-between">
+        <button
+          className="mr-3 hover:text-main-prowess hover:scale-125"
+          onClick={returPage}
+          disabled={currentPage - 2 < 0}
+        >
+          Anterior
+        </button>
+        <p>
+          {Math.ceil(currentPage / 2) + 1}/{Math.ceil(display.length / 2)}
+        </p>
+        <button
+          className="mr-3 hover:text-main-prowess hover:scale-125"
+          onClick={nextPage}
+          disabled={currentPage + 2 > display.length}
+        >
+          Siguiente
+        </button>
       </div>
 
       {/**
@@ -282,133 +346,134 @@ const Products = () => {
         </div>
       </Modal>
 
-      {/**
-       * Edit Modal
-       */}
-
       <Modal
         isOpen={updateModalOpen}
         onRequestClose={closeUpdateModal}
         contentLabel="Producto"
         className="w-4/5 md:w-fit h-4/5 bg-white  overflow-y-auto shadow-xl absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
-<div 
-              className='absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out'
-              onClick={closeUpdateModal}
-              >
-                  <AiOutlineClose fontSize={20}/>
+        <div
+          className="absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all  ease-in-out"
+          onClick={closeUpdateModal}
+        >
+          <AiOutlineClose fontSize={20} />
         </div>
         <div className="p-10 flex justify-center items-center">
-        <form autoComplete="off" className="w-full flex flex-col">
+          <form autoComplete="off" className="w-full flex flex-col">
             <div className="flex items-center mb-5">
-                
-            <h1 className=" font-bold text-4xl">Editar producto</h1>
+              <h1 className=" font-bold text-4xl">Editar producto</h1>
             </div>
             <div className="flex w-full  flex-wrap">
-            <div className="md:w-1/3 w-full p-2 ">
-
+              <div className="md:w-1/3 w-full p-2 ">
                 <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
                 >
-                Nombre
+                  Nombre
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                type="text"
-                name="name"
-                value={selectedProduct.name}
-                onChange={handleChange}
-                placeholder="Nombre..."
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="text"
+                  name="name"
+                  value={selectedProduct.name}
+                  onChange={handleChange}
+                  placeholder="Nombre..."
                 />
-            </div>
-            <div className="md:w-1/3 w-full p-2">
-
+              </div>
+              <div className="md:w-1/3 w-full p-2">
                 <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
                 >
-                Descripción
+                  Descripción
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                name="description"
-                value={selectedProduct.description}
-                onChange={handleChange}
-                type="text"
-                placeholder="Descripción..."
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  name="description"
+                  value={selectedProduct.description}
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Descripción..."
                 />
-            </div>
-            
-            <div className="md:w-1/3 p-2 w-full">
+              </div>
 
+              <div className="md:w-1/3 p-2 w-full">
                 <label
-                className=" uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
+                  className=" uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
                 >
-                Precio ($)
+                  Precio ($)
                 </label>
                 <input
-                className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                name="price"
-                onChange={handleChange}
-                value={selectedProduct.price}
-                type="number"
-                placeholder="10.1"
+                  className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  name="price"
+                  onChange={handleChange}
+                  value={selectedProduct.price}
+                  type="number"
+                  placeholder="10.1"
                 />
-            </div>
-            <div className="p-2 w-full select-none">
-
+              </div>
+              <div className="p-2 w-full select-none">
                 <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                for="grid-last-name"
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
                 >
-                Emprendedor
+                  Emprendedor
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-400 border select-none border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                name="address"
-                onChange={handleChange}
-                value={`${selectedProduct.full_name} - ${selectedProduct.nameStore}`}
-                type="text"
-                disabled
-                placeholder="Emprendedor - Nombre emprendimiento"
+                  className="appearance-none block w-full bg-gray-200 text-gray-400 border select-none border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  name="address"
+                  onChange={handleChange}
+                  value={`${selectedProduct.full_name} - ${selectedProduct.nameStore}`}
+                  type="text"
+                  disabled
+                  placeholder="Emprendedor - Nombre emprendimiento"
                 />
-            </div>
+              </div>
             </div>
 
             <div className="w-full flex justify-end mt-3 p-2">
-          <button 
-            onClick={handleUpdate}
-            className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-            Actualizar Producto 
-          </button>
-          </div>
-        </form>
-      </div>
+              <button
+                onClick={handleUpdate}
+                className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+              >
+                Actualizar Producto
+              </button>
+            </div>
+          </form>
+        </div>
       </Modal>
-
 
       {/**
        * Delete Modal
        */}
 
-<Modal
-      isOpen={deleteModalOpen}
-      onRequestClose={closeDeleteModal}
-      contentLabel="Producto"
-      className="w-80 h-fit p-4 bg-white overflow-y-auto shadow-xl absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      <Modal
+        isOpen={deleteModalOpen}
+        onRequestClose={closeDeleteModal}
+        contentLabel="Producto"
+        className="w-80 h-fit p-4 bg-white overflow-y-auto shadow-xl absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
-        <p className='text-center mb-3'>
-          ¿Seguro que desea eliminar el producto {`${selectedProduct.name} de ${selectedProduct.full_name} - ${selectedProduct.nameStore}`}?
+        <p className="text-center mb-3">
+          ¿Seguro que desea eliminar el producto{" "}
+          {`${selectedProduct.name} de ${selectedProduct.full_name} - ${selectedProduct.nameStore}`}
+          ?
         </p>
-        
-        <div className='flex items-center justify-between'>
-            <button onClick={closeDeleteModal} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Cancelar</button>
-            <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+        <div className="flex items-center justify-between">
+          <button
+            onClick={closeDeleteModal}
+            className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Eliminar
+          </button>
         </div>
       </Modal>
-
     </div>
   );
 };
