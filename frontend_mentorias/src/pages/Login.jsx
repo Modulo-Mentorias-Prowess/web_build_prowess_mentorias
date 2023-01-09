@@ -16,10 +16,12 @@ const Login = () => {
     userName: "",
     password: "",
   });
+
   const [errorUserData, setErrorUserData] = useState({
     userName: false,
     password: false,
   });
+
   const url = "http://localhost:3001";
 
   const handleChange = (e) => {
@@ -124,10 +126,20 @@ const Login = () => {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
+                onClickCapture={handleLogin}
                 onClick={handleLogin}
               >
                 Iniciar sesión
               </button>
+            </div>
+            <div className="flex items-center justify-center">
+              <p>
+                ¿No tienes una cuenta?
+                <a href="/register" className="mr-3">
+                  {" "}
+                  Regístrate
+                </a>
+              </p>
             </div>
           </form>
           <p className="text-center text-gray-500 text-xs">
