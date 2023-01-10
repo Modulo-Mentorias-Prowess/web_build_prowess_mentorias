@@ -72,6 +72,10 @@ app.delete("/deleteContent/:id", (req, res) => {
   return connection.deleteContent(res, req.params.id);
 });
 
+app.get("/searchContent/:q", (req, res) => {
+  return connection.searchContent(res, req.params.q.toLowerCase());
+});
+
 /**
  * Managers CRUD operations
  */
@@ -130,6 +134,7 @@ app.get("/searchManager/:q", (req, res)=>{
   }
   return connection.searchManager(res, req.params.q.toLowerCase())
 })
+
 /**
  * Entrepreneurs CRUD operations
  */
@@ -192,12 +197,12 @@ app.patch("/editEntrepreneur/:id", (req, res) => {
   });
 });
 
-app.get("/searchEntrepreneur/:q", (req, res)=>{
-  return connection.searchEntrepreneur(res, req.params.q.toLowerCase())
-})
-
 app.delete("/deleteEntrepreneur/:id", (req, res) => {
   return connection.deleteEntrepreneurs(res, req.params.id);
+});
+
+app.get("/searchEntrepreneur/:q", (req, res)=>{
+  return connection.searchEntrepreneur(res, req.params.q.toLowerCase())
 });
 
 /**
@@ -246,6 +251,10 @@ app.delete("/deleteProduct/:id", (req, res)=>{
   return connection.deleteProduct(res, req.params.id)
 })
 
+app.get("/searchProducts/:q", (req, res) => {
+  return connection.searchProducts(res, req.params.q.toLowerCase());
+});
+
 /**
  * Mentorship CRUD operations
  */
@@ -278,15 +287,12 @@ app.post("/createMentorship", (req, res)=>{
     ){
       return res.sendStatus(400)
     }
-
     // This code is pretty bad, must be refactored xd
-
     let contents = []
     for (let index = 0; index < req.body.mentorship.contents.length; index++) {
       const element = req.body.mentorship.contents[index];
       contents.push({id_mentorship: req.body.mentorship.id, id_content: element.id})
     }
-
 
   return connection.createMentorship(res, 
     {
@@ -306,14 +312,10 @@ app.patch("/updateMentorship", (req, res)=>{
   if(!req.body?.mentorship?.id || !req.body?.mentorship?.id_entrepreneur || !req.body?.mentorship?.id_manager || !req.body?.mentorship?.title || !req.body?.mentorship?.description || !req.body?.mentorship?.date_mentorship){
     return res.sendStatus(400)
   }
-
   if(req.body.mentorship.date_mentorship.charAt(req.body.mentorship.date_mentorship.length - 1) === 'Z'){
     req.body.mentorship.date_mentorship = req.body.mentorship.date_mentorship.substring(0, req.body.mentorship.date_mentorship.length - 8)
   }
-
   console.log(req.body);
-
-
   return connection.patchMentorship(res, req.body.mentorship)
 }
   
