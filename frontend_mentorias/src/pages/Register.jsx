@@ -26,7 +26,6 @@ const Register = () => {
   const roles = [
     { name: "none", desc: "Seleccione un rol..." },
     { name: "admin", desc: "Administrador" },
-    { name: "user", desc: "Usuario" },
   ];
 
   const [userData, setUserData] = useState({
