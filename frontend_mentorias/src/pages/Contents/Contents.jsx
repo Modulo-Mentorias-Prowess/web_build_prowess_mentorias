@@ -19,6 +19,8 @@ const Contents = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [search, setSearch] = useState("");
 
   const handleSelect = (c) => {
     setSelectedContent(c);
@@ -95,6 +97,47 @@ const Contents = () => {
       });
   };
 
+  /* Number of contents to show in the table of Content */
+  const filterdContent = () => {
+    console.log(display.slice(currentPage, currentPage + 4));
+    let current = display.slice(currentPage, currentPage + 4);
+    return current;
+  };
+
+  const returPage = () => {
+    setCurrentPage(currentPage - 4);
+  };
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 4);
+  };
+
+  const handleSearch = (c) => {
+    let val = c.target.value;
+    setSearch(val);
+    fetchSearchContent();
+  };
+
+  const fetchSearchContent = () => {
+    if (search.length >= 3) {
+      axios
+        .get(`http://localhost:3001/searchContent/${search}`)
+        .then((data) => {
+          setContents(data.data);
+        })
+        .catch((err) => {
+          alert("Hubo un error obteniendo los datos.");
+        });
+    } else {
+      fetchContents();
+    }
+  };
+
+  const [display, setDisplay] = useState([]);
+  useEffect(() => {
+    setDisplay(contents);
+  }, [contents]);
+
   /**
    * Gets all the entrepreneurs from the database
    * TODO: Get with pagination to not overload content nor server.
@@ -136,6 +179,17 @@ const Contents = () => {
           </div>
         </div>
 
+        <div className="mb-2">
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="text"
+            name="names"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Buscar Encargado"
+          />
+        </div>
+
         <div className="overflow-x-auto">
           <table className="w-full hidden md:block">
             <thead className="bg-gray-50 w-full border-b-2 border-gray-200">
@@ -156,7 +210,7 @@ const Contents = () => {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-              {contents?.map((c, index) => (
+              {filterdContent()?.map((c, index) => (
                 <tr
                   className={`${
                     index % 2 == 0 ? "bg-white" : "bg-gray-100"
@@ -189,6 +243,7 @@ const Contents = () => {
               ))}
             </tbody>
           </table>
+
           <div className="block md:hidden">
             {contents?.map((c, index) => (
               <Content
@@ -200,6 +255,28 @@ const Contents = () => {
               />
             ))}
           </div>
+        </div>
+        
+        {/* Pagination */}
+        <div className="w-full hidden md:flex justify-between">
+          <button
+            className="mr-3 hover:text-main-prowess hover:scale-125"
+            onClick={returPage}
+            disabled={currentPage - 2 < 0}
+          >
+            Anterior
+          </button>
+          <p>
+            {/* change the number */}
+            {Math.ceil(currentPage / 4) + 1}/{Math.ceil(display.length / 4)} 
+          </p>
+          <button
+            className="mr-3 hover:text-main-prowess hover:scale-125"
+            onClick={nextPage}
+            disabled={currentPage + 2 > display.length}
+          >
+            Siguiente
+          </button>
         </div>
 
         <Modal
