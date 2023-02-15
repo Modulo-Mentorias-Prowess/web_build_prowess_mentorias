@@ -161,7 +161,8 @@ app.post("/createEntrepreneur", (req, res) => {
     !req.body?.entrepreneur?.twitter ||
     !req.body?.entrepreneur?.facebook ||
     !req.body?.entrepreneur?.instagram ||
-    !req.body?.entrepreneur?.tiktok
+    !req.body?.entrepreneur?.tiktok ||
+    !req.body?.entrepreneur?.type
   ) {
     return res.sendStatus(400);
   }
@@ -186,7 +187,8 @@ app.patch("/editEntrepreneur/:id", (req, res) => {
     !req.body?.entrepreneur?.twitter ||
     !req.body?.entrepreneur?.facebook ||
     !req.body?.entrepreneur?.instagram ||
-    !req.body?.entrepreneur?.tiktok
+    !req.body?.entrepreneur?.tiktok ||
+    !req.body?.entrepreneur?.type
   ) {
     return res.sendStatus(400);
   }

@@ -54,6 +54,48 @@ const Entrepreneurs = () => {
          })
   }
 
+  const [currentPage, setCurrentPage]= useState(0)
+  const [search, setSearch]= useState('')
+
+  const filteredEntrepreneurs = () => {
+    console.log(display.slice(currentPage, currentPage+2))
+    let current=display.slice(currentPage, currentPage+2)
+    return current
+  }
+  const returPage = () =>{
+    setCurrentPage(currentPage-2);
+  }
+
+  const nextPage = () =>{
+    setCurrentPage(currentPage+2);
+  }
+
+  const handleSearch = (e)=>{
+    let val=e.target.value
+    setSearch(val)
+    fetchSearchEntrepreneurs()
+  }
+
+  const fetchSearchEntrepreneurs = () => {
+    if (search.length >= 3) {
+      axios
+        .get(`http://localhost:3001/searchEntrepreneur/${search}`)
+        .then((data) => {
+          setEntrepreneurs(data.data);
+        })
+        .catch((err) => {
+          alert("Hubo un error obteniendo los datos.");
+        });
+    } else {
+      fetchEntrepreneurs();
+    }
+  };
+
+  const [display, setDisplay] = useState([])
+  useEffect(() => {
+    setDisplay(entrepreneurs)
+  
+  }, [entrepreneurs])
 
   /**
    * Get entrepreneur on component did mount
@@ -131,6 +173,18 @@ const Entrepreneurs = () => {
               </Link>
             </div>
           </div>
+          
+          <div className='mb-2'>
+                <input
+                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                type="text"
+                name="names"
+                value={search}
+                onChange={handleSearch}
+                placeholder="Buscar"
+                />
+          </div>
+
           <div className='overflow-x-auto'>  
           <table className='w-full hidden md:block'>
             <thead className='bg-gray-50 border-b-2 border-gray-200'>
@@ -140,6 +194,7 @@ const Entrepreneurs = () => {
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>Teléfono</th>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>Email</th>
                 <th className='w-48 p-3 text-sm font-semibold tracking-wide text-left'>Nombre de la Tienda</th>
+                <th className='w-48 p-3 text-sm font-semibold tracking-wide text-left'>Fundación</th>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>Descripción de la Tienda</th>
                 <th className='p-3 text-sm font-semibold tracking-wide text-left'>Acciones</th>
               </tr>
@@ -147,13 +202,14 @@ const Entrepreneurs = () => {
 
             <tbody className='divide-y divide-gray-100'>
               {
-                entrepreneurs?.map((e, index) => (
+                filteredEntrepreneurs()?.map((e, index) => (
                   <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-100'} lg:max-h-full max-h-10`}>
                     <th className='whitespace-nowrap '>{index + 1}</th>
                     <td className='p-3 text-sm text-gray-700'>{e.names +  " " + e.last_names}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>{e.phone}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>{e.email}</td>
                     <td className=' lg:whitespace-normal p-3 text-sm text-gray-700'>{e.nameStore}</td>
+                    <td className='whitespace-nowrap p-3 text-sm text-gray-700'>{e.type}</td>
                     <td className=' p-3 text-sm text-gray-700'>{e.descriptionStore}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>
                       <button 
@@ -185,6 +241,21 @@ const Entrepreneurs = () => {
 
           </div>
         </div>
+        <div className='w-full hidden md:flex justify-between'>
+              <button 
+              className='mr-3 hover:text-main-prowess hover:scale-125'
+              onClick={returPage}disabled={currentPage-2<0}
+              >
+              Anterior
+              </button>
+              <p>{Math.ceil(currentPage/2)+1}/{Math.ceil(display.length/2)}</p>
+              <button 
+              className='mr-3 hover:text-main-prowess hover:scale-125'
+              onClick={nextPage}disabled={currentPage+2>display.length}
+              >
+              Siguiente
+              </button>
+              </div>        
 
       <div className='w-full '>
 
@@ -230,6 +301,10 @@ const Entrepreneurs = () => {
                 <div className='lg:w-1/2 w-full p-2'>
                   <h3 className='font-medium'>Nombre del Emprendimiento </h3>
                   <p>{selectedEntrepreneur.nameStore}</p>
+                </div>
+                <div className='lg:w-1/2 w-full p-2'>
+                  <h3 className='font-medium'>Fundación </h3>
+                  <p>{selectedEntrepreneur.type}</p>
                 </div>
                 <div className='w-full p-2'>
                   <h3 className='font-medium'>Descripción del Emprendimiento </h3>
@@ -410,6 +485,22 @@ const Entrepreneurs = () => {
                     onChange={handleChange}
                     type="text"
                     placeholder="Emprendimiento..."
+                    />
+                </div>
+                <div className="lg:w-1/2 w-full p-2">
+                <label
+                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                    for="grid-last-name"
+                    >
+                   Fundación
+                    </label>
+                    <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    name="type"
+                    value={selectedEntrepreneur.type}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="Fundación..."
                     />
                 </div>
                 <div className="lg:w-1/2 w-full p-2">
