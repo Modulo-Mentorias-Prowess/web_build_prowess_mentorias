@@ -10,12 +10,12 @@ const Dashboard = () => {
     if (!userName) {
       navigate("/login");
     }
-
   }, [])
+ 
   return (
     <div className="bg-main-prowess min-h-screen"> 
       <Navbar />
-      TODO: Dashboard
+    
     </div>
   );
 };
