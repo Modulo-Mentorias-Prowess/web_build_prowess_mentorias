@@ -29,7 +29,7 @@ function AddEntrepreneur() {
   });
   
   const handleChange = (e) => {
-    console.log(`Seleccionaste ${e.target.value}`);
+    
     
     setEntrepreneurData({...entrepreneurData,[e.target.name]: e.target.value});
   };
