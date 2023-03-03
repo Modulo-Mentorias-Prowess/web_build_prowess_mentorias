@@ -27,12 +27,11 @@ function AddEntrepreneur() {
     tiktok: "",
     type: "",
   });
-
+  
   const handleChange = (e) => {
-    setEntrepreneurData({
-      ...entrepreneurData,
-      [e.target.name]: e.target.value,
-    });
+    console.log(`Seleccionaste ${e.target.value}`);
+    
+    setEntrepreneurData({...entrepreneurData,[e.target.name]: e.target.value});
   };
 
   function validateEmail(email) {
@@ -44,9 +43,12 @@ function AddEntrepreneur() {
    * @param {Event} e: form submit event
    */
   const handleSubmit = (e) => {
+    
     e.preventDefault();
     let data = { entrepreneur: entrepreneurData };
     data.entrepreneur.id = uuidv4();
+    //console.log(`data: ${data}` )
+    
 
     if (!validateEmail(data.entrepreneur.email)) {
       alert("No es un email valido.");
@@ -64,13 +66,13 @@ function AddEntrepreneur() {
         //TODO: Handle errors
         alert("Hubo un error registrando al emprendedor.");
       });
-  };
+    };
 
   const roles = [
     { name: "none", desc: "Seleccione una Fundación..." },
-    { name: "fudelas", desc: "FUDELAS" },
-    { name: "hias", desc: "HIAS" },
-    { name: "privado", desc: "Privado" },
+    { name: "FUDELAS", desc: "FUDELAS" },
+    { name: "HIAS", desc: "HIAS" },
+    { name: "Privado", desc: "Privado" },
   ];
 
   return (
@@ -183,30 +185,31 @@ function AddEntrepreneur() {
                   Fundación
                 </label>
                 
-                  <input
+                  {/* <input
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   name="type"
                   onChange={handleChange}
                   type="text"
                   placeholder="Fundación (HIAS-FUDELAS-PRIVADO)"
-                />
-                  {
-                  /* 
+                /> */}
+                  
+                   
                   <select
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="appearance-none block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   name="type"
                   onChange={handleChange}
                   defaultValue="none"
                 >
-                  <option value={roles[0].name} disabled>
+                  <option value={roles[0].name} >
                     {roles[0].desc}
                   </option>
+
                   {roles.slice(1, 4).map((role) => (
                     <option value={role.name} key={role.name}>
                       {role.desc}
                     </option>
                   ))} 
-                </select>*/}
+                </select>
               </div>
 
               <div className="md:w-1/2 w-full p-2">
@@ -380,5 +383,7 @@ function AddEntrepreneur() {
     </div>
   );
 }
+
+
 
 export default AddEntrepreneur;
