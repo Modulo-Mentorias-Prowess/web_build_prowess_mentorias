@@ -156,6 +156,14 @@ const Entrepreneurs = () => {
         })
   }
 
+
+  const roles = [
+    { name: "none", desc: "Seleccione una Fundación..." },
+    { name: "FUDELAS", desc: "FUDELAS" },
+    { name: "HIAS", desc: "HIAS" },
+    { name: "PRIVADO", desc: "PRIVADO" },
+  ];
+
   return (
     <div id='main-app overflow-y-auto ' >
         <Navbar/>
@@ -412,7 +420,7 @@ const Entrepreneurs = () => {
                 value={selectedEntrepreneur.names}
                 onChange={handleChange}
                 placeholder="Nombres..."
-                />
+                />.
             </div>
             <div className="lg:w-1/2 w-full p-2">
 
@@ -487,23 +495,34 @@ const Entrepreneurs = () => {
                     placeholder="Emprendimiento..."
                     />
                 </div>
-                <div className="lg:w-1/2 w-full p-2">
+
+                <div className="md:w-1/2 w-full p-2">
                 <label
-                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-last-name"
-                    >
-                   Fundación
-                    </label>
-                    <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="type"
-                    value={selectedEntrepreneur.type}
-                    onChange={handleChange}
-                    type="text"
-                    placeholder="Fundación..."
-                    />
-                </div>
-                <div className="lg:w-1/2 w-full p-2">
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
+                >
+                  Fundación
+                </label>
+
+                  <select
+                  className="appearance-none block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  name="type"
+                  onChange={handleChange}
+                  value={selectedEntrepreneur.type}
+                  >
+                  <option value={roles[0].name} >
+                    {roles[0].desc}
+                  </option>
+
+                  {roles.slice(1, 4).map((role) => (
+                    <option value={role.name} key={role.name}>
+                      {role.desc}
+                    </option>
+                  ))} 
+                </select>
+              </div>
+
+              <div className="w-full p-2">
                 <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                     for="grid-last-name"

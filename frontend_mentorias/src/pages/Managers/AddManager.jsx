@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Navbar from "../../components/Navbar";
-import { IoArrowBackOutline } from "react-icons/io5";
+import {IoArrowBackOutline} from 'react-icons/io5'
 import { Link, useNavigate } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
-import axios from "axios";
 import {v4 as uuidv4} from 'uuid'
+import axios from "axios";
+import { FiArrowRight } from "react-icons/fi";
 
 const AddManager = () => {
     const navigate = useNavigate()
@@ -49,9 +49,6 @@ const AddManager = () => {
                 // TODO: PROPER EXCEPTION HANDLING
                 alert("Hubo un error al enviar los datos")
             })
-
-
-
     }
 
 
@@ -119,7 +116,7 @@ const AddManager = () => {
                 name="email"
                 onChange={handleChange}
                 type="email"
-                placeholder="ejemplo@ejemplo.com"
+                placeholder="ejemplo@espe.edu.ec"
                 />
             </div>
             <div className="p-2 w-full">
