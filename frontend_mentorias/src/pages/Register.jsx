@@ -65,7 +65,7 @@ const Register = () => {
   };
 
   const validateuserName = (userName) => {
-    var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$");
+    var nameRegex = new RegExp("^[A-Za-z]\\w{4,8}$"); 
     console.log(userName, nameRegex.test(userName));
     return !nameRegex.test(userName);
   };
