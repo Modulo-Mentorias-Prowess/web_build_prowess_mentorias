@@ -36,10 +36,16 @@ const AddManager = () => {
         e.preventDefault()
         let data = managerData
         data.id = uuidv4()
-        if(!validateEmail(managerData.email) || !managerData.email || !managerData.last_names || !managerData.names){
-            alert("Porfavor rellene todos los campos.")
-            return
-        }
+          if(!managerData.email || !managerData.last_names || !managerData.names){
+              alert("Porfavor rellene todos los campos.")
+              return
+          }else{
+            if(!validateEmail(managerData.email)){
+              alert("Solo se aceptan correos del dominio espe.edu.ec")
+              return
+            }
+          }
+        
 
         axios.post("http://localhost:3001/createManager", {manager: data})
             .then((response) => {
