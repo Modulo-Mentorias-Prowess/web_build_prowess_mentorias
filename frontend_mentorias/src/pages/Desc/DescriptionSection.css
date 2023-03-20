@@ -1,0 +1,48 @@
+.description-container {
+    display: flex; /* Hace que los elementos dentro del contenedor se muestren en línea */
+    justify-content: space-between; /* Distribuye los elementos en el contenedor para que estén separados al máximo */
+    align-items: center; /* Alinea verticalmente los elementos en el centro del contenedor */
+    margin: 50px 0; /* Agrega un margen superior e inferior de 50px */
+  }
+  
+  .description {
+    flex: 1; /* Hace que esta sección ocupe el 50% del espacio disponible */
+    margin-right: 50px; /* Agrega un margen derecho de 50px */
+    margin-left: 10%;
+  }
+  
+  .description h2 {
+    font-size: 2rem; /* Establece un tamaño de fuente de 2 rem */
+    margin-bottom: 20px; /* Agrega un margen inferior de 20px */
+  }
+  
+  .description p {
+    font-size: 1.2rem; /* Establece un tamaño de fuente de 1.2 rem */
+    line-height: 1.5; /* Establece una altura de línea de 1.5 */
+    margin-bottom: 30px; /* Agrega un margen inferior de 30px */
+  }
+  
+  .botonDesc{
+    background-color: #0077ff; /* Establece un color de fondo azul */
+    color: #fff; /* Establece un color de texto blanco */
+    padding: 10px 20px; /* Agrega un espacio interno de 10px arriba/abajo y 20px izquierda/derecha */
+    border: none; /* Quita el borde del botón */
+    border-radius: 5px; /* Agrega un borde redondeado de 5px */
+    font-size: 1.2rem; /* Establece un tamaño de fuente de 1.2 rem */
+    cursor: pointer; /* Cambia el cursor del mouse cuando se coloca sobre el botón */
+    transition: background-color 0.3s ease-in-out; /* Agrega una transición suave al cambiar el color de fondo */
+  }
+  
+  .botonDesc:hover {
+    background-color: #0055ff; /* Cambia el color de fondo cuando el usuario coloca el mouse sobre el botón */
+  }
+  
+  .image-container {
+    flex: 1; /* Hace que esta sección ocupe el 50% del espacio disponible */
+  }
+  
+  img {
+    max-width: 100%; /* Establece el ancho máximo de la imagen al 100% del contenedor */
+    height: auto; /* Hace que la altura de la imagen se ajuste automáticamente a su ancho */
+  }
+  

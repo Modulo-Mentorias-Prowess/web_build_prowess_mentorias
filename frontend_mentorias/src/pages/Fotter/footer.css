@@ -1,0 +1,17 @@
+html {
+    height: 100%; /* Establece la altura del elemento html al 100% de la altura de la ventana */
+  }
+  
+  body {
+    display: flex; /* Hace que el cuerpo sea un contenedor flexible */
+    flex-direction: column; /* Alinea los elementos en columna */
+    min-height: 100%; /* Establece la altura mínima del cuerpo al 100% de la altura de la ventana */
+  }
+  
+  .footer {
+    background-color: #333; /* Establece un color de fondo gris oscuro */
+    color: #fff; /* Establece un color de texto blanco */
+    padding: 20px; /* Agrega un espacio interno de 20px alrededor del contenido */
+    text-align: center; /* Centra el contenido horizontalmente */
+    margin-top: auto; /* Hace que el pie de página comience en la parte inferior del contenedor */
+  }
