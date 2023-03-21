@@ -1,16 +1,11 @@
 
 .conteSlider{
 
-    background-color: #d6dee1;
-
+    background-color: white;
+    height: 400px;
 
 }
-.PrincipalSlider{
-
-    margin: 30px;
-
-
-
-
+.principalSlider{
+    justify-items: center;
 
 }

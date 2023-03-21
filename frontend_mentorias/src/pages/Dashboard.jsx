@@ -56,7 +56,7 @@ const Dashboard = () => {
   return (
     <div className="bg-main-prowess min-h-screen">
       <Navbar />
-      {/* Dashboard */}""
+      {/* Dashboard */}
 	  <div className="conteSlider"  >
       	<Slider className="PrincipalSlider" images={images}  />
 		  
