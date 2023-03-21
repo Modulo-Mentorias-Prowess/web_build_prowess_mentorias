@@ -2,6 +2,13 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Slider from "./Slider/Slider";
+import Descripcionsection from "./Desc/Desc";
+import Footer from './Fotter/footer';
+import Bubble from './CHAT/wpp';
+import "./Dashbord.css";
+
+
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -10,7 +17,7 @@ const Dashboard = () => {
   const images = [
 		{
 			id: '1',
-			title: '1',
+			title: 'El Bosque es bonito',
 			image:
 				'https://cdn.pixabay.com/photo/2020/11/09/15/12/trail-5726987_960_720.jpg',
 		},
@@ -49,14 +56,26 @@ const Dashboard = () => {
   return (
     <div className="bg-main-prowess min-h-screen">
       <Navbar />
-      {/* Dashboard */}
-	  <div  >
-      	<Slider images={images}  />
+      {/* Dashboard */}""
+	  <div className="conteSlider"  >
+      	<Slider className="PrincipalSlider" images={images}  />
 		  
 	  
 	  </div>
-	  <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque voluptatem similique, tenetur, laudantium maxime fuga eius placeat, atque quod quasi aspernatur? Sit impedit explicabo provident asperiores odio sint esse id.</h1>
-      {/* Final */}
+	  <div>
+	  	
+		<Descripcionsection/>
+
+	  </div>
+	  <div>
+
+		<Footer/>
+
+	  </div>
+	  {/* Final */}
+
+		<Bubble/>
+	  
     </div>
   );
 };
