@@ -69,7 +69,7 @@
 	color: #CEDCD9;
 	position: absolute;
 	width: 100%;
-	margin-top: 245px;
+	margin-top: 20%;
 	font-size: 2.5rem;
 	text-align: center;
 	top: 4rem;
@@ -92,7 +92,7 @@
 } */
 .carousel-prev, .carousel-next{
 	background-color: rgb(205, 205, 215);
-	margin-top: 170px;
-	height: 10%;
+	margin-top: 13%;
+	height: 8%;
 	color: #57837B;
 }
