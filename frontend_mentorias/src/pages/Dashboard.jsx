@@ -17,15 +17,15 @@ const Dashboard = () => {
   const images = [
 		{
 			id: '1',
-			title: 'El Bosque es bonito',
+			title: 'Ella era muy bella :(',
 			image:
-				'/Proyecto_nuevo(1).png',
+				'Proyecto_nuevo(1).png',
 		},
 		{
 			id: '2',
 			title: '2',
 			image:
-				'/Proyecto_nuevo(2).png',
+				'Proyecto_nuevo(2).png',
 		},
 		{
 			id: '3',
@@ -33,25 +33,14 @@ const Dashboard = () => {
 			image:
 				'/3 (1).png',
 		},
-		{
-			id: '4',
-			title: '4.',
-			image:
-				'https://cdn.pixabay.com/photo/2016/11/21/17/44/arches-national-park-1846759_960_720.jpg',
-		},
-		{
-			id: '5',
-			title: '5.',
-			image:
-				'https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547_1280.jpg',
-		},
+		
 	]
 
   useEffect(() => {
     if (!userName) {
       navigate("/login");
     }
-  }, []);
+  }, );
 
   return (
     <div className="bg-main-prowess min-h-screen">

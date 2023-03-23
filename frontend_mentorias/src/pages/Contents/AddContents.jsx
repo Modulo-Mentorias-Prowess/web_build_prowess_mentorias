@@ -5,23 +5,74 @@ import { Link, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid'
 import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
+import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
 
 const AddContent=() => {
-  const navigate = useNavigate()
+  const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
+  const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const navigate = useNavigate();
+  
   const [ contentData, setContentData] = useState({
     id: "",
     name: "",
     description: "",
   })
 
+  const [errors, setErrors] = useState({
+    id: false,
+    name: false,
+    description: false,
+    
+    
+  })
+
   const handleChange = (c) => {
     setContentData({...contentData, [c.target.name]: c.target.value})
   }
+  const closeModal = () => {
+    setViewModalOpen(false);
 
+  }
+  /**
+   * Opens a modal given the set state function
+   * @param {function} controlState
+   */
+  const openModal = (controlState) => {
+    controlState(true);
+  };
+  
+
+  const validateData = (data) => {
+
+    setErrors({
+      id: !data.id,
+      name: !data.name,
+      description: !data.description,
+    })
+    
+    if (!Object.values(errors).every((value) => value === false)) {
+      return true
+    }
+
+    return false
+  }
+
+
+  const handleLostFocus = () => {
+    let data = contentData
+    
+    if(validateData(data)){
+      return
+    }
+  }
+  
   /**
    * Creates a new content in the database.
    * @param {Event} c: form submit event 
    */
+
+  
   const handleSubmit = (c) => {
     c.preventDefault()
     let data = {content: contentData}
@@ -33,12 +84,18 @@ const AddContent=() => {
         })
         .catch((err)=>{
             //TODO: Handle errors 
-            alert("Hubo un error registrando el contenido.")
+            //alert("Hubo un error registrando el contenido.")
+            //handleSelect(operation.VIEW);
+           openModal(setViewModalOpen)
+           
+
         })
+        
   }
 
   return (
     <div>
+      
       <Navbar />
       <div className="p-10 flex justify-center items-center">
         <form autoComplete="off" className="w-full md:w-3/4 flex flex-col">
@@ -62,12 +119,20 @@ const AddContent=() => {
                 Contenido
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.name ? errorStyle : normalStyle}
+                
+                // className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="text"
                 name="name"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 placeholder="Contenido..."
                 />
+                {
+                  errors.name && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
 
             <div className="md:w-1/2 w-full p-2 ">
@@ -78,24 +143,41 @@ const AddContent=() => {
                 Descripción
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.name ? errorStyle : normalStyle}
                 type="text"
                 name="description"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 placeholder="Descripción..."
                 />
+                {
+                  errors.description && (
+                    <p className='text-red-600 italic'>Ingrese una descripción valida.</p>
+                  )
+                }
             </div> 
           </div>
           
           <div className="w-full flex mt-3  ">
-          <button 
+          <button
+            
             onClick={handleSubmit}
-            className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            //onClick={() => handleSelect(operation.VIEW)}
+            className="bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            >
             Registrar Contenido <FiArrowRight fontSize={20}/>
+            
           </button>
-
           </div>
         </form>
+      </div>
+      <div>
+        <ERRORViewModal
+            closeModal={closeModal}
+            viewModalOpen={viewModalOpen}
+        />
+    
       </div>
     </div>
   );

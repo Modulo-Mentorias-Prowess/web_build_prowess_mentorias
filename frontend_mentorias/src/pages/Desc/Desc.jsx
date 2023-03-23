@@ -1,12 +1,12 @@
 import React from "react";
 import "./DescriptionSection.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function DescriptionSection() {
     return (
       <div className="description-container">
         <div className="description">
-          <h2>Descripción del producto</h2>
+          <h2>PROWESS</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
             pharetra neque at mauris consectetur, nec ultrices justo fermentum.
@@ -25,7 +25,7 @@ function DescriptionSection() {
          </div>
         <div className="image-container">
           <img
-            src="https://cdn.pixabay.com/photo/2016/11/21/17/44/arches-national-park-1846759_960_720.jpg"
+            src="/2.png"
             alt="IMG"
           />
         </div>

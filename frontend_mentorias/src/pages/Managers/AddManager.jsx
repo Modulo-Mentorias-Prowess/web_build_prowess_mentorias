@@ -7,7 +7,17 @@ import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
 
 const AddManager = () => {
+
+    const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
+    const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+  
     const navigate = useNavigate()
+    const [errors, setErrors] = useState({
+      id: false,
+      last_names: false,
+      email: false,
+      address: false
+    })
     const [managerData, setManagerData] = useState({
         id: "",
         names: "",
@@ -16,6 +26,29 @@ const AddManager = () => {
         address: ""
     })
 
+    const validateData = (data) => {
+
+      setErrors({
+        id: !data.id,
+        names: !data.names,
+        last_names: !data.last_names,
+        email: !data.email,
+        address: !data.address
+      })
+      
+      if (!Object.values(errors).every((value) => value === false)) {
+        return true
+      }
+
+      return false
+    }
+    const handleLostFocus = () => {
+      let data = managerData
+      //data.price = parseFloat(data.price)
+      if(validateData(data)){
+        return
+      }
+    }
 
     const handleChange = (e) => {
         setManagerData({...managerData  , [e.target.name]: e.target.value})
@@ -85,12 +118,19 @@ const AddManager = () => {
                 Nombres
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.name ? errorStyle : normalStyle}
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="text"
                 name="names"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 placeholder="Nombres..."
                 />
+                {
+                  errors.names && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
             <div className="md:w-1/3 w-full p-2">
 
@@ -101,12 +141,18 @@ const AddManager = () => {
                 Apellidos
                 </label>
                 <input
+
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 name="last_names"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="Apellidos..."
-                />
+                /> {
+                  errors.last_names && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
             
             <div className="md:w-1/3 p-2 w-full">
@@ -118,7 +164,7 @@ const AddManager = () => {
                 Email
                 </label>
                 <input
-                className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.name ? errorStyle : normalStyle}
                 name="email"
                 onChange={handleChange}
                 type="email"
