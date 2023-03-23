@@ -19,19 +19,19 @@ const Dashboard = () => {
 			id: '1',
 			title: 'El Bosque es bonito',
 			image:
-				'https://cdn.pixabay.com/photo/2020/11/09/15/12/trail-5726987_960_720.jpg',
+				'/Proyecto_nuevo(1).png',
 		},
 		{
 			id: '2',
 			title: '2',
 			image:
-				'https://cdn.pixabay.com/photo/2011/09/27/18/52/bird-9950_960_720.jpg',
+				'/Proyecto_nuevo(2).png',
 		},
 		{
 			id: '3',
 			title: '3.',
 			image:
-				'https://cdn.pixabay.com/photo/2017/12/27/14/02/friends-3042751_960_720.jpg',
+				'/3 (1).png',
 		},
 		{
 			id: '4',
@@ -56,7 +56,7 @@ const Dashboard = () => {
   return (
     <div className="bg-main-prowess min-h-screen">
       <Navbar />
-      {/* Dashboard */}""
+      {/* Dashboard */}
 	  <div className="conteSlider"  >
       	<Slider className="PrincipalSlider" images={images}  />
 		  
