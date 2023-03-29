@@ -5,9 +5,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
-
+import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
 function AddEntrepreneur() {
+  const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-800'
+  const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   const navigate = useNavigate();
+  //metodo cerrar ventana modal error
+  const closeModal = () => {
+    setViewModalOpen(false);
+
+  }
+
+  //metodo abrir ventana modal error
+  const openModal = (controlState) => {
+    controlState(true);
+  };
+
+  
   const [entrepreneurData, setEntrepreneurData] = useState({
     id: "",
     names: "",
@@ -27,6 +42,29 @@ function AddEntrepreneur() {
     tiktok: "",
     type: "",
   });
+  //constante asignar errores
+  const [errors, setErrors] = useState({
+    id: false,
+    names: false,
+    last_names: false,
+    email: false,
+    address: false,
+    phone: false,
+    nameStore: false,
+    descriptionStore: false,
+    googleMapsURL: false,
+    sector: false,
+    city: false,
+    province: false,
+    twitter: false,
+    facebook: false,
+    instagram: false,
+    tiktok: false,
+    type: false,
+    
+  })
+
+
   
   const handleChange = (e) => {
     
@@ -64,7 +102,8 @@ function AddEntrepreneur() {
         //TODO: Handle errors
         //TODO: Handle errors
         //TODO: Handle errors
-        alert("Hubo un error registrando al emprendedor.");
+        //alert("Hubo un error registrando al emprendedor.");
+        openModal(setViewModalOpen)
       });
     };
 
@@ -74,6 +113,48 @@ function AddEntrepreneur() {
     { name: "HIAS", desc: "HIAS" },
     { name: "PRIVADO", desc: "PRIVADO" },
   ];
+
+
+  //funcion usada en evento focus
+  const validateData = (data) => {
+
+    setErrors({
+
+      id: !data.id,
+      names: !data.names,
+      last_names: !data.last_names,
+      email: !data.email,
+      address: !data.address,
+      phone: !data.phone,
+      nameStore: !data.nameStore,
+      descriptionStore: !data.descriptionStore,
+      googleMapsURL: !data.googleMapsURL,
+      sector: !data.sector,
+      city: !data.city,
+      province: !data.province,
+      twitter: !data.twitter,
+      facebook: !data.facebook,
+      instagram: !data.instagram,
+      tiktok: !data.tiktok,
+      type: !data.type,
+    })
+    
+    if (!Object.values(errors).every((value) => value === false)) {
+      return true
+    }
+
+    return false
+  }
+
+  const handleLostFocus = () => {
+    let data = entrepreneurData
+    
+    if(validateData(data)){
+      return
+    }
+  }
+
+  //evento focus
 
   return (
     <div>
@@ -101,12 +182,20 @@ function AddEntrepreneur() {
                 Nombres
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.names ? errorStyle : normalStyle}
+                
                 type="text"
                 name="names"
                 onChange={handleChange}
+                onBlur={ handleLostFocus}
                 placeholder="Nombres..."
               />
+              {
+                  errors.names && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+              }
             </div>
             <div className="md:w-1/2 w-full p-2">
               <label
@@ -116,12 +205,19 @@ function AddEntrepreneur() {
                 Apellidos
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className={errors.last_names ? errorStyle : normalStyle}
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 name="last_names"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="Apellidos..."
               />
+              {
+                  errors.last_names && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+              }
             </div>
 
             <div className="md:w-1/2 p-2 w-full">
@@ -132,12 +228,19 @@ function AddEntrepreneur() {
                 Email
               </label>
               <input
-                className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.email ? errorStyle : normalStyle}
                 name="email"
                 onChange={handleChange}
+                onBlur={ handleLostFocus}
                 type="email"
                 placeholder="ejemplo@ejemplo.com"
               />
+              {
+                  errors.email && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+              }
             </div>
             <div className="md:w-1/2 p-2 w-full">
               <label
@@ -147,12 +250,19 @@ function AddEntrepreneur() {
                 Teléfono
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.phone ? errorStyle : normalStyle}
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 name="phone"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="0999999999"
               />
+              {
+                  errors.phone && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+              }
             </div>
 
             <h3 className="mt-3 font-medium text-xl">
@@ -168,12 +278,20 @@ function AddEntrepreneur() {
                   Nombre del emprendimiento
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.nameStore ? errorStyle : normalStyle}
                   name="nameStore"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Emprendimiento..."
                 />
+                {
+                  errors.nameStore && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
+
               </div>
               {/* Implement the fundation of entrepreneurs */}
  
@@ -186,9 +304,11 @@ function AddEntrepreneur() {
                 </label>
 
                   <select
-                  className="appearance-none block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.type ? errorStyle : normalStyle}
                   name="type"
                   onChange={handleChange}
+                  onBlur={ handleLostFocus}
                   defaultValue="none"
                 >
                   <option value={roles[0].name} >
@@ -201,6 +321,11 @@ function AddEntrepreneur() {
                     </option>
                   ))} 
                 </select>
+                {
+                  errors.type && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
 
               <div className="w-full p-2">
@@ -211,12 +336,20 @@ function AddEntrepreneur() {
                   Descripción del emprendimiento
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.descriptionStore ? errorStyle : normalStyle}
+                  
                   name="descriptionStore"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Descripción del emprendimiento..."
                 />
+                {
+                  errors.descriptionStore && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
 
               <div className="w-full p-2">
@@ -227,12 +360,20 @@ function AddEntrepreneur() {
                   Dirección
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.address ? errorStyle : normalStyle}
                   name="address"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Av. Ejemplar OE4-76 y Calle Ejemplo OS6-35"
                 />
+                {
+                  errors.address && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
               <div className="w-full p-2">
                 <label
@@ -242,12 +383,19 @@ function AddEntrepreneur() {
                   URL Google Maps
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.googleMapsURL ? errorStyle : normalStyle}
                   name="googleMapsURL"
                   onChange={handleChange}
                   type="text"
                   placeholder="https://google.maps.com/example "
                 />
+                {
+                  errors.googleMapsURL && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
+
               </div>
               <div className="md:w-1/3 w-full p-2">
                 <label
@@ -257,12 +405,19 @@ function AddEntrepreneur() {
                   Sector
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.sector ? errorStyle : normalStyle}
                   name="sector"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Sector..."
                 />
+                {
+                  errors.sector && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
               <div className="md:w-1/3 w-full p-2">
                 <label
@@ -272,12 +427,19 @@ function AddEntrepreneur() {
                   Ciudad
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.city ? errorStyle : normalStyle}
                   name="city"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Ciudad..."
                 />
+                {
+                  errors.city && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
               <div className="md:w-1/3 w-full p-2">
                 <label
@@ -287,12 +449,19 @@ function AddEntrepreneur() {
                   Provincia
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.province ? errorStyle : normalStyle}
                   name="province"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Provincia..."
                 />
+                {
+                  errors.province && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
             </div>
             <h3 className="mt-3 font-medium text-xl">
@@ -307,12 +476,19 @@ function AddEntrepreneur() {
                   Twitter
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.twitter ? errorStyle : normalStyle}
                   name="twitter"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Twitter..."
                 />
+                {
+                  errors.twitter && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
               <div className="md:w-1/4 w-full p-2">
                 <label
@@ -322,12 +498,20 @@ function AddEntrepreneur() {
                   Facebook
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                
+                  className={errors.facebook ? errorStyle : normalStyle}
                   name="facebook"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Facebook..."
                 />
+                {
+                  errors.facebook && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
               <div className="md:w-1/4 w-full p-2">
                 <label
@@ -337,12 +521,19 @@ function AddEntrepreneur() {
                   Instagram
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.instagram ? errorStyle : normalStyle}
                   name="instagram"
                   onChange={handleChange}
+                  onBlur={handleLostFocus}
                   type="text"
                   placeholder="Instagram..."
                 />
+                {
+                  errors.instagram && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
               <div className="md:w-1/4 w-full p-2">
                 <label
@@ -352,12 +543,18 @@ function AddEntrepreneur() {
                   Tiktok
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className={errors.tiktok ? errorStyle : normalStyle}
                   name="tiktok"
                   onChange={handleChange}
                   type="text"
                   placeholder="Tiktok..."
                 />
+                {
+                  errors.tiktok && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -370,6 +567,14 @@ function AddEntrepreneur() {
             </button>
           </div>
         </form>
+
+      </div>
+      <div>
+        <ERRORViewModal
+            closeModal={closeModal}
+            viewModalOpen={viewModalOpen}
+        />
+    
       </div>
     </div>
   );

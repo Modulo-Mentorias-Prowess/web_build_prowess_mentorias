@@ -34,10 +34,7 @@ const AddContent=() => {
     setViewModalOpen(false);
 
   }
-  /**
-   * Opens a modal given the set state function
-   * @param {function} controlState
-   */
+
   const openModal = (controlState) => {
     controlState(true);
   };
@@ -144,7 +141,7 @@ const AddContent=() => {
                 </label>
                 <input
                 //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                className={errors.name ? errorStyle : normalStyle}
+                className={errors.description ? errorStyle : normalStyle}
                 type="text"
                 name="description"
                 onChange={handleChange}

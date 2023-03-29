@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import { v4 as uuidv4 } from "uuid";
 import { AiOutlineClose } from "react-icons/ai";
+import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
 
 const AddMentorship = () => {
   // Use state hell, must simplify, maybe with objects????
@@ -22,6 +23,91 @@ const AddMentorship = () => {
   const [selectedManager, setSelectedManager] = useState(null);
   const [queryEntrepreneur, setQueryEntrepreneur] = useState("");
   const [queryManager, setQueryManager] = useState("");
+  const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
+  const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+
+ //metodo cerrar ventana modal error
+  const closeModal = () => {
+    setViewModalOpen(false);
+
+  }
+  //metodo abrir ventana modal error 
+  const openModal = (controlState) => {
+    controlState(true);
+  };
+
+  const [errors, setErrors] = useState({
+    id: false,
+    title: false,
+    date_mentorship: false,
+    description: false,
+    entrepreneur: false,
+    manager: false,
+    contents: false
+  })
+
+  const validateData = (data) => {
+
+    setErrors({
+      id: !data.id,
+      title: !data.title,
+      date_mentorship: !data.date_mentorship,
+      description: !data.description,
+      entrepreneur: !data.entrepreneur,
+      manager: !data.manager,
+      contents: !data.contents
+    })
+    
+    if (!Object.values(errors).every((value) => value === false)) {
+      return true
+    }
+
+    return false
+  }
+
+  const handleLostFocus = () => {
+    let data = mentorship
+    //data.price = parseFloat(data.price)
+    if(validateData(data)){
+      return
+    }
+  }
+  /**
+   * Fetches the managers data from the database based on the query parameter.
+   */
+  // const fetchSearchManager = () => {
+  //   if (queryManager.length >= 3) {
+  //     axios
+  //       .get(`http://localhost:3001/searchManager/${queryManager}`)
+  //       .then((data) => {
+  //         setManagers(data.data);
+  //       })
+  //       .catch((err) => {
+  //         alert("Hubo un error obteniendo los datos.");
+  //       });
+  //   } else {
+  //     setManagers([]);
+  //   }
+  // };
+
+  /**
+   * Fetches the entrepreneurs data from the database based on the query parameter.
+   */
+  // const fetchSearch = () => {
+  //   if (queryEntrepreneur.length >= 3) {
+  //     axios
+  //       .get(`http://localhost:3001/searchEntrepreneur/${queryEntrepreneur}`)
+  //       .then((data) => {
+  //         setEntrepreneurs(data.data);
+  //       })
+  //       .catch((err) => {
+  //         alert("Hubo un error obteniendo los datos.");
+  //       });
+  //   } else {
+  //     setEntrepreneurs([]);
+  //   }
+  // };
 
   /**
    * Selects a given entrepreneur.
@@ -80,13 +166,47 @@ const AddMentorship = () => {
 
   // Search the entrepreneurs every time their query changes
   useEffect(() => {
+    const fetchSearch = () => {
+      if (queryEntrepreneur.length >= 3) {
+        axios
+          .get(`http://localhost:3001/searchEntrepreneur/${queryEntrepreneur}`)
+          .then((data) => {
+            setEntrepreneurs(data.data);
+          })
+          .catch((err) => {
+            alert("Hubo un error obteniendo los datos.");
+          });
+      } else {
+        setEntrepreneurs([]);
+      }
+    };
     fetchSearch();
-  }, [queryEntrepreneur]);
+  }, 
+  //[queryEntrepreneur]
+  [queryEntrepreneur]
+  );
 
   // Search the managers every time their query changes.
   useEffect(() => {
+    const fetchSearchManager = () => {
+      if (queryManager.length >= 3) {
+        axios
+          .get(`http://localhost:3001/searchManager/${queryManager}`)
+          .then((data) => {
+            setManagers(data.data);
+          })
+          .catch((err) => {
+            alert("Hubo un error obteniendo los datos.");
+          });
+      } else {
+        setManagers([]);
+      }
+    };
     fetchSearchManager();
-  }, [queryManager]);
+  }, 
+  //[queryManager]
+  [queryManager]
+  );
 
   //Component did mount fetch contents
   useEffect(() => {
@@ -108,49 +228,15 @@ const AddMentorship = () => {
       });
   };
 
-  /**
-   * Fetches the entrepreneurs data from the database based on the query parameter.
-   */
-  const fetchSearch = () => {
-    if (queryEntrepreneur.length >= 3) {
-      axios
-        .get(`http://localhost:3001/searchEntrepreneur/${queryEntrepreneur}`)
-        .then((data) => {
-          setEntrepreneurs(data.data);
-        })
-        .catch((err) => {
-          alert("Hubo un error obteniendo los datos.");
-        });
-    } else {
-      setEntrepreneurs([]);
-    }
-  };
-
-  /**
-   * Fetches the managers data from the database based on the query parameter.
-   */
-  const fetchSearchManager = () => {
-    if (queryManager.length >= 3) {
-      axios
-        .get(`http://localhost:3001/searchManager/${queryManager}`)
-        .then((data) => {
-          setManagers(data.data);
-        })
-        .catch((err) => {
-          alert("Hubo un error obteniendo los datos.");
-        });
-    } else {
-      setManagers([]);
-    }
-  };
-
+  
+  
   /**
    * Adds the content selected to the selected contents
    * @param {Event} e: selection event.
    */
   const handleSelect = (e) => {
-    let s = contents.filter((c) => c.id == e.target.value)[0];
-    setContents(contents.filter((c) => c.id != s.id));
+    let s = contents.filter((c) => c.id === e.target.value)[0];
+    setContents(contents.filter((c) => c.id !== s.id));
 
     setMentorship({ ...mentorship, contents: [...mentorship.contents, s] });
     setSelectedContents([...selectedContents, s]);
@@ -177,7 +263,7 @@ const AddMentorship = () => {
       !data.description ||
       !data.entrepreneur ||
       !data.manager ||
-      data.contents.length == 0
+      data.contents.length  === 0
     ) {
       return;
     }
@@ -189,7 +275,8 @@ const AddMentorship = () => {
       })
       .catch((err) => {
         // TODO: Handle exceptions 500 and 400.
-        alert("Hubo un error al enviar los datos.");
+        //alert("Hubo un error al enviar los datos.");
+        openModal(setViewModalOpen)
       });
   };
 
@@ -200,7 +287,7 @@ const AddMentorship = () => {
    */
   const deleteContent = (e, c) => {
     e.preventDefault();
-    const newContent = selectedContents.filter((i) => i.id != c.id);
+    const newContent = selectedContents.filter((i) => i.id !== c.id);
     setSelectedContents(newContent);
     setMentorship({ ...mentorship, contents: newContent });
     setContents([...contents, c]);
@@ -213,6 +300,8 @@ const AddMentorship = () => {
   const handleChange = (e) => {
     setMentorship({ ...mentorship, [e.target.name]: e.target.value });
   };
+
+
 
   return (
     <div>
@@ -240,12 +329,19 @@ const AddMentorship = () => {
                 Título
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.title ? errorStyle : normalStyle}
                 type="text"
                 name="title"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 placeholder="Nombre..."
               />
+              {
+                  errors.title && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+              }
             </div>
             <div className="md:w-1/3 w-full p-2">
               <label
@@ -255,12 +351,20 @@ const AddMentorship = () => {
                 Descripción
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                
+                className={errors.description ? errorStyle : normalStyle}
                 name="description"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="Descipción..."
               />
+              {
+                  errors.description && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
             <div className="md:w-1/3 w-full p-2">
               <label
@@ -270,11 +374,19 @@ const AddMentorship = () => {
                 Fecha y Hora
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                
+                className={errors.names ? errorStyle : normalStyle}
                 name="date_mentorship"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="datetime-local"
               />
+              {
+                  errors.date_mentorship && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
 
             <div className="p-2 w-full">
@@ -299,13 +411,19 @@ const AddMentorship = () => {
                 </div>
               )}
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.manager ? errorStyle : normalStyle}
                 name="search"
                 value={queryManager}
                 onChange={handleSearchManager}
                 type="text"
                 placeholder="Buscar..."
               />
+              {
+                  errors.manager && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               <div
                 className={`${
                   managers.length > 0 ? "block" : "hidden"
@@ -342,13 +460,20 @@ const AddMentorship = () => {
                 </div>
               )}
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.entrepreneur ? errorStyle : normalStyle}
                 name="search"
                 value={queryEntrepreneur}
                 onChange={handleSearch}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="Buscar..."
               />
+              {
+                  errors.entrepreneur && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               <div
                 className={`${
                   entrepreneurs.length > 0 ? "block" : "hidden"
@@ -386,8 +511,10 @@ const AddMentorship = () => {
                   </div>
                 )}
                 <select
-                  className="w-full p-2"
+                  //className="w-full p-2"
+                  className={errors.contents ? errorStyle : normalStyle}
                   onChange={handleSelect}
+                  onBlur={handleLostFocus}
                   value={selectContent}
                 >
                   <option value="" disabled>
@@ -397,6 +524,11 @@ const AddMentorship = () => {
                     <option value={c.id}>{c.name}</option>
                   ))}
                 </select>
+                {
+                  errors.contents && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -410,6 +542,13 @@ const AddMentorship = () => {
             </button>
           </div>
         </form>
+      </div>
+      <div>
+        <ERRORViewModal
+            closeModal={closeModal}
+            viewModalOpen={viewModalOpen}
+        />
+    
       </div>
     </div>
   );

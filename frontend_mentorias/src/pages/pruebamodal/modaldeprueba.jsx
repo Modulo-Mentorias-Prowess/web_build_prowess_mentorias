@@ -22,6 +22,8 @@ const ERRORViewModal = ({viewModalOpen, closeModal}) => {
           </div>
 
           <h1 className="font-bold text-3xl"> Error al Registrar</h1>
+          <br />
+          <br />
           <button
           className="padding-left 20 px bg-transparent flex justify-center items-center hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
           onClick={() => closeModal()}

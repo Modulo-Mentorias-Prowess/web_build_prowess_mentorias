@@ -5,13 +5,26 @@ import { Link, useNavigate } from "react-router-dom";
 import {v4 as uuidv4} from 'uuid'
 import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
+import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
 
 const AddManager = () => {
 
     const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
     const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+    const [viewModalOpen, setViewModalOpen] = useState(false);
+    const navigate = useNavigate();
+
+
+
+    //metodo cerrar ventana modal error
+    const closeModal = () => {
+      setViewModalOpen(false);
   
-    const navigate = useNavigate()
+    }
+  //metodo abrir ventana modal error 
+    const openModal = (controlState) => {
+      controlState(true);
+    };
     const [errors, setErrors] = useState({
       id: false,
       last_names: false,
@@ -42,6 +55,8 @@ const AddManager = () => {
 
       return false
     }
+
+    
     const handleLostFocus = () => {
       let data = managerData
       //data.price = parseFloat(data.price)
@@ -86,7 +101,8 @@ const AddManager = () => {
             })
             .catch((err)=>{
                 // TODO: PROPER EXCEPTION HANDLING
-                alert("Hubo un error al enviar los datos")
+                openModal(setViewModalOpen)
+               // alert("Hubo un error al enviar los datos")
             })
     }
 
@@ -118,7 +134,7 @@ const AddManager = () => {
                 Nombres
                 </label>
                 <input
-                className={errors.name ? errorStyle : normalStyle}
+                className={errors.names ? errorStyle : normalStyle}
                 //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="text"
                 name="names"
@@ -142,13 +158,16 @@ const AddManager = () => {
                 </label>
                 <input
 
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                
+                className={errors.last_names ? errorStyle : normalStyle}
                 name="last_names"
                 onChange={handleChange}
                 onBlur={handleLostFocus}
                 type="text"
                 placeholder="Apellidos..."
-                /> {
+                /> 
+                {
                   errors.last_names && (
                     <p className='text-red-600 italic'>Este campo es Obligatorio</p>
                   )
@@ -164,12 +183,17 @@ const AddManager = () => {
                 Email
                 </label>
                 <input
-                className={errors.name ? errorStyle : normalStyle}
+                className={errors.email ? errorStyle : normalStyle}
                 name="email"
                 onChange={handleChange}
                 type="email"
                 placeholder="ejemplo@espe.edu.ec"
                 />
+                {
+                  errors.email && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
             <div className="p-2 w-full">
 
@@ -180,12 +204,19 @@ const AddManager = () => {
                 Dirección
                 </label>
                 <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                //className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className={errors.address ? errorStyle : normalStyle}
                 name="address"
                 onChange={handleChange}
+                onBlur={handleLostFocus}
                 type="text"
                 placeholder="Av. Ejemplo y Ejemplo Oe4-76"
                 />
+                {
+                  errors.address && (
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                  )
+                }
             </div>
             </div>
 
@@ -198,6 +229,13 @@ const AddManager = () => {
 
           </div>    
         </form>
+      </div>
+      <div>
+        <ERRORViewModal
+            closeModal={closeModal}
+            viewModalOpen={viewModalOpen}
+        />
+    
       </div>
     </div>
   );
