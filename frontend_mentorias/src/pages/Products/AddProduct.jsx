@@ -1,3 +1,4 @@
+import  ERRORViewModal from  "../pruebamodal/modaldeprueba"
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FiArrowRight } from 'react-icons/fi'
@@ -6,8 +7,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import {v4 as uuidv4} from 'uuid'
 
+
+
 const AddProduct = () => {
     const navigate = useNavigate()
+    const [viewModalOpen, setViewModalOpen] = useState(false);
+    const [errorType, setErrorType]= useState("");
+    
     const [product, setProduct] = useState({
       price: null,
       name: null,
@@ -26,6 +32,18 @@ const AddProduct = () => {
 
     const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
     const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+
+
+
+    const closeModal = () => {
+      setViewModalOpen(false);
+  
+    }
+  
+    const openModal = (controlState,typeErr) => {
+      controlState(true);
+      setErrorType(typeErr);
+    };
 
     const handleEntrepreneurSelect = (e) => {
         setProduct({...product, entrepreneur: e})
@@ -50,7 +68,8 @@ const AddProduct = () => {
 
             })
             .catch((err)=>{
-                alert("Hubo un error obteniendo los datos.")
+                //alert("Hubo un error obteniendo los datos.")
+                openModal(setViewModalOpen,err)
             })
         }else{
             setEntrepreneurs([])
@@ -110,7 +129,7 @@ const AddProduct = () => {
             })
             .catch((err)=>{
                 // TODO: Handle exceptions
-                alert("Hubo un error al enviar los datos.")
+                openModal(setViewModalOpen,err)
             })
         
         
@@ -118,6 +137,8 @@ const AddProduct = () => {
     const handleChange = (e) => {
         setProduct({...product  , [e.target.name]: e.target.value})
     }
+
+
 
   return (
     <div>
@@ -254,7 +275,14 @@ const AddProduct = () => {
           </div>    
         </form>
       </div>
-
+      <div>
+        <ERRORViewModal
+            closeModal={closeModal}
+            viewModalOpen={viewModalOpen}
+            errorType={errorType}
+        />
+    
+      </div>          
     </div>
   )
 }

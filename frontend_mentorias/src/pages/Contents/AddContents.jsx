@@ -12,6 +12,8 @@ const AddContent=() => {
   const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [errorType, setErrorType]= useState("");
+
   
   const [ contentData, setContentData] = useState({
     id: "",
@@ -35,8 +37,9 @@ const AddContent=() => {
 
   }
 
-  const openModal = (controlState) => {
+  const openModal = (controlState,typeErr) => {
     controlState(true);
+    setErrorType(typeErr);
   };
   
 
@@ -49,6 +52,7 @@ const AddContent=() => {
     })
     
     if (!Object.values(errors).every((value) => value === false)) {
+      //alert("ingrese todos los datos")
       return true
     }
 
@@ -60,6 +64,7 @@ const AddContent=() => {
     let data = contentData
     
     if(validateData(data)){
+     
       return
     }
   }
@@ -74,19 +79,23 @@ const AddContent=() => {
     c.preventDefault()
     let data = {content: contentData}
     data.content.id = uuidv4()
+    //VALIDA DATOS
+    if(validateData(data)){
 
-    axios.post("http://localhost:3001/createContent", data)
-        .then((response) => {
-            navigate("/contents")
-        })
-        .catch((err)=>{
-            //TODO: Handle errors 
-            //alert("Hubo un error registrando el contenido.")
-            //handleSelect(operation.VIEW);
-           openModal(setViewModalOpen)
-           
+      axios.post("http://localhost:3001/createContent", data)
+          .then((response) => {
+              navigate("/contents")
+          })
+          .catch((err)=>{
+              //TODO: Handle errors 
+              //alert("Hubo un error registrando el contenido.")
+              //handleSelect(operation.VIEW);
+             openModal(setViewModalOpen,err)
+             
+  
+          })
 
-        })
+    }
         
   }
 
@@ -173,6 +182,7 @@ const AddContent=() => {
         <ERRORViewModal
             closeModal={closeModal}
             viewModalOpen={viewModalOpen}
+            errorType={errorType}
         />
     
       </div>

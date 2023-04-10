@@ -547,6 +547,7 @@ const AddMentorship = () => {
         <ERRORViewModal
             closeModal={closeModal}
             viewModalOpen={viewModalOpen}
+            errorType={'puerto 3000 no devolvio datos'}
         />
     
       </div>
