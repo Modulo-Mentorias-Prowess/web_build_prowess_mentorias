@@ -13,8 +13,9 @@ const Products = () => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState({});
-   const [currentPage, setCurrentPage] = useState(0);
-   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [search, setSearch] = useState("");
+  const pageSize = 3;
 
   // TODO: must refactor to look like mentorship openModal and closeModal methods.
 
@@ -103,16 +104,16 @@ const Products = () => {
   }
 
   const filterdProduct = () => {
-    console.log(display.slice(currentPage, currentPage + 2));
-    let current = display.slice(currentPage, currentPage + 2);
+    console.log(display.slice(currentPage, currentPage + pageSize));
+    let current = display.slice(currentPage, currentPage + pageSize);
     return current;
   };
-  const returPage = () => {
-    setCurrentPage(currentPage - 2);
+  const returnPage = () => {
+    setCurrentPage(currentPage - pageSize);
   };
 
   const nextPage = () => {
-    setCurrentPage(currentPage + 2);
+    setCurrentPage(currentPage + pageSize);
   };
 
   const handleSearch = (p) => {
@@ -161,6 +162,8 @@ const Products = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const totalPages = Math.ceil(display.length / pageSize) // Número de páginas
 
   return (
     <div id="main-app overflow-y-auto ">
@@ -226,7 +229,7 @@ const Products = () => {
                     index % 2 == 0 ? "bg-white" : "bg-gray-100"
                   } lg:max-h-full max-h-10`}
                 >
-                  <th className="whitespace-nowrap ">{index + 1}</th>
+                  <th className="whitespace-nowrap ">{currentPage + index + 1}</th>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     {p.name}
                   </td>
@@ -280,21 +283,19 @@ const Products = () => {
       </div>
 
       {/* Pagination */}
-      <div className="w-full hidden md:flex justify-between">
+      <div className='w-full flex justify-center items-center'>
         <button
-          className="mr-3 hover:text-main-prowess hover:scale-125"
-          onClick={returPage}
-          disabled={currentPage - 2 < 0}
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={returnPage}
+          disabled={currentPage - pageSize < 0}
         >
           Anterior
         </button>
-        <p>
-          {Math.ceil(currentPage / 2) + 1}/{Math.ceil(display.length / 2)}
-        </p>
+        <p className="mr-3">{currentPage / pageSize + 1}/{totalPages}</p>
         <button
-          className="mr-3 hover:text-main-prowess hover:scale-125"
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
           onClick={nextPage}
-          disabled={currentPage + 2 > display.length}
+          disabled={currentPage + pageSize >= display.length}
         >
           Siguiente
         </button>

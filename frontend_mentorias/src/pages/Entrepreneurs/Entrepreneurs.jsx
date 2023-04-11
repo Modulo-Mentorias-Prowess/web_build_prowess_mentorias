@@ -56,18 +56,20 @@ const Entrepreneurs = () => {
 
   const [currentPage, setCurrentPage]= useState(0)
   const [search, setSearch]= useState('')
+  const pageSize = 3 // Número de elementos por página
+  // TODO: Ask user about this value
 
   const filteredEntrepreneurs = () => {
-    console.log(display.slice(currentPage, currentPage+2))
-    let current=display.slice(currentPage, currentPage+2)
+    console.log(display.slice(currentPage, currentPage+pageSize))
+    let current=display.slice(currentPage, currentPage+pageSize)
     return current
   }
-  const returPage = () =>{
-    setCurrentPage(currentPage-2);
+  const returnPage = () =>{
+    setCurrentPage(currentPage-pageSize);
   }
 
   const nextPage = () =>{
-    setCurrentPage(currentPage+2);
+    setCurrentPage(currentPage+pageSize);
   }
 
   const handleSearch = (e)=>{
@@ -164,6 +166,8 @@ const Entrepreneurs = () => {
     { name: "PRIVADO", desc: "PRIVADO" },
   ];
 
+  const totalPages = Math.ceil(display.length / pageSize) // Número de páginas
+
   return (
     <div id='main-app overflow-y-auto ' >
         <Navbar/>
@@ -212,7 +216,7 @@ const Entrepreneurs = () => {
               {
                 filteredEntrepreneurs()?.map((e, index) => (
                   <tr key={index} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-100'} lg:max-h-full max-h-10`}>
-                    <th className='whitespace-nowrap '>{index + 1}</th>
+                    <th className='whitespace-nowrap '>{currentPage + index + 1}</th>
                     <td className='p-3 text-sm text-gray-700'>{e.names +  " " + e.last_names}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>{e.phone}</td>
                     <td className='whitespace-nowrap p-3 text-sm text-gray-700'>{e.email}</td>
@@ -246,24 +250,26 @@ const Entrepreneurs = () => {
                  ))
               }
           </div>
-
-          </div>
         </div>
-        <div className='w-full hidden md:flex justify-between'>
-              <button 
-              className='mr-3 hover:text-main-prowess hover:scale-125'
-              onClick={returPage}disabled={currentPage-2<0}
-              >
-              Anterior
-              </button>
-              <p>{Math.ceil(currentPage/2)+1}/{Math.ceil(display.length/2)}</p>
-              <button 
-              className='mr-3 hover:text-main-prowess hover:scale-125'
-              onClick={nextPage}disabled={currentPage+2>display.length}
-              >
-              Siguiente
-              </button>
-              </div>        
+      </div>
+      
+      <div className='w-full flex justify-center items-center'>
+        <button
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={returnPage}
+          disabled={currentPage - pageSize < 0}
+        >
+          Anterior
+        </button>
+        <p className="mr-3">{currentPage / pageSize + 1}/{totalPages}</p>
+        <button
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={nextPage}
+          disabled={currentPage + pageSize >= display.length}
+        >
+          Siguiente
+        </button>
+      </div>
 
       <div className='w-full '>
 

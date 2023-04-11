@@ -21,6 +21,7 @@ const Contents = () => {
   const [updateModal, setUpdateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState("");
+  const pageSize = 3;
 
   const handleSelect = (c) => {
     setSelectedContent(c);
@@ -99,17 +100,17 @@ const Contents = () => {
 
   /* Number of contents to show in the table of Content */
   const filterdContent = () => {
-    console.log(display.slice(currentPage, currentPage + 4));
-    let current = display.slice(currentPage, currentPage + 4);
+    console.log(display.slice(currentPage, currentPage + pageSize));
+    let current = display.slice(currentPage, currentPage + pageSize);
     return current;
   };
 
-  const returPage = () => {
-    setCurrentPage(currentPage - 4);
+  const returnPage = () => {
+    setCurrentPage(currentPage - pageSize);
   };
 
   const nextPage = () => {
-    setCurrentPage(currentPage + 4);
+    setCurrentPage(currentPage + pageSize);
   };
 
   const handleSearch = (c) => {
@@ -161,6 +162,8 @@ const Contents = () => {
   useEffect(() => {
     fetchContents();
   }, []);
+
+  const totalPages = Math.ceil(display.length / pageSize) // Número de páginas
 
   return (
     <div className="main-app overflow-y-auto">
@@ -216,7 +219,7 @@ const Contents = () => {
                     index % 2 == 0 ? "bg-white" : "bg-gray-100"
                   } lg:max-h-full max-h-10`}
                 >
-                  <th className="whitespace-nowrap ">{index + 1}</th>
+                  <th className="whitespace-nowrap ">{currentPage + index + 1}</th>
                   <td className="p-3 text-sm text-gray-700">{c.name}</td>
                   <td className="p-3 text-sm text-gray-700">{c.description}</td>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
@@ -258,26 +261,23 @@ const Contents = () => {
         </div>
         
         {/* Pagination */}
-        <div className="w-full hidden md:flex justify-between">
-          <button
-            className="mr-3 hover:text-main-prowess hover:scale-125"
-            onClick={returPage}
-            disabled={currentPage - 2 < 0}
-          >
-            Anterior
-          </button>
-          <p>
-            {/* change the number */}
-            {Math.ceil(currentPage / 4) + 1}/{Math.ceil(display.length / 4)} 
-          </p>
-          <button
-            className="mr-3 hover:text-main-prowess hover:scale-125"
-            onClick={nextPage}
-            disabled={currentPage + 2 > display.length}
-          >
-            Siguiente
-          </button>
-        </div>
+        <div className='w-full flex justify-center items-center'>
+        <button
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={returnPage}
+          disabled={currentPage - pageSize < 0}
+        >
+          Anterior
+        </button>
+        <p className="mr-3">{currentPage / pageSize + 1}/{totalPages}</p>
+        <button
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={nextPage}
+          disabled={currentPage + pageSize >= display.length}
+        >
+          Siguiente
+        </button>
+      </div>
 
         <Modal
           isOpen={modalOpen}

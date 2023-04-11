@@ -22,6 +22,7 @@ const Managers = () => {
   const handleSelect = (m) => {
     setSelectedManager(m);
   };
+  const pageSize = 3;
 
   // TODO: must refactor to look like mentorship openModal and closeModal methods.
   const closeModal = () => {
@@ -97,16 +98,16 @@ const Managers = () => {
   const [search, setSearch] = useState("");
 
   const filterdManager = () => {
-    console.log(display.slice(currentPage, currentPage + 2));
-    let current = display.slice(currentPage, currentPage + 2);
+    console.log(display.slice(currentPage, currentPage + pageSize));
+    let current = display.slice(currentPage, currentPage + pageSize);
     return current;
   };
   const returPage = () => {
-    setCurrentPage(currentPage - 2);
+    setCurrentPage(currentPage - pageSize);
   };
 
   const nextPage = () => {
-    setCurrentPage(currentPage + 2);
+    setCurrentPage(currentPage + pageSize);
   };
 
   const handleSearch = (e) => {
@@ -156,6 +157,8 @@ const Managers = () => {
   useEffect(() => {
     fetchContents();
   }, []);
+
+  const totalPages = Math.ceil(display.length / pageSize) // Número de páginas
 
   return (
     <div className="min-h-screen">
@@ -207,19 +210,11 @@ const Managers = () => {
 
             <tbody className="divide-y divide-gray-100">
               {filterdManager()?.map((m, index) => (
-                <tr
-                  className={`${
-                    index % 2 == 0 ? "bg-white" : "bg-gray-100"
-                  } lg:max-h-full max-h-10`}
-                >
-                  <th className="whitespace-nowrap ">{index + 1}</th>
+                <tr className={`${index % 2 == 0 ? "bg-white" : "bg-gray-100"} lg:max-h-full max-h-10`}>
+                  <th className="whitespace-nowrap ">{currentPage + index + 1}</th>
                   <td className="w-full whitespace-nowrap p-3 text-sm text-gray-700">{`${m.names} ${m.last_names}`}</td>
-                  <td className="w-80 whitespace-nowrap p-3 text-sm text-gray-700">
-                    {m.email}
-                  </td>
-                  <td className="w-80 p-3 whitespace-nowrap text-sm text-gray-700">
-                    {m.address}
-                  </td>
+                  <td className="w-80 whitespace-nowrap p-3 text-sm text-gray-700">{m.email}</td>
+                  <td className="w-80 p-3 whitespace-nowrap text-sm text-gray-700">{m.address}</td>
                   <td className="whitespace-nowrap p-3 text-sm text-gray-700">
                     <button
                       className="mr-3 hover:text-main-prowess hover:scale-125"
@@ -257,25 +252,26 @@ const Managers = () => {
             ))}
           </div>
         </div>
-        <div className="w-full hidden md:flex justify-between">
+        <div className="w-full flex justify-center items-center">
           <button
-            className="mr-3 hover:text-main-prowess hover:scale-125"
-            onClick={returPage}
-            disabled={currentPage - 2 < 0}
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={returPage}
+            disabled={currentPage - pageSize < 0}
           >
             Anterior
           </button>
-          <p>
-            {Math.ceil(currentPage / 2) + 1}/{Math.ceil(display.length / 2)}
+          <p
+          className="mr-3">{currentPage / pageSize + 1}/{totalPages}
           </p>
           <button
-            className="mr-3 hover:text-main-prowess hover:scale-125"
-            onClick={nextPage}
-            disabled={currentPage + 2 > display.length}
+          className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
+          onClick={nextPage}
+            disabled={currentPage + pageSize >= display.length}
           >
             Siguiente
           </button>
         </div>
+
         <Modal
           isOpen={modalOpen}
           onRequestClose={closeModal}
