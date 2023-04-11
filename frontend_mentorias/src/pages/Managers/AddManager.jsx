@@ -13,6 +13,7 @@ const AddManager = () => {
     const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
     const [viewModalOpen, setViewModalOpen] = useState(false);
     const navigate = useNavigate();
+    const [errorType, setErrorType]= useState("");
 
 
 
@@ -22,9 +23,13 @@ const AddManager = () => {
   
     }
   //metodo abrir ventana modal error 
-    const openModal = (controlState) => {
+    const openModal = (controlState,typeErr) => {
+
       controlState(true);
+      setErrorType(typeErr);
+
     };
+
     const [errors, setErrors] = useState({
       id: false,
       last_names: false,
@@ -85,11 +90,13 @@ const AddManager = () => {
         let data = managerData
         data.id = uuidv4()
           if(!managerData.email || !managerData.last_names || !managerData.names){
-              alert("Porfavor rellene todos los campos.")
+              //alert("Porfavor rellene todos los campos.")
+              openModal(setViewModalOpen,'Porfavor verifique que los campos no esten vacios')
               return
           }else{
             if(!validateEmail(managerData.email)){
-              alert("Solo se aceptan correos del dominio espe.edu.ec")
+              //alert("Solo se aceptan correos del dominio espe.edu.ec")
+              openModal(setViewModalOpen,'Solo se aceptan correos del dominio espe.edu.ec')
               return
             }
           }
@@ -101,7 +108,7 @@ const AddManager = () => {
             })
             .catch((err)=>{
                 // TODO: PROPER EXCEPTION HANDLING
-                openModal(setViewModalOpen)
+                openModal(setViewModalOpen,err)
                // alert("Hubo un error al enviar los datos")
             })
     }
@@ -234,6 +241,7 @@ const AddManager = () => {
         <ERRORViewModal
             closeModal={closeModal}
             viewModalOpen={viewModalOpen}
+            errorType={errorType}
         />
     
       </div>

@@ -10,6 +10,7 @@ function AddEntrepreneur() {
   const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-800'
   const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
   const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [errorType, setErrorType]= useState("");
   const navigate = useNavigate();
   //metodo cerrar ventana modal error
   const closeModal = () => {
@@ -18,8 +19,9 @@ function AddEntrepreneur() {
   }
 
   //metodo abrir ventana modal error
-  const openModal = (controlState) => {
+  const openModal = (controlState,typeErr) => {
     controlState(true);
+    setErrorType(typeErr);
   };
 
   
@@ -89,7 +91,8 @@ function AddEntrepreneur() {
     
 
     if (!validateEmail(data.entrepreneur.email)) {
-      alert("No es un email valido.");
+      //alert("No es un email valido.");
+      openModal(setViewModalOpen,'El email ingresado no es valido verifique que este escrito correctamente')
       return;
     }
 
@@ -103,7 +106,7 @@ function AddEntrepreneur() {
         //TODO: Handle errors
         //TODO: Handle errors
         //alert("Hubo un error registrando al emprendedor.");
-        openModal(setViewModalOpen)
+        openModal(setViewModalOpen,err)
       });
     };
 
@@ -573,6 +576,7 @@ function AddEntrepreneur() {
         <ERRORViewModal
             closeModal={closeModal}
             viewModalOpen={viewModalOpen}
+            errorType={errorType}
         />
     
       </div>

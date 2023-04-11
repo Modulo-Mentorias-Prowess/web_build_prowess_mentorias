@@ -150,7 +150,7 @@ const Entrepreneurs = () => {
     axios.delete(`http://localhost:3001/deleteEntrepreneur/${selectedEntrepreneur.id}`)
     .then((response)=>{
         setConfirmDelete(false)
-        setEntrepreneurs(entrepreneurs?.filter(item => item.id != selectedEntrepreneur.id))
+        setEntrepreneurs(entrepreneurs?.filter(item => item.id !== selectedEntrepreneur.id))
         })
         .catch((err)=>{
           //TODO: Handle errors
@@ -326,7 +326,14 @@ const Entrepreneurs = () => {
                 </div>
                 <div className='w-full p-2'>
                   <h3 className='font-medium'>URL Google Maps del Emprendimiento </h3>
-                  <a target="_blank"  className='underline hover:text-blue-500 hover:no-underline' href={selectedEntrepreneur.googleMapsURL}>Maps url<sup>↗</sup></a>
+                  <a  target="_blank"  
+                      className='underline hover:text-blue-500 hover:no-underline'
+                      href={selectedEntrepreneur.googleMapsURL}
+                      rel="noreferrer"
+                  >
+                    Maps url<sup>↗</sup>
+                  
+                  </a>
                 </div>
                 <div className='lg:w-1/3 w-full p-2'>
                   <h3 className='font-medium'>Sector</h3>
@@ -349,6 +356,7 @@ const Entrepreneurs = () => {
                   target="_blank"  
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.twitter.com/${selectedEntrepreneur.twitter}`}
+                  rel="noreferrer"
                   >
                     {selectedEntrepreneur.twitter}<sup>↗</sup>
                   </a>
@@ -359,6 +367,7 @@ const Entrepreneurs = () => {
                   target="_blank"  
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.facebook.com/${selectedEntrepreneur.facebook}`}
+                  rel="noreferrer"
                   >
                     {selectedEntrepreneur.facebook}<sup>↗</sup>
                   </a>
@@ -369,6 +378,7 @@ const Entrepreneurs = () => {
                   target="_blank"  
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.instagram.com/${selectedEntrepreneur.instagram}`}
+                  rel="noreferrer"
                   >
                     {selectedEntrepreneur.instagram}<sup>↗</sup>
                   </a>
@@ -379,6 +389,7 @@ const Entrepreneurs = () => {
                   target="_blank"  
                   className='underline hover:text-blue-500 hover:no-underline' 
                   href={`https://www.tiktok.com/@${selectedEntrepreneur.tiktok}`}
+                  rel="noreferrer"
                   >
                     {selectedEntrepreneur.tiktok}<sup>↗</sup>
                   </a>
