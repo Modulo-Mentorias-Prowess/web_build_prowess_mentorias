@@ -6,11 +6,13 @@ import {v4 as uuidv4} from 'uuid'
 import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
 import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
+import  CONFIRMViewModal from  "../pruebamodal/Acept";
 
 const AddContent=() => {
   const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
   const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [ERRORviewModalOpen, setERRORViewModalOpen] = useState(false);
+  const [CONFIRMviewModalOpen, setCONFIRMViewModalOpen] = useState(false);
   const navigate = useNavigate();
   const [errorType, setErrorType]= useState("");
 
@@ -32,16 +34,27 @@ const AddContent=() => {
   const handleChange = (c) => {
     setContentData({...contentData, [c.target.name]: c.target.value})
   }
-  const closeModal = () => {
-    setViewModalOpen(false);
+
+  const closeERRORModal = () => {
+    setERRORViewModalOpen(false);
+    
 
   }
 
-  const openModal = (controlState,typeErr) => {
+  const closeCONFIRMModal = () => {
+    setCONFIRMViewModalOpen(false);
+    navigate("/contents")
+  }
+
+
+  const openERRORModal = (controlState,typeErr) => {
     controlState(true);
     setErrorType(typeErr);
   };
   
+  const openCONFIRMModal = (controlState) => {
+    controlState(true);
+  };
 
   const validateData = (data) => {
 
@@ -78,23 +91,35 @@ const AddContent=() => {
   const handleSubmit = (c) => {
     c.preventDefault()
     let data = {content: contentData}
+    //let valid= true
     data.content.id = uuidv4()
     //VALIDA DATOS
     if(validateData(data)){
 
       axios.post("http://localhost:3001/createContent", data)
           .then((response) => {
-              navigate("/contents")
+              openCONFIRMModal(setCONFIRMViewModalOpen)
+              //navigate("/contents")
+              //valid=true
+              
           })
           .catch((err)=>{
               //TODO: Handle errors 
               //alert("Hubo un error registrando el contenido.")
               //handleSelect(operation.VIEW);
-             openModal(setViewModalOpen,err)
+             openERRORModal(setERRORViewModalOpen,err)
+             
              
   
           })
-
+          // if(valid){
+          //   openCONFIRMModal(setCONFIRMViewModalOpen)
+          //   //navigate("/contents")
+          //   alert(valid)
+          // }else{
+          //   alert(valid)
+          //   openERRORModal(setERRORViewModalOpen,'Verifique que todos los campos esten llenos')
+          // }
     }
         
   }
@@ -180,12 +205,17 @@ const AddContent=() => {
       </div>
       <div>
         <ERRORViewModal
-            closeModal={closeModal}
-            viewModalOpen={viewModalOpen}
+            closeModal={closeERRORModal}
+            viewModalOpen={ERRORviewModalOpen}
             errorType={errorType}
         />
-    
+        <CONFIRMViewModal
+            closeModal={closeCONFIRMModal}
+            viewModalOpen={CONFIRMviewModalOpen}
+           
+        />
       </div>
+      
     </div>
   );
 }
