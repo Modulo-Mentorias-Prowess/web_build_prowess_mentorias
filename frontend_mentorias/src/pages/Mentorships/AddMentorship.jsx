@@ -26,6 +26,7 @@ const AddMentorship = () => {
   const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-500'
   const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
   const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [errorType, setErrorType]= useState("");
 
  //metodo cerrar ventana modal error
   const closeModal = () => {
@@ -33,8 +34,9 @@ const AddMentorship = () => {
 
   }
   //metodo abrir ventana modal error 
-  const openModal = (controlState) => {
+  const openModal = (controlState,typeErr) => {
     controlState(true);
+    setErrorType(typeErr);
   };
 
   const [errors, setErrors] = useState({
@@ -94,20 +96,20 @@ const AddMentorship = () => {
   /**
    * Fetches the entrepreneurs data from the database based on the query parameter.
    */
-  // const fetchSearch = () => {
-  //   if (queryEntrepreneur.length >= 3) {
-  //     axios
-  //       .get(`http://localhost:3001/searchEntrepreneur/${queryEntrepreneur}`)
-  //       .then((data) => {
-  //         setEntrepreneurs(data.data);
-  //       })
-  //       .catch((err) => {
-  //         alert("Hubo un error obteniendo los datos.");
-  //       });
-  //   } else {
-  //     setEntrepreneurs([]);
-  //   }
-  // };
+  //  const fetchSearch = () => {
+  //    if (queryEntrepreneur.length >= 3) {
+  //      axios
+  //        .get(`http://localhost:3001/searchEntrepreneur/${queryEntrepreneur}`)
+  //        .then((data) => {
+  //          setEntrepreneurs(data.data);
+  //        })
+  //        .catch((err) => {
+  //          alert("Hubo un error obteniendo los datos.");
+  //        });
+  //    } else {
+  //      setEntrepreneurs([]);
+  //    }
+  //  };
 
   /**
    * Selects a given entrepreneur.
@@ -265,6 +267,7 @@ const AddMentorship = () => {
       !data.manager ||
       data.contents.length  === 0
     ) {
+      openModal(setViewModalOpen,`aun existen campos sin completar`)
       return;
     }
     axios
@@ -275,8 +278,8 @@ const AddMentorship = () => {
       })
       .catch((err) => {
         // TODO: Handle exceptions 500 and 400.
-        //alert("Hubo un error al enviar los datos.");
-        openModal(setViewModalOpen)
+        alert("Hubo un error al enviar los datos.");
+        // openModal(setViewModalOpen)
       });
   };
 
@@ -421,7 +424,7 @@ const AddMentorship = () => {
               />
               {
                   errors.manager && (
-                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                    <p className='text-red-600 italic'>Ingrese un Encargado que se encuentre ya registrado</p>
                   )
                 }
               <div
@@ -471,7 +474,7 @@ const AddMentorship = () => {
               />
               {
                   errors.entrepreneur && (
-                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
+                    <p className='text-red-600 italic'>Ingrese un emprendedor que se encuentre ya registrado</p>
                   )
                 }
               <div
@@ -512,12 +515,13 @@ const AddMentorship = () => {
                 )}
                 <select
                   //className="w-full p-2"
+                  name='contents'
                   className={errors.contents ? errorStyle : normalStyle}
                   onChange={handleSelect}
                   onBlur={handleLostFocus}
                   value={selectContent}
                 >
-                  <option value="" disabled>
+                  <option value='' disabled>
                     Seleccione una o mas...
                   </option>
                   {contents?.map((c) => (
@@ -547,7 +551,7 @@ const AddMentorship = () => {
         <ERRORViewModal
             closeModal={closeModal}
             viewModalOpen={viewModalOpen}
-            errorType={'puerto 3000 no devolvio datos'}
+            errorType={errorType}
         />
     
       </div>

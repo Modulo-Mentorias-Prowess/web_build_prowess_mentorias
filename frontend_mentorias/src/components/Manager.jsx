@@ -1,5 +1,7 @@
 import React from 'react'
 import {AiFillEye, AiFillDelete, AiFillEdit} from 'react-icons/ai'
+
+
 const Manager = ({m, editFunction, deleteFunction, viewFunction}) => {
   return (
     <div className="flex justify-center mb-3">
