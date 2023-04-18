@@ -1,11 +1,11 @@
+import React from "react";
 import {
-    AiOutlineClose,
+  AiOutlineClose,
 } from "react-icons/ai";
 import Modal from "react-modal";
-import React from "react";
 
 
-const CONFIRMViewModal = ({viewModalOpen, closeModal}) => {
+const CONFIRMViewModal = ({ viewModalOpen, closeModal }) => {
   return (
     <Modal
       isOpen={viewModalOpen}
@@ -15,17 +15,10 @@ const CONFIRMViewModal = ({viewModalOpen, closeModal}) => {
     >
       <div className="relative w-fit h-full p-10 flex flex-col justify-between">
         <div>
-          <div
-            className="absolute top-1 right-1 cursor-pointer hover:scale-125 transition-all ease-in-out"
-            onClick={() => closeModal()}
-          >
-            <AiOutlineClose />
-          </div>
-
-          <h1 className="font-bold text-3xl text-blue-700"> Se ha Registrado correctamente</h1>
+          <h1 className="font-bold text-3xl text-green-700">¡Registro exitoso!</h1>
           <br />
           <br />
-          <p>Todos los registron se guardaron sin problema</p>
+          <p>El registro se realizó correctamente.</p>
           <br />
         </div>
 
