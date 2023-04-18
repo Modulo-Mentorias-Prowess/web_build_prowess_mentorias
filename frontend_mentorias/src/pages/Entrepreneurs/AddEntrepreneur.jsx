@@ -6,16 +6,20 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
 import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
+import  CONFIRMViewModal from  "../pruebamodal/Acept";
+
+
 function AddEntrepreneur() {
   const errorStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-red-800 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-red-800'
   const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
   const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [CONFIRMviewModalOpen, setCONFIRMViewModalOpen] = useState(false);
   const [errorType, setErrorType]= useState("");
   const navigate = useNavigate();
   //metodo cerrar ventana modal error
   const closeModal = () => {
     setViewModalOpen(false);
-
+    setCONFIRMViewModalOpen(false);
   }
 
   //metodo abrir ventana modal error
@@ -24,6 +28,14 @@ function AddEntrepreneur() {
     setErrorType(typeErr);
   };
 
+  const openCONFIRMModal = (controlState) => {
+    controlState(true);
+  };
+
+  const closeCONFIRMModal = () => {
+      setCONFIRMViewModalOpen(false);
+      navigate("/entrepreneurs")
+    }
   
   const [entrepreneurData, setEntrepreneurData] = useState({
     id: "",
@@ -95,11 +107,12 @@ function AddEntrepreneur() {
       openModal(setViewModalOpen,'El email ingresado no es valido verifique que este escrito correctamente')
       return;
     }
+    openCONFIRMModal(setCONFIRMViewModalOpen); // Mostrar modal de éxito si todo está correcto
 
     axios
       .post("http://localhost:3001/createEntrepreneur", data)
       .then((response) => {
-        navigate("/entrepreneurs");
+        openCONFIRMModal(setCONFIRMViewModalOpen)
       })
       .catch((err) => {
         //TODO: Handle errors
@@ -578,7 +591,10 @@ function AddEntrepreneur() {
             viewModalOpen={viewModalOpen}
             errorType={errorType}
         />
-    
+        <CONFIRMViewModal
+            closeModal={closeCONFIRMModal}
+            viewModalOpen={CONFIRMviewModalOpen}
+        />
       </div>
     </div>
   );

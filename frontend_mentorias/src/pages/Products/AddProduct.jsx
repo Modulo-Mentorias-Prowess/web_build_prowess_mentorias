@@ -6,6 +6,7 @@ import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../../components/Navbar'
 import {v4 as uuidv4} from 'uuid'
+import  CONFIRMViewModal from  "../pruebamodal/Acept";
 
 
 
@@ -13,7 +14,7 @@ const AddProduct = () => {
     const navigate = useNavigate()
     const [viewModalOpen, setViewModalOpen] = useState(false);
     const [errorType, setErrorType]= useState("");
-    
+    const [CONFIRMviewModalOpen, setCONFIRMViewModalOpen] = useState(false);
     const [product, setProduct] = useState({
       price: null,
       name: null,
@@ -37,13 +38,22 @@ const AddProduct = () => {
 
     const closeModal = () => {
       setViewModalOpen(false);
-  
+      setCONFIRMViewModalOpen(false);
     }
   
     const openModal = (controlState,typeErr) => {
       controlState(true);
       setErrorType(typeErr);
     };
+
+    const openCONFIRMModal = (controlState) => {
+    controlState(true);
+  };
+
+  const closeCONFIRMModal = () => {
+      setCONFIRMViewModalOpen(false);
+      navigate("/products")
+    }
 
     const handleEntrepreneurSelect = (e) => {
         setProduct({...product, entrepreneur: e})
@@ -111,7 +121,7 @@ const AddProduct = () => {
         if(validateData(data)){
           return
         }
-      
+        openCONFIRMModal(setCONFIRMViewModalOpen); // Mostrar modal de éxito si todo está correcto
         /**
           
          
@@ -125,7 +135,7 @@ const AddProduct = () => {
         */
         axios.post("http://localhost:3001/createProduct", {product: data})
             .then((response)=>{
-                navigate("/products")
+              openCONFIRMModal(setCONFIRMViewModalOpen)
             })
             .catch((err)=>{
                 // TODO: Handle exceptions
@@ -281,7 +291,10 @@ const AddProduct = () => {
             viewModalOpen={viewModalOpen}
             errorType={errorType}
         />
-    
+        <CONFIRMViewModal
+            closeModal={closeCONFIRMModal}
+            viewModalOpen={CONFIRMviewModalOpen}
+        />
       </div>          
     </div>
   )

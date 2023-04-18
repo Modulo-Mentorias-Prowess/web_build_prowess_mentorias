@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import { v4 as uuidv4 } from "uuid";
 import { AiOutlineClose } from "react-icons/ai";
 import  ERRORViewModal from  "../pruebamodal/modaldeprueba";
+import  CONFIRMViewModal from  "../pruebamodal/Acept";
 
 const AddMentorship = () => {
   // Use state hell, must simplify, maybe with objects????
@@ -27,17 +28,27 @@ const AddMentorship = () => {
   const normalStyle = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [errorType, setErrorType]= useState("");
+  const [CONFIRMviewModalOpen, setCONFIRMViewModalOpen] = useState(false);
 
  //metodo cerrar ventana modal error
   const closeModal = () => {
     setViewModalOpen(false);
-
+    setCONFIRMViewModalOpen(false);
   }
   //metodo abrir ventana modal error 
   const openModal = (controlState,typeErr) => {
     controlState(true);
     setErrorType(typeErr);
   };
+
+  const openCONFIRMModal = (controlState) => {
+    controlState(true);
+  };
+
+  const closeCONFIRMModal = () => {
+      setCONFIRMViewModalOpen(false);
+      navigate("/mentorships");
+    }
 
   const [errors, setErrors] = useState({
     id: false,
@@ -270,11 +281,13 @@ const AddMentorship = () => {
       openModal(setViewModalOpen,`aun existen campos sin completar`)
       return;
     }
+    openCONFIRMModal(setCONFIRMViewModalOpen); // Mostrar modal de éxito si todo está correcto
+
     axios
       .post("http://localhost:3001/createMentorship", { mentorship: data })
       .then((response) => {
         // If mentorship created, go to the list of mentorships
-        navigate("/mentorships");
+        openCONFIRMModal(setCONFIRMViewModalOpen)
       })
       .catch((err) => {
         // TODO: Handle exceptions 500 and 400.
@@ -553,7 +566,10 @@ const AddMentorship = () => {
             viewModalOpen={viewModalOpen}
             errorType={errorType}
         />
-    
+        <CONFIRMViewModal
+            closeModal={closeCONFIRMModal}
+            viewModalOpen={CONFIRMviewModalOpen}
+        />
       </div>
     </div>
   );

@@ -26,10 +26,8 @@ const AddManager = () => {
     }
   //metodo abrir ventana modal error 
     const openModal = (controlState,typeErr) => {
-
       controlState(true);
       setErrorType(typeErr);
-
     };
 
     const [errors, setErrors] = useState({
