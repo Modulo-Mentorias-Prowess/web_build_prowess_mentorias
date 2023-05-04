@@ -190,7 +190,7 @@ const AddContent=() => {
             </div> 
           </div>
           
-          <div className="w-full flex mt-3  ">
+          <div className="w-full flex justify-end mt-3 p-2">
           <button
             
             onClick={handleSubmit}
