@@ -16,6 +16,11 @@ const Mentorships = () => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [selectedMentorship, setSelectedMentorship] = useState({});
   const [selectedContents, setSelectedContents] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [display, setDisplay] = useState([]);
+  const pageSize = 3;
+
+
 
   /**
    * Opens a modal given the set state function
