@@ -8,7 +8,7 @@ function DescriptionSection() {
         <div className="description">
           <h2>PROWESS</h2>
           <p>
-            Texto de prueba 1
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint deserunt aperiam doloribus pariatur nostrum nisi. Blanditiis iste laborum expedita, ratione excepturi non dolor ducimus distinctio, vel maxime illo saepe nihil.
           </p>
 
           <NavLink
