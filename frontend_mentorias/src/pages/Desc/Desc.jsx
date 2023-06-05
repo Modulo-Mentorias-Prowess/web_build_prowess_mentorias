@@ -8,12 +8,12 @@ function DescriptionSection() {
         <div className="description">
           <h2>PROWESS</h2>
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint deserunt aperiam doasdasdadasloribus pariatur nostrum nisi. Blanditiis iste laborum expedita, ratione excepturi non dolor ducimus distinctio, vel maxime illo saepe nihil.
-             
-             Hola Mundo 
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi minima aliquam ut, vitae dolore unde eligendi sapiente tempora. Placeat praesentium quam ullam minus veniam. Delectus illo soluta voluptate et quia!
+            Voluptas, quisquam. Ipsam ex necessitatibus facere, illum harum itaque, consectetur tenetur provident consequatur voluptatum modi perferendis nam repellat. Doloribus minus magnam aliquam, id quia delectus velit fugit nulla facere doloremque!
+            Sequi illo doloremque reprehenderit labore optio blanditiis quibusdam natus accusamus rem. Quidem itaque tempora atque nulla dignissimos rem sed deserunt, nemo earum voluptatum magni distinctio velit illo error. Perferendis, quidem?
+            Eaque voluptas nostrum nihil quo at veritatis temporibus sunt pariatur, ipsa cum odit eum animi id, blanditiis velit quam esse corrupti, nobis eos? Quae fuga voluptate corporis asperiores velit id!
+            Totam quaerat, aut amet aspernatur officia illum pariatur perferendis sequi blanditiis ullam officiis quam nemo doloremque! Corporis blanditiis magni sunt inventore magnam reiciendis vitae fuga voluptatum ratione consequatur? Est, molestias.
           </p>
-          <br />
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos facilis enim et hic sequi libero nobis suscipit, fuga mollitia nemo. Voluptatem quasi repellat mollitia enim provident eaque velit excepturi sit?</p>
 
           <NavLink
                 to="/Mentorships"
