@@ -14,6 +14,7 @@ function DescriptionSection() {
             Eaque voluptas nostrum nihil quo at veritatis temporibus sunt pariatur, ipsa cum odit eum animi id, blanditiis velit quam esse corrupti, nobis eos? Quae fuga voluptate corporis asperiores velit id!
             Totam quaerat, aut amet aspernatur officia illum pariatur perferendis sequi blanditiis ullam officiis quam nemo doloremque! Corporis blanditiis magni sunt inventore magnam reiciendis vitae fuga voluptatum ratione consequatur? Est, molestias.
           </p>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non alias aliquid quibusdam sit, facere quas corrupti cupiditate ullam optio dignissimos voluptate esse distinctio exercitationem quae saepe doloremque soluta eos minus.</p>
 
           <NavLink
                 to="/Mentorships"
