@@ -8,10 +8,10 @@ function DescriptionSection() {
         <div className="description">
           <h2>PROWESS</h2>
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint deserunt aperiam doloribus pariatur nostrum nisi. Blanditiis iste laborum expedita, ratione excepturi non dolor ducimus distinctio, vel maxime illo saepe nihil.
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint deserunt aperiam doasdasdadasloribus pariatur nostrum nisi. Blanditiis iste laborum expedita, ratione excepturi non dolor ducimus distinctio, vel maxime illo saepe nihil.
           </p>
           <br />
-          <p>Aaaaaaa</p>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos facilis enim et hic sequi libero nobis suscipit, fuga mollitia nemo. Voluptatem quasi repellat mollitia enim provident eaque velit excepturi sit?</p>
 
           <NavLink
                 to="/Mentorships"
