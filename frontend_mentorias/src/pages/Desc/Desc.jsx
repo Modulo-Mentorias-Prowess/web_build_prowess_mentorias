@@ -18,7 +18,6 @@ function DescriptionSection() {
               >
                 Comprar Ahora
               </NavLink>
- 
 
          </div>
         <div className="image-container">
