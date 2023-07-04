@@ -8,9 +8,8 @@ function DescriptionSection() {
         <div className="description">
           <h2>PROWESS</h2>
           <p>
-            Lorem ipsum, s, aut amet aspernatur officia illum pariatur perferendis sequi blanditiis ullam officiis quam nemo doloremque! Corporis blanditiis magni sunt inventore magnam reiciendis vitae fuga voluptatum ratione consequatur Est, molestias.
+              Asistencia técnica para el fortalecimiento de emprendimientos de personas refugiadas, solicitantes de asilo y personas de interés de ACNUR en Pichincha y Santo Domingo de los Tsáchilas ACNUR-HIAS-ESPE- (para población en movilidad humana).
           </p>
-          <p> amet consectetur adipisicing elit. Non alias aliquid quibusdam sit, facere quas corrupti cupiditate ullam optio dignissimos voluptate esse distinctio exercitationem quae saepe doloremque soluta eos minus.</p>
 
           <NavLink
                 to="/Mentorships"
