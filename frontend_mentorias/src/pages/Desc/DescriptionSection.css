@@ -9,8 +9,9 @@
     flex: 1; /* Hace que esta sección ocupe el 50% del espacio disponible */
     margin-right: 50px; /* Agrega un margen derecho de 50px */
     margin-left: 10%;
+    color:#fff;
   }
-  
+
   .description h2 {
     font-size: 2rem; /* Establece un tamaño de fuente de 2 rem */
     margin-bottom: 20px; /* Agrega un margen inferior de 20px */
@@ -20,6 +21,7 @@
     font-size: 1.2rem; /* Establece un tamaño de fuente de 1.2 rem */
     line-height: 1.5; /* Establece una altura de línea de 1.5 */
     margin-bottom: 30px; /* Agrega un margen inferior de 30px */
+    text-align: justify;
   }
   
   .botonDesc{
