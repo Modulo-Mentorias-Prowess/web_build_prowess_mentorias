@@ -10,10 +10,7 @@ function DescriptionSection() {
           <p>
               Asistencia técnica para el fortalecimiento de emprendimientos de personas refugiadas, solicitantes de asilo y personas de interés de ACNUR en Pichincha y Santo Domingo de los Tsáchilas ACNUR-HIAS-ESPE- (para población en movilidad humana).
           </p>
-          <h2>PROWESS</h2>
-          <p>
-              No asistencia técnica para el fortalecimiento de emprendimientos de personas refugiadas, solicitantes de asilo y personas de interés de ACNUR en Pichincha y Santo Domingo de los Tsáchilas ACNUR-HIAS-ESPE- (para población en movilidad humana).
-          </p>
+          
 
           <NavLink
                 to="/Mentorships"
