@@ -13,8 +13,6 @@ function DescriptionSection() {
           <h2>MENTORIAS</h2>
           <p> 
               Realizar un seguimiento continuo de los emprendimientos para tener un control adecuado de los mismos por medio de mentorías y verificar si están conformes con el trabajo realizado por parte de Prowess Ec. teniendo una idea de su crecimiento. 
-              
-              ANTHONNY
           </p>
           <NavLink
                 to="/Mentorships"
