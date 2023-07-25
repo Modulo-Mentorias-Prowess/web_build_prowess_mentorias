@@ -6,7 +6,10 @@ html {
     display: flex; /* Hace que el cuerpo sea un contenedor flexible */
     flex-direction: column; /* Alinea los elementos en columna */
     min-height: 100%; /* Establece la altura mínima del cuerpo al 100% de la altura de la ventana */
-  }
+    margin: 0; /* Agrega un margen 0 para eliminar el margen predeterminado del cuerpo */
+}
+
+  
   
   .footer {
     background-color: #333; /* Establece un color de fondo gris oscuro */
@@ -15,3 +18,20 @@ html {
     text-align: center; /* Centra el contenido horizontalmente */
     margin-top: auto; /* Hace que el pie de página comience en la parte inferior del contenedor */
   }
+  .icon {
+    width: 60px; /* Ajusta el ancho del icono */
+    height: 60px; /* Ajusta la altura del icono */
+    fill: #fff; /* Establece el color de relleno del icono, si el icono está en blanco y negro */
+    margin: 0 5px; /* Ajusta los márgenes alrededor del icono para el espaciado */
+    border-radius: 50%;
+    z-index: 1;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 2px 2px 11px rgba(0, 0, 0, 0.7);
+    cursor: pointer; /* Agregamos un cursor de puntero para indicar que es interactivo */
+
+}
+.icon:hover{
+  transform: scale(1.1);
+}
+
+  
