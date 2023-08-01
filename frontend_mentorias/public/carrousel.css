@@ -1,0 +1,17 @@
+.carousel-container {
+    
+    position: relative;
+    width: 1356px;
+    left: 114px;
+    height: 374px;
+    overflow: hidden; /* Para recortar las imágenes que excedan el tamaño del contenedor */
+    margin-top: 4px;
+
+  }
+  
+  .carousel-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+  }

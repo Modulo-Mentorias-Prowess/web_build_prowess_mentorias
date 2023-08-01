@@ -92,9 +92,20 @@
 
 
 } */
+.carousel-container {
+    width: 800px;
+    height: 400px;
+    overflow: hidden; /* Para recortar las imágenes que excedan el tamaño del contenedor */
+  }
+  
+ .carousel-container img {
+    width: 100%;
+    height: auto;
+  } 
 .carousel-prev, .carousel-next{
 	background-color: rgb(205, 205, 215);
 	margin-top: 13%;
-	height: 8%;
+	width: 3%;
+	height: 9%;
 	
 }
