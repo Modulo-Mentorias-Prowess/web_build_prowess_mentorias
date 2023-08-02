@@ -33,5 +33,7 @@ html {
 .icon:hover{
   transform: scale(1.1);
 }
-
-  
+.icon-container {
+  display: flex;
+  align-items: center;
+}
