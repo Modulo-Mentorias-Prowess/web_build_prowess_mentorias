@@ -3,12 +3,14 @@ import './footer.css';
 import instagramIcon from './instagram32.svg';
 import tiktokIcon from './tiktok32.svg';
 import twitterIcon from './twitter32.svg';
+import facebookIcon from './facebook32.svg';
 
 
 function Footer() {
   const instagramIconRef = useRef(null); // Referencia para el ícono de Instagram
   const tiktokIconRef = useRef(null); // Referencia para el ícono de TikTok
   const twitterIconRef = useRef(null); // Referencia para el ícono de Twitter
+  const facebookIconRef = useRef(null); // Referencia para el ícono de Facebook
 
 
   const handleInstagramIconClick = (event) => {
@@ -30,7 +32,12 @@ function Footer() {
       window.open('https://twitter.com/ProwessEc', '_blank');
     }
   };
-
+  const handleFacebookIconClick = (event) => {
+    // Comprobamos si el evento se originó desde el elemento del icono de Facebook
+    if (event.target === facebookIconRef.current) {
+      window.open('https://www.facebook.com/profile.php?id=100093947081354', '_blank');
+    }
+  };
   return (
     <footer className="footer">
       <p className="rights">&copy; 2023 - Todos los derechos reservados</p>
@@ -58,6 +65,14 @@ function Footer() {
           className="icon twitter-icon"
           id="twitterIcon"
           onClick={handleTwitterIconClick}
+        />
+        <img
+          ref={facebookIconRef} // Utilizar la referencia de Facebook aquí
+          src={facebookIcon}
+          alt="Facebook"
+          className="icon facebook-icon"
+          id="facebookIcon"
+          onClick={handleFacebookIconClick}
         />
       </div>
     </footer>
