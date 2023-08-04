@@ -28,10 +28,11 @@ html {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     box-shadow: 2px 2px 11px rgba(0, 0, 0, 0.7);
     cursor: pointer; /* Agregamos un cursor de puntero para indicar que es interactivo */
+    align-items: center;
 
 }
 .icon:hover{
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 .icon-container {
   display: flex;

@@ -2,10 +2,14 @@ import React, { useRef } from 'react';
 import './footer.css';
 import instagramIcon from './instagram32.svg';
 import tiktokIcon from './tiktok32.svg';
+import twitterIcon from './twitter32.svg';
+
 
 function Footer() {
   const instagramIconRef = useRef(null); // Referencia para el ícono de Instagram
   const tiktokIconRef = useRef(null); // Referencia para el ícono de TikTok
+  const twitterIconRef = useRef(null); // Referencia para el ícono de Twitter
+
 
   const handleInstagramIconClick = (event) => {
     // Comprobamos si el evento se originó desde el elemento del icono de Instagram
@@ -18,6 +22,12 @@ function Footer() {
     // Comprobamos si el evento se originó desde el elemento del icono de TikTok
     if (event.target === tiktokIconRef.current) {
       window.open('https://www.tiktok.com/@prowessecuador?_t=8eUBct5E5nK&_r=1', '_blank');
+    }
+  };
+  const handleTwitterIconClick = (event) => {
+    // Comprobamos si el evento se originó desde el elemento del icono de Twitter
+    if (event.target === twitterIconRef.current) {
+      window.open('https://twitter.com/ProwessEc', '_blank');
     }
   };
 
@@ -40,6 +50,14 @@ function Footer() {
           className="icon tiktok-icon"
           id="tiktokIcon"
           onClick={handleTikTokIconClick}
+        />
+        <img
+          ref={twitterIconRef} // Utilizar la referencia de Twitter aquí
+          src={twitterIcon}
+          alt="Twitter"
+          className="icon twitter-icon"
+          id="twitterIcon"
+          onClick={handleTwitterIconClick}
         />
       </div>
     </footer>
