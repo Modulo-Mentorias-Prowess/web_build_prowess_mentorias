@@ -56,7 +56,7 @@ const Entrepreneurs = () => {
 
   const [currentPage, setCurrentPage]= useState(0)
   const [search, setSearch]= useState('')
-  const pageSize = 7 // Número de elementos por página
+  const pageSize = 10 // Número de elementos por página
   // TODO: Ask user about this value
 
   const filteredEntrepreneurs = () => {
