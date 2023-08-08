@@ -15,7 +15,7 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState("");
-  const pageSize = 3;
+  const pageSize = 10;
 
   // TODO: must refactor to look like mentorship openModal and closeModal methods.
 
