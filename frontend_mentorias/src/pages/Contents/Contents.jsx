@@ -21,7 +21,7 @@ const Contents = () => {
   const [updateModal, setUpdateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [search, setSearch] = useState("");
-  const pageSize = 3;
+  const pageSize = 10;
 
   const handleSelect = (c) => {
     setSelectedContent(c);

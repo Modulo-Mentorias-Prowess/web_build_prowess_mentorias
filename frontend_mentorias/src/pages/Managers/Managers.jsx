@@ -22,7 +22,7 @@ const Managers = () => {
   const handleSelect = (m) => {
     setSelectedManager(m);
   };
-  const pageSize = 3;
+  const pageSize = 10;
 
   // TODO: must refactor to look like mentorship openModal and closeModal methods.
   const closeModal = () => {
