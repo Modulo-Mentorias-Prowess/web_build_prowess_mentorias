@@ -174,7 +174,7 @@ const Entrepreneurs = () => {
         <div className='p-10  '>
           <div className='flex justify-between items-center mb-6'>
             <h1 className='font-bold text-4xl '>Emprendedores</h1>
-            <div>
+          <div>
               <Link
                 to="add"
                 className='flex justify-center items-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'>
@@ -252,7 +252,15 @@ const Entrepreneurs = () => {
           </div>
         </div>
       </div>
-      
+
+      <div className='w-full flex justify-center items-center'>
+        <p className="mr-3">
+          {Math.min(currentPage + pageSize, display.length)}/{display.length}
+        </p>
+      </div>
+
+      <br />
+
       <div className='w-full flex justify-center items-center'>
         <button
           className='bg-main-prowess text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mr-3 hover:bg-opacity-90 focus:outline-none'
@@ -270,6 +278,8 @@ const Entrepreneurs = () => {
           Siguiente
         </button>
       </div>
+      
+      <br />
 
       <div className='w-full '>
 
