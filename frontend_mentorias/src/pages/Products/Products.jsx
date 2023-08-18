@@ -64,6 +64,7 @@ const Products = () => {
     axios.delete(`http://localhost:3001/deleteProduct/${selectedProduct.id}`)
          .then((response)=>{
           setDeleteModalOpen(false)
+          // eslint-disable-next-line eqeqeq
           setProducts(products?.filter((p) => p.id != selectedProduct.id))
          })
           .catch((err)=>{
@@ -226,6 +227,7 @@ const Products = () => {
               {filterdProduct()?.map((p, index) => (
                 <tr
                   className={`${
+                    // eslint-disable-next-line eqeqeq
                     index % 2 == 0 ? "bg-white" : "bg-gray-100"
                   } lg:max-h-full max-h-10`}
                 >
@@ -281,6 +283,15 @@ const Products = () => {
           </div>
         </div>
       </div>
+
+      <div className='w-full flex justify-center items-center'>
+        <p className="mr-3">
+          {Math.min(currentPage + pageSize, display.length)}/{display.length}
+        </p>
+    </div>
+
+    <br />
+
 
       {/* Pagination */}
       <div className='w-full flex justify-center items-center'>
