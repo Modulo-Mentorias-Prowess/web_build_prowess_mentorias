@@ -128,6 +128,8 @@ function AddEntrepreneur() {
     { name: "FUDELAS", desc: "FUDELAS" },
     { name: "HIAS", desc: "HIAS" },
     { name: "PRIVADO", desc: "PRIVADO" },
+    { name: "PAGADO", desc: "PAGADO" },
+    { name: "COOPRODER", desc: "COOPRODER" },
     
   ];
 
@@ -332,7 +334,7 @@ function AddEntrepreneur() {
                     {roles[0].desc}
                   </option>
 
-                  {roles.slice(1, 4).map((role) => (
+                  {roles.slice(1, 6).map((role) => (
                     <option value={role.name} key={role.name}>
                       {role.desc}
                     </option>

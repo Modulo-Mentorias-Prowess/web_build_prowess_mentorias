@@ -164,6 +164,8 @@ const Entrepreneurs = () => {
     { name: "FUDELAS", desc: "FUDELAS" },
     { name: "HIAS", desc: "HIAS" },
     { name: "PRIVADO", desc: "PRIVADO" },
+    { name: "PAGADO", desc: "PAGADO" },
+    { name: "COOPRODER", desc: "COOPRODER" },
   ];
 
   const totalPages = Math.ceil(display.length / pageSize) // Número de páginas
@@ -541,7 +543,7 @@ const Entrepreneurs = () => {
                     {roles[0].desc}
                   </option>
 
-                  {roles.slice(1, 5).map((role) => (
+                  {roles.slice(1, 6).map((role) => (
                     <option value={role.name} key={role.name}>
                       {role.desc}
                     </option>
