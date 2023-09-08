@@ -14,7 +14,7 @@ const Products = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const pageSize = 10;
 
   // TODO: must refactor to look like mentorship openModal and closeModal methods.
@@ -125,13 +125,13 @@ const Products = () => {
 
   const fetchSearchProduct = () => {
     if (search.length >= 3) {
-      axios
-        .get(`http://localhost:3001/searchProduct/${search}`)
+        axios
+        .get(`http://localhost:3001/searchProducts/${search}`)
         .then((data) => {
           setProducts(data.data);
         })
         .catch((err) => {
-          alert("Hubo un error obteniendo los datos.");
+          alert("Hubo un error obteniendo los datos." + err.message);
         });
     } else {
       fetchProducts();
