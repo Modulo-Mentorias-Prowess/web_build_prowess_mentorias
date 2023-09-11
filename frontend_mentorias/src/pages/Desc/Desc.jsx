@@ -18,7 +18,7 @@ function DescriptionSection() {
                 to="/Mentorships"
                 className="botonDesc"
               >
-                Comprar Ahora
+                Mentorias
               </NavLink>
 
          </div>
