@@ -449,7 +449,7 @@ const Entrepreneurs = () => {
                 value={selectedEntrepreneur.names}
                 onChange={handleChange}
                 placeholder="Nombres..."
-                />.
+                />
             </div>
             <div className="lg:w-1/2 w-full p-2">
 
