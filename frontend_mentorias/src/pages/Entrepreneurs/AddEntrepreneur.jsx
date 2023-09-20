@@ -125,12 +125,11 @@ function AddEntrepreneur() {
 
   const roles = [
     { name: "none", desc: "Seleccione una Fundación..." },
-    { name: "FUDELAS", desc: "FUDELAS" },
+    { name: "FUDELA", desc: "FUDELA" },
     { name: "HIAS", desc: "HIAS" },
     { name: "PRIVADO", desc: "PRIVADO" },
     { name: "PAGADO", desc: "PAGADO" },
     { name: "COOPRODER", desc: "COOPRODER" },
-    
   ];
 
 
