@@ -391,19 +391,19 @@ class MySQLConnection {
   }
 
   createProduct(res, product) {
-    return this.create(res, "product", product);
+    return this.create(res, "product_display", product);
   }
 
   patchProduct(res, product) {
-    return this.patch(res, "product", product);
+    return this.patch(res, "product_display", product);
   }
 
   deleteProduct(res, id) {
-    return this.delete(res, "product", id);
+    return this.delete(res, "product_display", id);
   }
 
   searchProducts(res, query) {
-    return this.search(res, query, "product", ["name", "description"]);
+    return this.search(res, query, "product_display", ["name", "description"]);
   }
 
   /* Mentorias CRUD operations */
@@ -431,6 +431,9 @@ class MySQLConnection {
   patchMentorship(res, object) {
     return this.patch(res, "mentorship", object);
   }
+  
 }
+
+
 
 module.exports = MySQLConnection;
