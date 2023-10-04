@@ -256,7 +256,7 @@ function AddEntrepreneur() {
               />
               {
                   errors.email && (
-                    <p className='text-red-600 italic'>Este campo es Obligatorios</p>
+                    <p className='text-red-600 italic'>Este campo es Obligatorio</p>
                   )
               }
             </div>
