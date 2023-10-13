@@ -391,7 +391,7 @@ class MySQLConnection {
   }
 
   createProduct(res, product) {
-    return this.create(res, "product_display", product);
+    return this.create(res, "product", product);
   }
 
   patchProduct(res, product) {
