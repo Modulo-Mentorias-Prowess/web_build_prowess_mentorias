@@ -387,3 +387,54 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+
+--------------------------------- * Vistas * ---------------------------------------
+
+
+
+--
+-- Vista para consultar las mentorías y a quien pertenece
+-- 
+CREATE VIEW montorship_info AS
+SELECT 
+    mnt.title AS mentorship_title,
+    mnt.description AS mentorship_description,
+    cnt.name AS content_name,
+    cnt.description AS content_description
+FROM content_mentorship cm
+JOIN mentorship mnt ON cm.id_mentorship = mnt.id
+JOIN content cnt ON cm.id_content = cnt.id;
+
+
+--
+--Vista para consultar emprendedores que tengan una mentoría
+--
+
+CREATE VIEW entrepreneur_list AS
+SELECT 
+    ee.last_names AS entrepreneur_last_name,
+    ee.names AS entrepreneur_name,
+    ee.phone AS entrepreneur_phone,
+    ee.email AS entrepreneur_email,
+    CONCAT(mm.names, ' ', mm.last_names) AS manager_in_charge,
+    ee.city AS entrepreneur_city,
+    ee.nameStore AS entrepreneur_organization
+FROM mentorship m
+JOIN manager mm ON m.id_manager = mm.id
+JOIN entrepreneur ee ON m.id_entrepreneur = ee.id;
+
+
+--
+--Vista para consultar emprendedores con sus tiendas y productos
+--
+
+CREATE VIEW product_info AS
+SELECT p.id, CONCAT(e.last_names, ', ', e.names) AS entrepreneur_full_name, e.nameStore AS store_name, p.name, p.description, p.price
+FROM product p
+INNER JOIN entrepreneur e ON p.id_entrepreneur = e.id;
+
+
