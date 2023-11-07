@@ -189,7 +189,7 @@ const Contents = () => {
             name="names"
             value={search}
             onChange={handleSearch}
-            placeholder="Buscar Encargado"
+            placeholder="Buscar"
           />
         </div>
 
