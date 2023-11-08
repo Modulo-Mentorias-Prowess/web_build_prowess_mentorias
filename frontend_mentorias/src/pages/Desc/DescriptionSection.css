@@ -8,7 +8,7 @@
   .description {
     flex: 1; /* Hace que esta sección ocupe el 50% del espacio disponible */
     margin-right: 50px; /* Agrega un margen derecho de 50px */
-    margin-left: 10%;
+    margin-left: 7%;
     color:#fff;
   }
 
@@ -32,11 +32,12 @@
     border-radius: 5px; /* Agrega un borde redondeado de 5px */
     font-size: 1.2rem; /* Establece un tamaño de fuente de 1.2 rem */
     cursor: pointer; /* Cambia el cursor del mouse cuando se coloca sobre el botón */
-    transition: background-color 0.3s ease-in-out; /* Agrega una transición suave al cambiar el color de fondo */
+    /*transition: background-color 0.3s ease-in-out; /* Agrega una transición suave al cambiar el color de fondo */
   }
   
   .botonDesc:hover {
-    background-color: #0055ff; /* Cambia el color de fondo cuando el usuario coloca el mouse sobre el botón */
+    background-color: #a8bbbf; /* Cambia el color de fondo al pasar el cursor */
+    color: #0077ff; /* Cambia el color del texto */
   }
   
   .image-container {
