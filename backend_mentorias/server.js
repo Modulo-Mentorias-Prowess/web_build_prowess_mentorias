@@ -214,6 +214,8 @@ app.get("/searchEntrepreneur/:q", (req, res)=>{
 app.get("/mentorships", (_req, res)=>{
   return connection.getMentorships(res)
 })
+
+
 /**
  * Products CRUD
  */

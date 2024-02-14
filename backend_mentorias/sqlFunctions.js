@@ -387,35 +387,35 @@ class MySQLConnection {
   /* Products CRUD operations */
 
   getProducts(res) {
-    return this.getAll(res, "product_display");
+    return this.getAll(res, "product");
   }
 
   createProduct(res, product) {
-    return this.create(res, "product_display", product);
+    return this.create(res, "product", product);
   }
 
   patchProduct(res, product) {
-    return this.patch(res, "product_display", product);
+    return this.patch(res, "product", product);
   }
 
   deleteProduct(res, id) {
-    return this.delete(res, "product_display", id);
+    return this.delete(res, "product", id);
   }
 
   searchProducts(res, query) {
-    return this.search(res, query, "product_display", ["name", "description"]);
+    return this.search(res, query, "product", ["name", "description"]);
   }
 
   /* Mentorias CRUD operations */
 
   getMentorships(res) {
-    return this.getAll(res, "mentorship_display");
+    return this.getAll(res, "mentorship");
   }
 
   createMentorship(res, mentorship, mentorship_content) {
     this.createNoSend("mentorship", mentorship);
     mentorship_content.forEach((element) => {
-      this.createNoSend("content_mentorship", element);
+      this.createNoSend("content_mentorship_display", element);
     });
     return res.sendStatus(200);
   }
