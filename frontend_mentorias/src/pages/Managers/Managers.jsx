@@ -57,7 +57,7 @@ const Managers = () => {
    */
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:3001/deleteManager/${selectedManager.id}`)
+      .delete(`https://web-build-prowess-mentorias.onrender.com/deleteManager/${selectedManager.id}`)
       .then((response) => {
         setDeleteOpen(false);
         setManagers(managers?.filter((m) => m.id != selectedManager.id));
@@ -79,7 +79,7 @@ const Managers = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .patch(`http://localhost:3001/editManager/${selectedManager.id}`, {
+      .patch(`https://web-build-prowess-mentorias.onrender.com/editManager/${selectedManager.id}`, {
         manager: selectedManager,
       })
       .then((response) => {
@@ -119,7 +119,7 @@ const Managers = () => {
   const fetchSearchManager = () => {
     if (search.length >= 3) {
       axios
-        .get(`http://localhost:3001/searchManager/${search}`)
+        .get(`https://web-build-prowess-mentorias.onrender.com/searchManager/${search}`)
         .then((data) => {
           setManagers(data.data);
         })
@@ -142,7 +142,7 @@ const Managers = () => {
    */
   const fetchContents = () => {
     axios
-      .get("http://localhost:3001/managers")
+      .get("https://web-build-prowess-mentorias.onrender.com/managers")
       .then((response) => {
         setManagers(response.data);
       })

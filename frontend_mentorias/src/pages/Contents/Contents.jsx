@@ -59,7 +59,7 @@ const Contents = () => {
    */
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:3001/deleteContent/${selectedContent.id}`)
+      .delete(`https://web-build-prowess-mentorias.onrender.com/deleteContent/${selectedContent.id}`)
       .then((response) => {
         setDeleteOpen(false);
         setContents(contents?.filter((c) => c.id != selectedContent.id));
@@ -81,7 +81,7 @@ const Contents = () => {
   const handleUpdate = (c) => {
     c.preventDefault();
     axios
-      .patch(`http://localhost:3001/editContent/${selectedContent.id}`, {
+      .patch(`https://web-build-prowess-mentorias.onrender.com/editContent/${selectedContent.id}`, {
         content: selectedContent,
       })
       .then((response) => {
@@ -122,7 +122,7 @@ const Contents = () => {
   const fetchSearchContent = () => {
     if (search.length >= 3) {
       axios
-        .get(`http://localhost:3001/searchContent/${search}`)
+        .get(`https://web-build-prowess-mentorias.onrender.com/searchContent/${search}`)
         .then((data) => {
           setContents(data.data);
         })
@@ -145,7 +145,7 @@ const Contents = () => {
    */
   const fetchContents = () => {
     axios
-      .get("http://localhost:3001/contents")
+      .get("https://web-build-prowess-mentorias.onrender.com/contents")
       .then((response) => {
         setContents(response.data);
         console.log(response.data);

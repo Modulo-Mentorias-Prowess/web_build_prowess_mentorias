@@ -96,7 +96,7 @@ const AddContent=() => {
     //VALIDA DATOS
     if(validateData(data)){
 
-      axios.post("http://localhost:3001/createContent", data)
+      axios.post("https://web-build-prowess-mentorias.onrender.com/createContent", data)
           .then((response) => {
               openCONFIRMModal(setCONFIRMViewModalOpen)
               //navigate("/contents")
