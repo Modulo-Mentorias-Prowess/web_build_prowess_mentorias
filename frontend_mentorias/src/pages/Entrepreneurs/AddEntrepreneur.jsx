@@ -110,7 +110,7 @@ function AddEntrepreneur() {
     openCONFIRMModal(setCONFIRMViewModalOpen); // Mostrar modal de éxito si todo está correcto
 
     axios
-      .post("https://web-build-prowess-mentorias.onrender.com/createEntrepreneur", data)
+      .post("https://web-build-prowess-mentorias-vipa.onrender.com/createEntrepreneur", data)
       .then((response) => {
         openCONFIRMModal(setCONFIRMViewModalOpen)
       })

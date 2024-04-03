@@ -182,7 +182,7 @@ const AddMentorship = () => {
     const fetchSearch = () => {
       if (queryEntrepreneur.length >= 3) {
         axios
-          .get(`https://web-build-prowess-mentorias.onrender.com/searchEntrepreneur/${queryEntrepreneur}`)
+          .get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchEntrepreneur/${queryEntrepreneur}`)
           .then((data) => {
             setEntrepreneurs(data.data);
           })
@@ -204,7 +204,7 @@ const AddMentorship = () => {
     const fetchSearchManager = () => {
       if (queryManager.length >= 3) {
         axios
-          .get(`https://web-build-prowess-mentorias.onrender.com/searchManager/${queryManager}`)
+          .get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchManager/${queryManager}`)
           .then((data) => {
             setManagers(data.data);
           })
@@ -231,7 +231,7 @@ const AddMentorship = () => {
    */
   const fetchContents = () => {
     axios
-      .get("https://web-build-prowess-mentorias.onrender.com/contents")
+      .get("https://web-build-prowess-mentorias-vipa.onrender.com/contents")
       .then((response) => {
         setContents(response.data);
       })
@@ -284,7 +284,7 @@ const AddMentorship = () => {
     openCONFIRMModal(setCONFIRMViewModalOpen); // Mostrar modal de éxito si todo está correcto
 
     axios
-      .post("https://web-build-prowess-mentorias.onrender.com/createMentorship", { mentorship: data })
+      .post("https://web-build-prowess-mentorias-vipa.onrender.com/createMentorship", { mentorship: data })
       .then((response) => {
         // If mentorship created, go to the list of mentorships
         openCONFIRMModal(setCONFIRMViewModalOpen)

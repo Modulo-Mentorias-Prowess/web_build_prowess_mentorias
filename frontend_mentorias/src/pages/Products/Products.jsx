@@ -61,7 +61,7 @@ const Products = () => {
    * Handles the deletion of the product on the database.
    */
   const handleDelete = () => {
-    axios.delete(`https://web-build-prowess-mentorias.onrender.com/deleteProduct/${selectedProduct.id}`)
+    axios.delete(`https://web-build-prowess-mentorias-vipa.onrender.com/deleteProduct/${selectedProduct.id}`)
          .then((response)=>{
           setDeleteModalOpen(false)
           // eslint-disable-next-line eqeqeq
@@ -92,7 +92,7 @@ const Products = () => {
       return
     }
 
-    axios.patch("https://web-build-prowess-mentorias.onrender.com/updateProduct", {product: data})
+    axios.patch("https://web-build-prowess-mentorias-vipa.onrender.com/updateProduct", {product: data})
          .then((response)=>{
           setProducts([selectedProduct,  ...products?.filter((item) => item.id !== selectedProduct.id) ])
           closeUpdateModal()
@@ -126,7 +126,7 @@ const Products = () => {
   const fetchSearchProduct = () => {
     if (search.length >= 3) {
         axios
-        .get(`https://web-build-prowess-mentorias.onrender.com/searchProducts/${search}`)
+        .get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchProducts/${search}`)
         .then((data) => {
           setProducts(data.data);
         })
@@ -148,7 +148,7 @@ const Products = () => {
    */
   const fetchProducts = () => {
     axios
-      .get("https://web-build-prowess-mentorias.onrender.com/products")
+      .get("https://web-build-prowess-mentorias-vipa.onrender.com/products")
       .then((response) => {
         setProducts(response.data);
       })

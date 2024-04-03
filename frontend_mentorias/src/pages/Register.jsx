@@ -40,7 +40,7 @@ const Register = () => {
     full_name: false,
     role_user: false,
   });
-  const url = "https://pixelsoftware.online/";
+  const url = "https://mentorias.prowessec.com/";
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });

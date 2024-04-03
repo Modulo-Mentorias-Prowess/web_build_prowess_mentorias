@@ -72,7 +72,7 @@ const AddProduct = () => {
     const fetchSearch = ()=>{
         if(query.length >= 3){
              
-            axios.get(`https://web-build-prowess-mentorias.onrender.com/searchEntrepreneur/${query}`)
+            axios.get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchEntrepreneur/${query}`)
             .then((data)=>{
                 setEntrepreneurs(data.data)
 
@@ -133,7 +133,7 @@ const AddProduct = () => {
             return
         }
         */
-        axios.post("https://web-build-prowess-mentorias.onrender.com/createProduct", {product: data})
+        axios.post("https://web-build-prowess-mentorias-vipa.onrender.com/createProduct", {product: data})
             .then((response)=>{
               openCONFIRMModal(setCONFIRMViewModalOpen)
             })

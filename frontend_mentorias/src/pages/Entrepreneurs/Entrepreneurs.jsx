@@ -43,7 +43,7 @@ const Entrepreneurs = () => {
    * TODO: Get with pagination to not overload client nor server.
    */
   const fetchEntrepreneurs = () =>{
-    axios.get("https://web-build-prowess-mentorias.onrender.com/entrepreneurs")
+    axios.get("https://web-build-prowess-mentorias-vipa.onrender.com/entrepreneurs")
          .then((response)=>{
             setEntrepreneurs(response.data)
             console.log(response.data)

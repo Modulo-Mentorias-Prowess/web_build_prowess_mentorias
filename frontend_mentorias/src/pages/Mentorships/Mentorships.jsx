@@ -81,7 +81,7 @@ const Mentorships = () => {
    */
   const handleDelete = () => {
     axios
-      .delete(`https://web-build-prowess-mentorias.onrender.com/deleteMentorship/${selectedMentorship.id}`)
+      .delete(`https://web-build-prowess-mentorias-vipa.onrender.com/deleteMentorship/${selectedMentorship.id}`)
       .then((_response) => {
         // Could do a handshake so it send the data when deleting
         closeModal(operation.DELETE);
@@ -102,7 +102,7 @@ const Mentorships = () => {
    */
   const fetchContents = (id) => {
     axios
-      .get(`https://web-build-prowess-mentorias.onrender.com/getContentsMentorship/${id}`)
+      .get(`https://web-build-prowess-mentorias-vipa.onrender.com/getContentsMentorship/${id}`)
       .then((response) => {
         setSelectedContents(response.data);
       })
@@ -117,7 +117,7 @@ const Mentorships = () => {
    */
   const fetchMentorships = () => {
     axios
-      .get("https://web-build-prowess-mentorias.onrender.com/mentorships")
+      .get("https://web-build-prowess-mentorias-vipa.onrender.com/mentorships")
       .then((response) => {
         setMentorships(response.data);
       })
@@ -138,7 +138,7 @@ const Mentorships = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
-      .patch(`https://web-build-prowess-mentorias.onrender.com/updateMentorship`, {
+      .patch(`https://web-build-prowess-mentorias-vipa.onrender.com/updateMentorship`, {
         mentorship: {
           id: selectedMentorship.id,
           id_entrepreneur: selectedMentorship.id_entrepreneur,
