@@ -123,16 +123,26 @@ const Mentorships = () => {
           const managerResponse = await axios.get(`https://web-build-prowess-mentorias-vipa.onrender.com/manager/${mentorship.id_manager}`);
           const entrepreneurResponse = await axios.get(`https://web-build-prowess-mentorias-vipa.onrender.com/entrepreneur/${mentorship.id_entrepreneur}`);
           
-          const manager = managerResponse.data;
-          const entrepreneur = entrepreneurResponse.data;
+
           
-          return {
-            ...mentorship,
-            manager_names: manager.names,
-            manager_last_names: manager.last_names,
-            entrepreneur_names: entrepreneur.names,
-            entrepreneur_last_names: entrepreneur.last_names
-          };
+          const manager = managerResponse.data[0];
+          const entrepreneur = entrepreneurResponse.data[0];
+
+
+          
+          if (manager && entrepreneur) {
+            // Si manager y entrepreneur tienen datos, asignar los nombres y apellidos
+            return {
+              ...mentorship,
+              manager_names: manager.names,
+              manager_last_names: manager.last_names,
+              entrepreneur_names: entrepreneur.names,
+              entrepreneur_last_names: entrepreneur.last_names
+            };
+          } else {
+            // Si manager o entrepreneur están indefinidos, devolver mentorship sin los nombres y apellidos
+            return mentorship;
+          }
         });
 
         Promise.all(mentorshipsWithNames).then((updatedMentorships) => {
