@@ -84,8 +84,8 @@ app.get("/managers", (_req, res) => {
   return connection.getManagers(res);
 });
 
-app.get("/contents/:id", (req, res) => {
-  return connection.getContent(res, req.params.id);
+app.get("/manager/:id", (req, res) => {
+  return connection.getManager(res, req.params.id);
 });
 
 app.post("/createManager", (req, res) => {
