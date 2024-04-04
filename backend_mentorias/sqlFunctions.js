@@ -184,16 +184,13 @@ class MySQLConnection {
    * @param {*} id: the id of the row to get
    */
   getOne(res, table, id) {
-    this.db.query(`SELECT * FROM ${table} WHERE id= '${id}'`,
-      (err, data) => {
-        if (err) {
-          throw err;
-        }
-
-        return res.send(data);
-      }
-    );
-  }
+  this.db.query(`SELECT * FROM ${table} WHERE id= ?`, [id], (err, data) => {
+    if (err) {
+      throw err;
+    }
+    return res.send(data);
+  });
+}
 
   /**
    * Deletes a row from the database.
