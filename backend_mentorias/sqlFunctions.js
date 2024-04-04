@@ -183,18 +183,14 @@ class MySQLConnection {
    * @param {*} table: the name of the table to query
    * @param {*} id: the id of the row to get
    */
-  getOne(res, table, search_by, id) {
-    this.db.query(
-      mysql.format(`SELECT * FROM ${table} WHERE ${search_by}=?`, [id]),
-      (err, data) => {
-        if (err) {
-          throw err;
-        }
-
-        return res.send(data);
-      }
-    );
-  }
+  getOne(res, table, id) {
+  this.db.query(`SELECT * FROM ${table} WHERE id= ?`, [id], (err, data) => {
+    if (err) {
+      throw err;
+    }
+    return res.send(data);
+  });
+}
 
   /**
    * Deletes a row from the database.
