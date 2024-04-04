@@ -411,13 +411,13 @@ class MySQLConnection {
   createMentorship(res, mentorship, mentorship_content) {
     this.createNoSend("mentorship", mentorship);
     mentorship_content.forEach((element) => {
-      this.createNoSend("content_mentorship_display", element);
+      this.createNoSend("content_mentorship", element);
     });
     return res.sendStatus(200);
   }
 
   getContentsMentorship(res, id) {
-    return this.getOne(res, "content_mentorship_display", "id_mentorship", id);
+    return this.getOne(res, "content_mentorship", "id_mentorship", id);
   }
 
   deleteMentorship(res, id) {
