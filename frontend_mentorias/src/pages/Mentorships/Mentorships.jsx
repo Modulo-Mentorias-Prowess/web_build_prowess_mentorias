@@ -119,7 +119,25 @@ const Mentorships = () => {
     axios
       .get("https://web-build-prowess-mentorias-vipa.onrender.com/mentorships")
       .then((response) => {
-        setMentorships(response.data);
+        const mentorshipsWithNames = response.data.map(async (mentorship) => {
+          const managerResponse = await axios.get(`https://web-build-prowess-mentorias-vipa.onrender.com/manager/${mentorship.id_manager}`);
+          const entrepreneurResponse = await axios.get(`https://web-build-prowess-mentorias-vipa.onrender.com/entrepreneur/${mentorship.id_entrepreneur}`);
+          
+          const manager = managerResponse.data;
+          const entrepreneur = entrepreneurResponse.data;
+          
+          return {
+            ...mentorship,
+            manager_names: manager.names,
+            manager_last_names: manager.last_names,
+            entrepreneur_names: entrepreneur.names,
+            entrepreneur_last_names: entrepreneur.last_names
+          };
+        });
+
+        Promise.all(mentorshipsWithNames).then((updatedMentorships) => {
+          setMentorships(updatedMentorships);
+        });
       })
       .catch((err) => {
         // TODO: HANDLE EXCEPTION TYPE 500

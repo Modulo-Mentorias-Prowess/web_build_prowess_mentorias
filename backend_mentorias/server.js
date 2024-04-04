@@ -140,12 +140,16 @@ app.get("/searchManager/:q", (req, res)=>{
 })
 
 /**
- * Entrepreneurs CRUD operations
+ * Entrepreneurs CRUD operations 
  */
 
 app.get("/entrepreneurs", (_req, res) => {
 
   return connection.getEntrepreneurs(res);
+});
+
+app.get("/entrepreneur/:id", (req, res) => {
+  return connection.getEntrepreneur(res, req.params.id);
 });
 
 app.post("/createEntrepreneur", (req, res) => {
