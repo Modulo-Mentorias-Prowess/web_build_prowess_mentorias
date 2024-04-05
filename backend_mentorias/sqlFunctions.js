@@ -183,6 +183,7 @@ class MySQLConnection {
    * @param {*} table: the name of the table to query
    * @param {*} id: the id of the row to get
    */
+  //se corrigio la funcion de get one
   getOne(res, table, id) {
   this.db.query(`SELECT * FROM ${table} WHERE id= ?`, [id], (err, data) => {
     if (err) {
@@ -385,6 +386,7 @@ class MySQLConnection {
   getProducts(res) {
     return this.getAll(res, "product");
   }
+  
 
   createProduct(res, product) {
     return this.create(res, "product", product);
