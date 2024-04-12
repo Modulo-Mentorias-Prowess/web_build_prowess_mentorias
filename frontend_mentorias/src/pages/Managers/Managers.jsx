@@ -98,7 +98,7 @@ const Managers = () => {
   const [search, setSearch] = useState("");
 
   const filterdManager = () => {
-    console.log(display.slice(currentPage, currentPage + pageSize));
+    //console.log(display.slice(currentPage, currentPage + pageSize));
     let current = display.slice(currentPage, currentPage + pageSize);
     return current;
   };

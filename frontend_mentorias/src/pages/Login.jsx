@@ -86,7 +86,7 @@ const Login = () => {
                 placeholder="Nombre de usuario"
               />
               {errorUserData.userName ? (
-                <p class="text-red-500 text-xs italic">
+                <p className="text-red-500 text-xs italic">
                   Porfavor proporcione un usuario.
                 </p>
               ) : null}
@@ -110,14 +110,14 @@ const Login = () => {
                 placeholder="******************"
               />
               {errorUserData.password ? (
-                <p class="text-red-500 text-xs italic">
+                <p className="text-red-500 text-xs italic">
                   Porfavor proporcione una contraseña.
                 </p>
               ) : null}
             </div>
 
             {wrongCredentials ? (
-              <p class="text-red-500 text-xs italic mb-4 text-center flex justify-center items-center">
+              <p className="text-red-500 text-xs italic mb-4 text-center flex justify-center items-center">
                 <RiErrorWarningFill className="mr-2" fontSize={15} />
                 Las credenciales proporcionadas son erradas.
               </p>

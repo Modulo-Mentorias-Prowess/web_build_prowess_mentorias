@@ -40,7 +40,7 @@ const Register = () => {
     full_name: false,
     role_user: false,
   });
-  const url = "https://mentorias.prowessec.com/";
+  const url = "https://web-build-prowess-mentorias-vipa.onrender.com";
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -258,13 +258,13 @@ const Register = () => {
             </div>
 
             {error ? (
-              <p class="text-red-500 text-xs italic mb-4 text-center flex justify-center items-center">
+              <p className="text-red-500 text-xs italic mb-4 text-center flex justify-center items-center">
                 <RiErrorWarningFill className="mr-2" fontSize={15} />
                 Ooops, un error ha ocurrido.
               </p>
             ) : null}
             {success ? (
-              <p class="text-green-500 text-xs italic mb-4 text-center flex justify-center items-center">
+              <p className="text-green-500 text-xs italic mb-4 text-center flex justify-center items-center">
                 <RiErrorWarningFill className="mr-2" fontSize={15} />
                 Usuario registrado con éxito.
               </p>

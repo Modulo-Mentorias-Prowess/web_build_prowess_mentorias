@@ -415,7 +415,7 @@ const AddMentorship = () => {
               {selectedManager && (
                 <div className="flex items-center mb-2">
                   <p className="mr-3">Seleccionado:</p>
-                  <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
+                  <p className="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
                     {selectedManager}
                     <button>
                       <AiOutlineClose
@@ -464,7 +464,7 @@ const AddMentorship = () => {
               {selectedEntreprenuer && (
                 <div className="flex items-center mb-2">
                   <p className="mr-3">Seleccionado:</p>
-                  <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
+                  <p className="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
                     {selectedEntreprenuer}
                     <button>
                       <AiOutlineClose
@@ -514,7 +514,7 @@ const AddMentorship = () => {
                   <div className="flex items-center mb-2">
                     <p className="mr-3">Seleccionado:</p>
                     {selectedContents.map((c) => (
-                      <p class="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
+                      <p className="px-4 py-2 flex items-center    bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-full">
                         {c.name}
                         <button>
                           <AiOutlineClose
