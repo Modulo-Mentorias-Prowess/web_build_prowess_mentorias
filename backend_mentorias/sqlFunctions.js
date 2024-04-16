@@ -193,6 +193,15 @@ class MySQLConnection {
   });
 }
 
+getOneContentsMentorships(res, table, id) {
+  this.db.query(`SELECT * FROM ${table} WHERE id_mentorship = ?`, [id], (err, data) => {
+    if (err) {
+      throw err;
+    }
+    return res.send(data);
+  });
+}
+
   /**
    * Deletes a row from the database.
    * @param {*} res: a HTTP response
@@ -418,8 +427,12 @@ class MySQLConnection {
     return res.sendStatus(200);
   }
 
+  // getContentsMentorship(res, id) {
+  //   return this.getOne(res, "content_mentorship", "id_mentorship", id);
+  // }
+
   getContentsMentorship(res, id) {
-    return this.getOne(res, "content_mentorship", "id_mentorship", id);
+    return this.getOneContentsMentorships(res, "content_mentorship", id);
   }
 
   deleteMentorship(res, id) {
