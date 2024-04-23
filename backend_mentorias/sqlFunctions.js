@@ -390,6 +390,7 @@ getOneContentsMentorships(res, table, id) {
     return this.search(res, query, "manager", ["names", "last_names", "email"]);
   }
 
+  
   /* Products CRUD operations */
 
   getProducts(res) {

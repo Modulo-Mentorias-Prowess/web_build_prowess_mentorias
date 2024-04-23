@@ -26,7 +26,7 @@ const Entrepreneurs = () => {
    */
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.patch(`https://web-build-prowess-mentorias.onrender.com/editEntrepreneur/${selectedEntrepreneur.id}`,{entrepreneur: selectedEntrepreneur})
+    axios.patch(`https://web-build-prowess-mentorias-vipa.onrender.com/editEntrepreneur/${selectedEntrepreneur.id}`,{entrepreneur: selectedEntrepreneur})
           .then((response) => {
             setEntrepreneurs([...entrepreneurs?.filter((item) => item.id !== selectedEntrepreneur.id), selectedEntrepreneur ])
             closeUpdate()
@@ -81,7 +81,7 @@ const Entrepreneurs = () => {
   const fetchSearchEntrepreneurs = () => {
     if (search.length >= 3) {
       axios
-        .get(`https://web-build-prowess-mentorias.onrender.com/searchEntrepreneur/${search}`)
+        .get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchEntrepreneur/${search}`)
         .then((data) => {
           setEntrepreneurs(data.data);
         })
@@ -147,7 +147,7 @@ const Entrepreneurs = () => {
    * Deletes entrepreneur from the database, and from the client side table.
    */
   const handleDelete = () =>{
-    axios.delete(`https://web-build-prowess-mentorias.onrender.com/deleteEntrepreneur/${selectedEntrepreneur.id}`)
+    axios.delete(`https://web-build-prowess-mentorias-vipa.onrender.com/deleteEntrepreneur/${selectedEntrepreneur.id}`)
     .then((response)=>{
         setConfirmDelete(false)
         setEntrepreneurs(entrepreneurs?.filter(item => item.id !== selectedEntrepreneur.id))
