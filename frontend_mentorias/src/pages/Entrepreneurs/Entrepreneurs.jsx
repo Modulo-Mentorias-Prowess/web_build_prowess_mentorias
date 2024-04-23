@@ -81,12 +81,12 @@ const Entrepreneurs = () => {
   const fetchSearchEntrepreneurs = () => {
     if (search.length >= 3) {
       axios
-        .get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchEntrepreneur/${search}`)
-        .then((data) => {
+      .get(`https://web-build-prowess-mentorias-vipa.onrender.com/searchEntrepreneur/${search}`)
+      .then((data) => {
           setEntrepreneurs(data.data);
         })
         .catch((err) => {
-          alert("Hubo un error obteniendo los datos.");
+          alert("Hubo un error obteniendo los datos." + err.message);
         });
     } else {
       fetchEntrepreneurs();
