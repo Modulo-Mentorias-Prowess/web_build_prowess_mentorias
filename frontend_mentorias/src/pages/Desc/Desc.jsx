@@ -25,4 +25,21 @@ function DescriptionSection() {
   );
 }
 
+
+function Blamck() {
+  return (
+    <div className="description-container">
+      <div className="description">
+        <h></h>
+        <h></h>
+        <h></h>
+        <h></h>
+        <h></h>
+        <h></h>
+
+      </div>
+    </div>
+  );
+}
+
 export default DescriptionSection;

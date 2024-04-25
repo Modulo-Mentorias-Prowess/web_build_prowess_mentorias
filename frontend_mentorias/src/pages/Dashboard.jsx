@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Slider from "./Slider/Slider";
 import Descripcionsection from "./Desc/Desc";
+import Blamck from "./Desc/Blanck";
 import Footer from './Fotter/footer';
 import Bubble from './CHAT/wpp';
 import "./Dashbord.css";
@@ -48,14 +49,20 @@ const Dashboard = () => {
       {/* Dashboard */}
 	  <div className="conteSlider"  >
       	<Slider className="PrincipalSlider" images={images}  />
-		  
+		  <div className="container">
+	  <Blamck/>
+
+	  </div>
 	  
 	  </div>
+
 	  <div>
 	  	
 		<Descripcionsection/>
 
 	  </div>
+
+	  
 	  <div>
 
 		<Footer/>

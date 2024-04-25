@@ -1,18 +1,31 @@
-
-.conteSlider{
-
+.conteSlider {
     background-color: white;
-    height: 400px;
     overflow: hidden;
-
-}
-.PrincipalSlider{
-
+  }
+  
+  .PrincipalSlider {
     margin: 40px;
-
-
-
-
-
-
-}
+  }
+  
+  /* Estilos para pantallas más pequeñas que 768px (tamaño de pantalla de tabletas) */
+  @media (max-width: 768px) {
+    .conteSlider {
+      height: 400px; /* Reducir la altura del contenedor del carrusel en tabletas */
+    }
+  
+    .PrincipalSlider {
+      margin: 20px; /* Reducir el margen del carrusel en tabletas */
+    }
+  }
+  
+  /* Estilos para pantallas más pequeñas que 576px (tamaño de pantalla de teléfonos móviles) */
+  @media (max-width: 576px) {
+    .conteSlider {
+      height: 300px; /* Reducir aún más la altura del contenedor del carrusel en dispositivos móviles */
+    }
+  
+    .PrincipalSlider {
+      margin: 10px; /* Reducir aún más el margen del carrusel en dispositivos móviles */
+    }
+  }
+  
